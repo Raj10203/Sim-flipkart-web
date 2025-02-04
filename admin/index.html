@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        .tableImage {
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-type="add">
+            Add item
+        </button>
+
+
+        <table id="example" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <td>
+                        <button class="btn" data-type="sorting" data-content="number" data-sort="dcs"
+                            data-value="productId">Product Id
+                            <i class="sort fa-solid" id="productIdIcon"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn" data-type="sorting" data-content="string" data-sort="dcs"
+                            data-value="productName">Product Name<i class="sort fa-solid"></i></button>
+                    </td>
+                    <td>
+                        <button class="btn">Image</button>
+                    </td>
+                    <td>
+                        <button class="btn" data-type="sorting" data-content="number" data-sort="dcs"
+                            data-value="price">Price<i class="sort fa-solid "></i></button>
+                    </td>
+                    <td>
+                        <button class="btn" data-type="sorting" data-content="string" data-sort="dcs"
+                            data-value="description">Description<i class="sort fa-solid"></i></button>
+                    </td>
+                    <td><button class="btn" data-type="sorting" data-content="string" data-sort="dcs"
+                        data-value="description">Catagory<i class="sort fa-solid"></i></button></td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="form" data-type="add">
+                        <input type="hidden" id="productId" value="" data-val="">
+                        <div class="mb-3">
+                            <label for="addProductName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="addProductName" placeholder="Product Name" required
+                                maxlength="30" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="addImage" class="form-label">Image</label>
+                            <img src="" class="tableImage" alt="" id="showImg">
+                            <input type="file" accept="image/png" class="form-control" id="addImage" required
+                                placeholder="Image" />
+                        </div>
+                        <select class="form-select" aria-label="Default select example" id="catagoryOptions">
+                            
+                          </select>
+                        <div class="mb-3">
+                            <label for="addPrice" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price"  required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..." 
+                                maxlength="100" required></textarea>
+                        </div>
+                        <input type="submit" class="btn btn-primary" id="formSubmit" data-type="add-submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script src="./js/index.js" type="module"></script>
+</body>
+
+</html>
