@@ -119,6 +119,7 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         image: base64String,
         catagory: select.value
     }
+
     data.push(newData);
     jsonString = JSON.stringify(data);
     localStorage.setItem('crud2', jsonString);
