@@ -56,8 +56,6 @@ function catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCat
     categorySelectDiv.style = "display:none";
     categoryInputDiv.style = "display:block";
     addCategory.required = true;
-    
-    
 }
 document.querySelectorAll('.select').forEach(select => {
     switch (select.dataset.type) {
@@ -116,7 +114,6 @@ function resetSortIcons() {
         })
     })
 }
-
 function editClickHandler(pName, pPrice, pDescription, productId, select) {
     data = JSON.parse(jsonString);
     pName.setAttribute('value', data[Number(productId.value)]['productName'])
@@ -138,7 +135,6 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         image: base64String,
         catagory: select.value
     }
-
     data.push(newData);
     jsonString = JSON.stringify(data);
     localStorage.setItem('crud2', jsonString);
@@ -246,5 +242,4 @@ form.addEventListener('submit', () => {
     const productId = document.getElementById('productId');
     const select = document.getElementById('addItemCatagoryOptions');
     (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
-
 })
