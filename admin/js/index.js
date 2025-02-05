@@ -1,3 +1,10 @@
+
+if (!localStorage.getItem('crud2')) {
+    localStorage.setItem('crud2', JSON.stringify([]));
+}
+if (!localStorage.getItem('catagory')) {
+    localStorage.setItem('catagory', JSON.stringify(["fashions", "mobile"]));
+}
 let jsonString = localStorage.getItem('crud2');
 let data = JSON.parse(jsonString) || [];
 let catagoryOptions = JSON.parse(localStorage.getItem('catagory'));
@@ -8,7 +15,7 @@ displayEliments(data);
 resetSortIcons();
 const filter = document.getElementById('filter')
 filter.addEventListener('input', () => {
-    let searchData = data.filter(product => product['productId'] == Number(filt.value) || product.productName.toLowerCase().includes(String(filt.value.toLowerCase())) || product.catagory.toLowerCase().includes(String(filt.value.toLowerCase())))
+    let searchData = data.filter(product => product['productId'] == Number(filter.value) || product.productName.toLowerCase().includes(String(filter.value.toLowerCase())) || product.catagory.toLowerCase().includes(String(filter.value.toLowerCase())))
     displayEliments(searchData);
 });
 const categoryForm = document.getElementById('categoryForm');
@@ -33,6 +40,25 @@ categoryForm.addEventListener('submit', () => {
             break;
     }
 })
+function catagoryDelete(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory) {
+    categorySelectDiv.style = "display:block";
+    categoryInputDiv.style = "display:none";
+    categorySubmit.classList.remove('btn-primary')
+    categorySubmit.classList.add('btn-danger')
+    categorySubmit.value = "Delete";
+    categoryInputDiv.firstElementChild.required = false;
+    addCategory.required = false;
+}
+function catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory) {
+    categorySubmit.value = "Add";
+    categorySubmit.classList.add('btn-primary')
+    categorySubmit.classList.remove('btn-danger')
+    categorySelectDiv.style = "display:none";
+    categoryInputDiv.style = "display:block";
+    addCategory.required = true;
+    
+    
+}
 document.querySelectorAll('.select').forEach(select => {
     switch (select.dataset.type) {
         case 'catagoryOptions':
@@ -46,21 +72,14 @@ document.querySelectorAll('.select').forEach(select => {
                 const categorySelectDiv = document.getElementById('crudCategorySelect');
                 const categoryInputDiv = document.getElementById('crudCategoryInput');
                 const categorySubmit = document.getElementById('catagorySubmit');
+                const addCategory = document.getElementById('addCategory');
                 switch (select.value) {
                     case 'delete':
-                        categorySelectDiv.style = "display:block";
-                        categoryInputDiv.style = "display:none";
-                        categorySubmit.classList.remove('btn-primary')
-                        categorySubmit.classList.add('btn-danger')
-                        categorySubmit.value = "Delete";
+                        catagoryDelete(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory)
                         break;
 
                     case 'add':
-                        categorySubmit.value = "Add";
-                        categorySubmit.classList.add('btn-primary')
-                        categorySubmit.classList.remove('btn-danger')
-                        categorySelectDiv.style = "display:none";
-                        categoryInputDiv.style = "display:block";
+                        catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory)
                         break;
                     default:
                         break;
@@ -77,7 +96,7 @@ function displayEliments(data) {
     tableBody.innerHTML = "";
     for (let i = 0; i < data.length; i++) {
         const element = data[i];
-        let des= (element['description'].length>50) ? element['description'].substring(0,70):element['description'];
+        let des = (element['description'].length > 50) ? element['description'].substring(0, 70) : element['description'];
         tableBody.innerHTML += `<tr id="${i}">
         <td>${element['productId']}</td>
         <td>${element['productName']}</td>

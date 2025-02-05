@@ -1,9 +1,15 @@
+if (!localStorage.getItem('crud2')) {
+    localStorage.setItem('crud2', JSON.stringify([]));
+}
+if (!localStorage.getItem('catagory')) {
+    localStorage.setItem('catagory', JSON.stringify(["fashions", "mobile"]));
+}
 let products = JSON.parse(localStorage.getItem('crud2'))
 let catagory = JSON.parse(localStorage.getItem('catagory'))
 const footer = document.getElementById('footer');
 catagory.forEach(cat => {
     let it = products.filter(item => item.catagory == cat)
-    if (it.length!=0) {
+    if (it.length != 0) {
         let ele = document.createElement('section')
         const str = cat.charAt(0).toUpperCase() + cat.slice(1);
         ele.innerHTML = `
@@ -13,11 +19,10 @@ catagory.forEach(cat => {
                         <h2>Best Of ${str}</h2>
                     </div>
                     <div class="d-flex p3-placeholder" id="${cat}">
-                    </div>
+                </div>
             </div>
         </div>`
         footer.insertAdjacentElement('beforebegin', ele);
-        
     }
 });
 products.forEach(element => {
@@ -34,8 +39,7 @@ products.forEach(element => {
             </div>
             <div class="dn3">
                 <svg width="16" height="16" fill="none" viewBox="0 0 17 17" style="margin-right: 8px;">
-                        <path d="m6.627 3.749 5 5-5 5" stroke="#111112" stroke-width="1.2"
-                        stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="m6.627 3.749 5 5-5 5" stroke="#111112" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </div>
         </div>
