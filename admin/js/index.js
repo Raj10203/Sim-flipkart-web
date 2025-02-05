@@ -1,13 +1,6 @@
-
-if (!localStorage.getItem('crud2')) {
-    localStorage.setItem('crud2', JSON.stringify([]));
-}
-if (!localStorage.getItem('catagory')) {
-    localStorage.setItem('catagory', JSON.stringify(["fashions", "mobile"]));
-}
-let jsonString = localStorage.getItem('crud2');
-let data = JSON.parse(jsonString) || [];
-let catagoryOptions = JSON.parse(localStorage.getItem('catagory'));
+let jsonString = localStorage.getItem('crud2') || "[]";
+let data = JSON.parse(jsonString);
+let catagoryOptions = JSON.parse(localStorage.getItem('catagory')) || [];
 const fileInput = document.querySelector('#addImage');
 let base64String;
 const form = document.getElementById('form');

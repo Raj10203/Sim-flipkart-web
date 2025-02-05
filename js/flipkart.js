@@ -1,11 +1,5 @@
-if (!localStorage.getItem('crud2')) {
-    localStorage.setItem('crud2', JSON.stringify([]));
-}
-if (!localStorage.getItem('catagory')) {
-    localStorage.setItem('catagory', JSON.stringify(["fashions", "mobile"]));
-}
-let products = JSON.parse(localStorage.getItem('crud2'))
-let catagory = JSON.parse(localStorage.getItem('catagory'))
+let products = JSON.parse(localStorage.getItem('crud2')) || []
+let catagory = JSON.parse(localStorage.getItem('catagory')) || []
 const footer = document.getElementById('footer');
 catagory.forEach(cat => {
     let it = products.filter(item => item.catagory == cat)
