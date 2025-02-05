@@ -77,11 +77,7 @@ function displayEliments(data) {
     tableBody.innerHTML = "";
     for (let i = 0; i < data.length; i++) {
         const element = data[i];
-        console.log(typeof(element['description']));
-        
         let des= (element['description'].length>50) ? element['description'].substring(0,70):element['description'];
-       
-        
         tableBody.innerHTML += `<tr id="${i}">
         <td>${element['productId']}</td>
         <td>${element['productName']}</td>

@@ -20,7 +20,7 @@ catagory.forEach(cat => {
         let placeholder = document.getElementById(cat);
         it.forEach(element => {
             placeholder.innerHTML += `
-            <div class="item-p3" id="item-5">
+            <div class="item-p3">
                 <div class="card">
                     <img src="${element['image']}"
                             loading="lazy" alt="Image"
