@@ -62,7 +62,6 @@ function displayEliments(data) {
             </td>
         </tr>`;
         buttonEventlisner();
-
     }
 }
 
@@ -179,6 +178,7 @@ function addButton() {
     pPrice.value = null;
     pDescription.value = null;
 }
+
 function buttonEventlisner() {
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', () => {
@@ -205,4 +205,3 @@ function buttonEventlisner() {
         })
     });
 }
-

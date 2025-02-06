@@ -436,14 +436,12 @@ footer {
     }
 
     .card-body {
-        padding:0 10px;
+        padding: 0 10px;
     }
 
     .dn3 {
         display: flex;
     }
-
-    
 }
 
 @media(max-width : 1444px) {
@@ -453,7 +451,7 @@ footer {
 }
 
 @media(max-width : 454px) {
-    .fb{
+    .fb {
         flex-direction: column;
     }
 }

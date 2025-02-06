@@ -1,11 +1,11 @@
 let jsonString = localStorage.getItem('category') || "{}";
+addDescription.value = "";
 let data = JSON.parse(jsonString);
 displayEliments(data);
 
 function displayEliments(data) {
     for (var i in data){
         const element = data[i];
-        
         let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
         tableBody.innerHTML +=  `
         <tr>
@@ -90,7 +90,6 @@ function deleteButton(button) {
     location.reload();
 }
 
-addDescription.value = "";
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
         switch (button.dataset.type) {
