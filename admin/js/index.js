@@ -1,31 +1,114 @@
-let jsonString = localStorage.getItem('crud2');
-let catagoryOptions = JSON.parse(localStorage.getItem('catagory'))
-let data = JSON.parse(jsonString) || [];
+let jsonString = localStorage.getItem('crud2') || "[]";
+let data = JSON.parse(jsonString);
+let catagoryOptions = JSON.parse(localStorage.getItem('catagory')) || [];
 const fileInput = document.querySelector('#addImage');
 let base64String;
 const form = document.getElementById('form');
 displayEliments(data);
 resetSortIcons();
-const select = document.getElementById('catagoryOptions');
-for (let i = 0; i < catagoryOptions.length; i++) {
-    select.innerHTML+= ` <option value="${catagoryOptions[i]}">${catagoryOptions[i]}</option>`
+const filter = document.getElementById('filter')
+
+filter.addEventListener('input', () => {
+    let searchData = data.filter(product => product['productId'] == Number(filter.value)
+        || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
+        || product.catagory.toLowerCase().includes(String(filter.value.toLowerCase())));
+    displayEliments(searchData);
+});
+
+const categoryForm = document.getElementById('categoryForm');
+categoryForm.addEventListener('submit', () => {
+    let addCategory = document.getElementById('addCategory');
+    let selectCategory = document.getElementById('addCatagoryOptions');
+    switch (categoryForm.lastElementChild.value) {
+        case 'Add':
+            catagoryOptions.push(addCategory.value)
+            localStorage.setItem('catagory', JSON.stringify(catagoryOptions));
+            break;
+
+        case 'Delete':
+            let index = catagoryOptions.findIndex(select => select == selectCategory.value)
+            if (index != -1) {
+                catagoryOptions.splice(index, 1);
+                localStorage.setItem('catagory', JSON.stringify(catagoryOptions));
+            }
+            break;
+
+        default:
+            break;
+    }
+})
+
+function catagoryDelete(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory) {
+    categorySelectDiv.style = "display:block";
+    categoryInputDiv.style = "display:none";
+    categorySubmit.classList.remove('btn-primary')
+    categorySubmit.classList.add('btn-danger')
+    categorySubmit.value = "Delete";
+    categoryInputDiv.firstElementChild.required = false;
+    addCategory.required = false;
 }
-document.getElementById('productIdIcon').classList.remove('fa-sort');
-document.getElementById('productIdIcon').classList.add('fa-sort-up');
+
+function catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory) {
+    categorySubmit.value = "Add";
+    categorySubmit.classList.add('btn-primary')
+    categorySubmit.classList.remove('btn-danger')
+    categorySelectDiv.style = "display:none";
+    categoryInputDiv.style = "display:block";
+    addCategory.required = true;
+}
+
+document.querySelectorAll('.select').forEach(select => {
+    switch (select.dataset.type) {
+        case 'catagoryOptions':
+            for (let i = 0; i < catagoryOptions.length; i++) {
+                select.innerHTML += ` <option value="${catagoryOptions[i]}">${catagoryOptions[i]}</option>`
+            }
+            break;
+
+        case 'crudCategory':
+            select.addEventListener('change', () => {
+                const categorySelectDiv = document.getElementById('crudCategorySelect');
+                const categoryInputDiv = document.getElementById('crudCategoryInput');
+                const categorySubmit = document.getElementById('catagorySubmit');
+                const addCategory = document.getElementById('addCategory');
+                switch (select.value) {
+                    case 'delete':
+                        catagoryDelete(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory)
+                        break;
+
+                    case 'add':
+                        catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory)
+                        break;
+                    default:
+                        break;
+                }
+            })
+            break;
+
+        default:
+            break;
+    }
+})
+
 function displayEliments(data) {
-    console.log(data);
     let tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = "";
     for (let i = 0; i < data.length; i++) {
         const element = data[i];
-        tableBody.innerHTML += `<tr id="${i}">
-        <td>${data[i]['productId']}</td>
-        <td>${data[i]['productName']}</td>
-        <td><img class="tableImage" src="${data[i]["image"]}" /></td>
-        <td>${data[i]['price']}</td>
-        <td>${data[i]['description']}</td>
-        <td>${data[i]['catagory']}</td>
-        <td><button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${i}">  <i class="fa-solid fa-pencil"></i>  </button>  <button class="btn btn-outline-danger" data-type="delete" data-val="${i}">  <i class="fa-solid fa-trash"></i>  </button> </td></tr>`
+        let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
+        tableBody.innerHTML += `
+        <tr id="${i}">
+            <td>${element['productId']}</td>
+            <td>${element['productName']}</td>
+            <td><img class="tableImage" src="${element["image"]}" /></td>
+            <td>${element['price']}</td>
+            <td>${str}</td>
+            <td>${element['catagory']}</td>
+            <td><button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${i}">
+                <i class="fa-solid fa-pencil"></i>  </button>  <button class="btn btn-outline-danger" data-type="delete" data-val="${i}">  
+                <i class="fa-solid fa-trash"></i>  </button> 
+            </td>
+        </tr>`;
     }
 }
 
@@ -35,29 +118,18 @@ function resetSortIcons() {
         button.classList.remove("fa-sort-up");
         button.classList.remove("fa-sort-down");
         button.addEventListener('click', () => {
-        })
+        });
     })
-
 }
 
-form.addEventListener('submit', () => {
-    const pName = document.getElementById('addProductName');
-    const pPrice = document.getElementById('addPrice');
-    const pDescription = document.getElementById('addDescription');
-    const productId = document.getElementById('productId');
-    (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId);
-
-})
-
-function editClickHandler(pName, pPrice, pDescription, productId) {
-    console.log("edit");
+function editClickHandler(pName, pPrice, pDescription, productId, select) {
     data = JSON.parse(jsonString);
-    pName.setAttribute('value', data[Number(productId.value)]['productName'])
-    console.log(data[Number(productId.value)]);
+    pName.setAttribute('value', data[Number(productId.value)]['productName']);
     data[Number(productId.value)]['productName'] = pName.value;
     data[Number(productId.value)]['image'] = (base64String == undefined) ? data[Number(productId.value)]["image"] : base64String;
     data[Number(productId.value)]['price'] = Number(pPrice.value);
     data[Number(productId.value)]['description'] = pDescription.value;
+    data[Number(productId.value)]['catagory'] = select.value;
     localStorage.setItem('crud2', JSON.stringify(data));
 }
 
@@ -70,13 +142,12 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         price: Number(pPrice.value),
         description: pDescription.value,
         image: base64String,
-        catagory : select.value
-    }
+        catagory: select.value
+    };
     data.push(newData);
-    console.log(data);
     jsonString = JSON.stringify(data);
     localStorage.setItem('crud2', jsonString);
-    base64String = "";
+    base64String = null;
 }
 
 fileInput.addEventListener('change', async (e) => {
@@ -94,55 +165,80 @@ function sortAndDisplay(button) {
     let value = button.dataset.value;
     let sort = button.dataset.sort;
     let type = button.dataset.content;
-    console.log(button.firstElementChild);
     resetSortIcons();
     button.firstElementChild.classList.remove("fa-sort");
     if (sort == "dsc") {
         button.firstElementChild.classList.add("fa-sort-up");
         button.dataset.sort = "asc";
-        data = data.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])))
+        data = data.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
     }
     else {
         button.firstElementChild.classList.add("fa-sort-down");
         button.dataset.sort = "dsc";
         button.setAttribute('data-sort', 'dsc');
-        data = data.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])))
+        data = data.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
     displayEliments(data);
+}
+
+function editButton(button) {
+    let pName = document.getElementById('addProductName');
+    let pPrice = document.getElementById('addPrice');
+    let pDescription = document.getElementById('addDescription');
+    let productId = document.getElementById('productId');
+    let pImg = document.getElementById('addImage');
+    let showImg = document.getElementById('showImg');
+    let select = document.getElementById('addItemCatagoryOptions');
+    data = JSON.parse(jsonString);
+    productId.value = button.dataset.val;
+    pImg.required = false;
+    showImg.setAttribute('src', data[Number(productId.value)]['image']);
+    productId.dataset.val = data[Number(productId.value)]['productId'];
+    pName.value = data[Number(productId.value)]['productName'];
+    pPrice.value = data[Number(productId.value)]['price'];
+    pDescription.value = data[Number(productId.value)]['description'];
+    select.value = data[Number(productId.value)]['catagory'];
+    document.getElementById('form').dataset.type = "edit";
+}
+
+function deleteButton(button) {
+    let id = button.dataset.val;
+    data.splice(id, 1);
+    jsonString = JSON.stringify(data);
+    localStorage.setItem('crud2', jsonString);
+    location.reload();
+}
+
+function addButton() {
+    document.getElementById('form').dataset.type = "add";
+    let pName = document.getElementById('addProductName');
+    let pPrice = document.getElementById('addPrice');
+    let pDescription = document.getElementById('addDescription');
+    let productId = document.getElementById('productId');
+    let pImg = document.getElementById('addImage');
+    let showImg = document.getElementById('showImg');
+    productId.value = null;
+    pImg.required = true;
+    showImg.setAttribute('src', "");
+    productId.dataset.val = null;
+    pName.value = null;
+    pPrice.value = null;
+    pDescription.value = null;
 }
 
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
         switch (button.dataset.type) {
             case 'edit':
-                let pName = document.getElementById('addProductName');
-                let pPrice = document.getElementById('addPrice');
-                let pDescription = document.getElementById('addDescription');
-                let productId = document.getElementById('productId');
-                let pImg = document.getElementById('addImage');
-                let showImg = document.getElementById('showImg');
-                data = JSON.parse(jsonString);
-                productId.value = button.dataset.val;
-                pImg.required = false
-                showImg.setAttribute('src', data[Number(productId.value)]['image']);
-                productId.dataset.val = data[Number(productId.value)]['productId'];
-                pName.value = data[Number(productId.value)]['productName'];
-                pPrice.value = data[Number(productId.value)]['price'];
-                pDescription.value = data[Number(productId.value)]['description'];
-                document.getElementById('form').dataset.type = "edit";
+                editButton(button);
                 break;
 
             case 'add':
-                document.getElementById('form').dataset.type = "add";
+                addButton();
                 break;
 
             case 'delete':
-                let id = button.dataset.val;
-                data.splice(id, 1);
-                console.log(data);
-                jsonString = JSON.stringify(data);
-                localStorage.setItem('crud2', jsonString)
-                location.reload();
+                deleteButton(button);
                 break;
 
             case 'sorting':
@@ -153,4 +249,13 @@ document.querySelectorAll('.btn').forEach(button => {
                 break;
         }
     })
-})
+});
+
+form.addEventListener('submit', () => {
+    const pName = document.getElementById('addProductName');
+    const pPrice = document.getElementById('addPrice');
+    const pDescription = document.getElementById('addDescription');
+    const productId = document.getElementById('productId');
+    const select = document.getElementById('addItemCatagoryOptions');
+    (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
+});

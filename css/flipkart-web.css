@@ -407,7 +407,8 @@ footer {
     .p3-placeholder {
         flex-direction: column;
         overflow-y: scroll;
-        height: 400px;
+        max-height: 400px;
+        height: fit-content;
         align-items: center;
     }
 
