@@ -33,8 +33,8 @@ filter.addEventListener('input', () => {
 
 function updateSelect() {
     for (let i in categoryOptions) {
-        addItemcategoryOptions.innerHTML += ` <option value="${categoryOptions[i]['categoryName']}">${categoryOptions[i]['categoryName']}</option>`;
-        addItemcategoryOptions.dataset.val = i;
+        addItemcategoryOptions.innerHTML += ` <option value="${categoryOptions[i]['categoryId']}">${categoryOptions[i]['categoryName']}</option>`;
+        // addItemcategoryOptions.dataset.val = i;
     }
 }
 
@@ -76,13 +76,14 @@ function resetSortIcons() {
 }
 
 function editClickHandler(pName, pPrice, pDescription, productId, select) {
-    data = JSON.parse(jsonString);
-    pName.setAttribute('value', data[Number(productId.value)]['productName']);
-    data[Number(productId.value)]['productName'] = pName.value;
-    data[Number(productId.value)]['image'] = (base64String == undefined) ? data[Number(productId.value)]["image"] : base64String;
-    data[Number(productId.value)]['price'] = Number(pPrice.value);
-    data[Number(productId.value)]['description'] = pDescription.value;
-    data[Number(productId.value)]['category'] = select.dataset.val;
+    data = JSON.parse(jsonString); 
+    let product =  data[Number(productId.value)];
+    pName.setAttribute('value', product['productName']);
+    product['productName'] = pName.value;
+    product['image'] = (base64String == undefined) ? product["image"] : base64String;
+    product['price'] = Number(pPrice.value);
+    product['description'] = pDescription.value;
+    product['category'] = select.value;
     localStorage.setItem('products', JSON.stringify(data));
 }
 
@@ -95,7 +96,7 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         price: Number(pPrice.value),
         description: pDescription.value,
         image: base64String,
-        category: select.dataset.val
+        category: select.value
     };
     data[productId] = newData;
     jsonString = JSON.stringify(data);
@@ -143,15 +144,15 @@ function editButton(button) {
     let showImg = document.getElementById('showImg');
     let select = document.getElementById('addItemcategoryOptions');
     data = JSON.parse(jsonString);
+    let productItem = data[button.dataset.val]
     productId.value = button.dataset.val;
     pImg.required = false;
-    let productItem = data[Number(productId.value)];
     showImg.setAttribute('src', productItem['image']);
     productId.dataset.val = productItem['productId'];
     pName.value = productItem['productName'];
     pPrice.value = productItem['price'];
     pDescription.value = productItem['description'];
-    select.value = categoryOptions[productItem['category']].categoryName;
+    select.value = categoryOptions[productItem['category']]['categoryId'];
     document.getElementById('form').dataset.type = "edit";
 }
 

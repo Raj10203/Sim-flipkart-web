@@ -1,13 +1,14 @@
 let jsonString = localStorage.getItem('category') || "{}";
+let product = JSON.parse(localStorage.getItem('products')) || "{}";
 addDescription.value = "";
 let data = JSON.parse(jsonString);
 displayEliments(data);
 
 function displayEliments(data) {
-    for (var i in data){
+    for (var i in data) {
         const element = data[i];
         let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
-        tableBody.innerHTML +=  `
+        tableBody.innerHTML += `
         <tr>
             <td>${i}</td>
             <td>${element['categoryName']}</td>
@@ -41,6 +42,7 @@ function addCategorySubmitHandler(addCategoryName, addDescription) {
     data = JSON.parse(jsonString);
     let categoryId = (Object.keys(data).length > 0) ? Object.keys(data).length + 1 : 1;
     let newData = {
+        categoryId: categoryId,
         categoryName: addCategoryName.value,
         description: addDescription.value,
     };
@@ -59,8 +61,8 @@ function editCategorySubmitHandler(addCategoryName, addDescription, categoryId) 
 }
 
 categoryForm.addEventListener('submit', () => {
-    (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(addCategoryName, addDescription) 
-    : editCategorySubmitHandler(addCategoryName, addDescription, categoryId);
+    (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(addCategoryName, addDescription)
+        : editCategorySubmitHandler(addCategoryName, addDescription, categoryId);
 });
 
 function sortAndDisplay(button) {
@@ -84,9 +86,18 @@ function sortAndDisplay(button) {
 }
 
 function deleteButton(button) {
+    for(let i in product)
+    {
+        if (product[i]['category'] == data[button.dataset.val]['categoryId']) {
+            delete product[i];
+        }
+
+    }
     delete data[button.dataset.val];
     jsonString = JSON.stringify(data);
     localStorage.setItem('category', jsonString);
+    jsonString = JSON.stringify(product);
+    localStorage.setItem('products', jsonString);
     location.reload();
 }
 
