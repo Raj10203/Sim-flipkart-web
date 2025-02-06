@@ -1,16 +1,15 @@
 let jsonString = localStorage.getItem('products') || "{}";
 let data = JSON.parse(jsonString);
 let arr = []
-let keys = Object.keys(data)
 let categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
 const fileInput = document.querySelector('#addImage');
+const filter = document.getElementById('filter')
 let base64String;
 displayEliments(data);
 resetSortIcons();
 updateSelect();
 buttonEventlisner();
 resetArr()
-const filter = document.getElementById('filter')
 function resetArr() {
     arr = [];
     for (let i in data) {
@@ -32,7 +31,6 @@ filter.addEventListener('input', () => {
         || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
         || product.description.toLowerCase().includes(String(filter.value.toLowerCase()))
         || categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())));
-    console.log(searchData);
 
     displayEliments(searchData);
 });
@@ -98,6 +96,7 @@ function editClickHandler(pName, pPrice, pDescription, productId, select) {
 }
 
 function addClickHandler(pName, pPrice, pDescription, select) {
+    let keys = Object.keys(data);
     data = JSON.parse(jsonString);
     let productId = (Object.keys(data).length > 0) ? data[keys[keys.length - 1]]['productId'] + 1 : 1;
     let newData = {
@@ -117,7 +116,6 @@ function addClickHandler(pName, pPrice, pDescription, select) {
 fileInput.addEventListener('change', async function () {
     let maxSize = 500 * 1080;
     const file = this.files[0];
-    console.log(file.size > maxSize);
     if (file) {
         if (file.size > maxSize) {
             document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
@@ -139,6 +137,8 @@ function sortAndDisplay(button) {
     let value = button.dataset.value;
     let sort = button.dataset.sort;
     let type = button.dataset.content;
+    
+
     resetSortIcons();
     button.firstElementChild.classList.remove("fa-sort");
     if (sort == "dsc") {
@@ -152,7 +152,6 @@ function sortAndDisplay(button) {
         button.setAttribute('data-sort', 'dsc');
         arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    console.log(arr);
     displayEliments(arr);
     resetArr();
 }
@@ -201,10 +200,6 @@ function addButton() {
     pPrice.value = null;
     pDescription.value = null;
 }
-
-function handleClick() {
-    console.log("Button clicked");
-};
 
 function removeEventListenersByClassName(className) {
     // remove and add node. By doing this it will destroy past eventlisner.
