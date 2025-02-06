@@ -410,6 +410,7 @@ footer {
         max-height: 400px;
         height: fit-content;
         align-items: center;
+        margin: 20px 10px;
     }
 
     .card {
@@ -442,9 +443,7 @@ footer {
         display: flex;
     }
 
-    .p3-perent {
-        padding: 2px;
-    }
+    
 }
 
 @media(max-width : 1444px) {
