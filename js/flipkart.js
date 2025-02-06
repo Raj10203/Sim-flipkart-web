@@ -1,10 +1,10 @@
-let products = JSON.parse(localStorage.getItem('crud2')) || []
-let catagory = JSON.parse(localStorage.getItem('catagory')) || []
+let products = JSON.parse(localStorage.getItem('crud2')) || [];
+let catagory = JSON.parse(localStorage.getItem('catagory')) || [];
 const footer = document.getElementById('footer');
 catagory.forEach(cat => {
-    let it = products.filter(item => item.catagory == cat)
+    let it = products.filter(item => item.catagory == cat);
     if (it.length != 0) {
-        let ele = document.createElement('section')
+        let ele = document.createElement('section');
         const str = cat.charAt(0).toUpperCase() + cat.slice(1);
         ele.innerHTML = `
         <div class="container-fluid">
@@ -15,10 +15,11 @@ catagory.forEach(cat => {
                     <div class="d-flex p3-placeholder" id="${cat}">
                 </div>
             </div>
-        </div>`
+        </div>`;
         footer.insertAdjacentElement('beforebegin', ele);
     }
 });
+
 products.forEach(element => {
     let placeholder = document.getElementById(element['catagory']);
     placeholder.innerHTML += `
@@ -37,5 +38,5 @@ products.forEach(element => {
                 </svg>
             </div>
         </div>
-    </div>`
+    </div>`;
 });

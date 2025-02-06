@@ -7,10 +7,14 @@ const form = document.getElementById('form');
 displayEliments(data);
 resetSortIcons();
 const filter = document.getElementById('filter')
+
 filter.addEventListener('input', () => {
-    let searchData = data.filter(product => product['productId'] == Number(filter.value) || product.productName.toLowerCase().includes(String(filter.value.toLowerCase())) || product.catagory.toLowerCase().includes(String(filter.value.toLowerCase())))
+    let searchData = data.filter(product => product['productId'] == Number(filter.value)
+        || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
+        || product.catagory.toLowerCase().includes(String(filter.value.toLowerCase())));
     displayEliments(searchData);
 });
+
 const categoryForm = document.getElementById('categoryForm');
 categoryForm.addEventListener('submit', () => {
     let addCategory = document.getElementById('addCategory');
@@ -33,6 +37,7 @@ categoryForm.addEventListener('submit', () => {
             break;
     }
 })
+
 function catagoryDelete(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory) {
     categorySelectDiv.style = "display:block";
     categoryInputDiv.style = "display:none";
@@ -42,6 +47,7 @@ function catagoryDelete(categorySelectDiv, categoryInputDiv, categorySubmit, add
     categoryInputDiv.firstElementChild.required = false;
     addCategory.required = false;
 }
+
 function catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCategory) {
     categorySubmit.value = "Add";
     categorySubmit.classList.add('btn-primary')
@@ -50,6 +56,7 @@ function catagoryAdd(categorySelectDiv, categoryInputDiv, categorySubmit, addCat
     categoryInputDiv.style = "display:block";
     addCategory.required = true;
 }
+
 document.querySelectorAll('.select').forEach(select => {
     switch (select.dataset.type) {
         case 'catagoryOptions':
@@ -82,34 +89,42 @@ document.querySelectorAll('.select').forEach(select => {
             break;
     }
 })
+
 function displayEliments(data) {
     let tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = "";
     for (let i = 0; i < data.length; i++) {
         const element = data[i];
-        let des = (element['description'].length > 50) ? element['description'].substring(0, 70) : element['description'];
-        tableBody.innerHTML += `<tr id="${i}">
-        <td>${element['productId']}</td>
-        <td>${element['productName']}</td>
-        <td><img class="tableImage" src="${element["image"]}" /></td>
-        <td>${element['price']}</td>
-        <td>${des + '...'}</td>
-        <td>${element['catagory']}</td>
-        <td><button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${i}">  <i class="fa-solid fa-pencil"></i>  </button>  <button class="btn btn-outline-danger" data-type="delete" data-val="${i}">  <i class="fa-solid fa-trash"></i>  </button> </td></tr>`
+        let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
+        tableBody.innerHTML += `
+        <tr id="${i}">
+            <td>${element['productId']}</td>
+            <td>${element['productName']}</td>
+            <td><img class="tableImage" src="${element["image"]}" /></td>
+            <td>${element['price']}</td>
+            <td>${str}</td>
+            <td>${element['catagory']}</td>
+            <td><button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${i}">
+                <i class="fa-solid fa-pencil"></i>  </button>  <button class="btn btn-outline-danger" data-type="delete" data-val="${i}">  
+                <i class="fa-solid fa-trash"></i>  </button> 
+            </td>
+        </tr>`;
     }
 }
+
 function resetSortIcons() {
     document.querySelectorAll('.sort').forEach(button => {
         button.classList.add("fa-sort");
         button.classList.remove("fa-sort-up");
         button.classList.remove("fa-sort-down");
         button.addEventListener('click', () => {
-        })
+        });
     })
 }
+
 function editClickHandler(pName, pPrice, pDescription, productId, select) {
     data = JSON.parse(jsonString);
-    pName.setAttribute('value', data[Number(productId.value)]['productName'])
+    pName.setAttribute('value', data[Number(productId.value)]['productName']);
     data[Number(productId.value)]['productName'] = pName.value;
     data[Number(productId.value)]['image'] = (base64String == undefined) ? data[Number(productId.value)]["image"] : base64String;
     data[Number(productId.value)]['price'] = Number(pPrice.value);
@@ -117,6 +132,7 @@ function editClickHandler(pName, pPrice, pDescription, productId, select) {
     data[Number(productId.value)]['catagory'] = select.value;
     localStorage.setItem('crud2', JSON.stringify(data));
 }
+
 function addClickHandler(pName, pPrice, pDescription, select) {
     data = JSON.parse(jsonString);
     let productId = (data.length > 0) ? data[data.length - 1].productId + 1 : 1;
@@ -127,12 +143,13 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         description: pDescription.value,
         image: base64String,
         catagory: select.value
-    }
+    };
     data.push(newData);
     jsonString = JSON.stringify(data);
     localStorage.setItem('crud2', jsonString);
     base64String = null;
 }
+
 fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -143,6 +160,7 @@ fileInput.addEventListener('change', async (e) => {
     };
     await reader.readAsDataURL(file);
 });
+
 function sortAndDisplay(button) {
     let value = button.dataset.value;
     let sort = button.dataset.sort;
@@ -152,16 +170,17 @@ function sortAndDisplay(button) {
     if (sort == "dsc") {
         button.firstElementChild.classList.add("fa-sort-up");
         button.dataset.sort = "asc";
-        data = data.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])))
+        data = data.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
     }
     else {
         button.firstElementChild.classList.add("fa-sort-down");
         button.dataset.sort = "dsc";
         button.setAttribute('data-sort', 'dsc');
-        data = data.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])))
+        data = data.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
     displayEliments(data);
 }
+
 function editButton(button) {
     let pName = document.getElementById('addProductName');
     let pPrice = document.getElementById('addPrice');
@@ -169,25 +188,27 @@ function editButton(button) {
     let productId = document.getElementById('productId');
     let pImg = document.getElementById('addImage');
     let showImg = document.getElementById('showImg');
-    let select = document.getElementById('addItemCatagoryOptions')
+    let select = document.getElementById('addItemCatagoryOptions');
     data = JSON.parse(jsonString);
     productId.value = button.dataset.val;
-    pImg.required = false
+    pImg.required = false;
     showImg.setAttribute('src', data[Number(productId.value)]['image']);
     productId.dataset.val = data[Number(productId.value)]['productId'];
     pName.value = data[Number(productId.value)]['productName'];
     pPrice.value = data[Number(productId.value)]['price'];
     pDescription.value = data[Number(productId.value)]['description'];
-    select.value = data[Number(productId.value)]['catagory']
+    select.value = data[Number(productId.value)]['catagory'];
     document.getElementById('form').dataset.type = "edit";
 }
+
 function deleteButton(button) {
     let id = button.dataset.val;
     data.splice(id, 1);
     jsonString = JSON.stringify(data);
-    localStorage.setItem('crud2', jsonString)
+    localStorage.setItem('crud2', jsonString);
     location.reload();
 }
+
 function addButton() {
     document.getElementById('form').dataset.type = "add";
     let pName = document.getElementById('addProductName');
@@ -204,11 +225,12 @@ function addButton() {
     pPrice.value = null;
     pDescription.value = null;
 }
+
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
         switch (button.dataset.type) {
             case 'edit':
-                editButton(button)
+                editButton(button);
                 break;
 
             case 'add':
@@ -227,7 +249,8 @@ document.querySelectorAll('.btn').forEach(button => {
                 break;
         }
     })
-})
+});
+
 form.addEventListener('submit', () => {
     const pName = document.getElementById('addProductName');
     const pPrice = document.getElementById('addPrice');
@@ -235,4 +258,4 @@ form.addEventListener('submit', () => {
     const productId = document.getElementById('productId');
     const select = document.getElementById('addItemCatagoryOptions');
     (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
-})
+});
