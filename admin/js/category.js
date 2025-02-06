@@ -1,4 +1,3 @@
-// import {removeEventListenersByClassName} from "./product.js";
 let jsonString = localStorage.getItem('category') || "{}";
 let product = JSON.parse(localStorage.getItem('products')) || "{}";
 let arr = []
@@ -106,7 +105,6 @@ function sortAndDisplay(button) {
     let sort = button.dataset.sort;
     let type = button.dataset.content;
     resetSortIcons();
-    // resetArr();
     button.firstElementChild.classList.remove("fa-sort");
     if (sort == "dsc") {
         button.firstElementChild.classList.add("fa-sort-up");

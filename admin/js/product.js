@@ -10,6 +10,7 @@ resetSortIcons();
 updateSelect();
 buttonEventlisner();
 resetArr()
+
 function resetArr() {
     arr = [];
     for (let i in data) {
@@ -119,7 +120,7 @@ fileInput.addEventListener('change', async function () {
     if (file) {
         if (file.size > maxSize) {
             document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
-            this.value = ""; // Reset the input
+            this.value = ""; // Reset the input of image
         } else {
             document.getElementById('messageImageSize').textContent = "File size is valid.";
             const reader = new FileReader();
@@ -137,8 +138,6 @@ function sortAndDisplay(button) {
     let value = button.dataset.value;
     let sort = button.dataset.sort;
     let type = button.dataset.content;
-    
-
     resetSortIcons();
     button.firstElementChild.classList.remove("fa-sort");
     if (sort == "dsc") {
