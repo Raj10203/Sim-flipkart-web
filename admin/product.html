@@ -52,7 +52,8 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="filter">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="filter"
+                        name="filter">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -67,13 +68,13 @@
             <thead>
                 <tr>
                     <td>
-                        <button class="btn" data-type="sorting" data-content="number" data-sort="dcs"
+                        <button class="btn event" data-type="sorting" data-content="number" data-sort="dcs"
                             data-value="productId">Product Id
                             <i class="sort fa-solid" id="productIdIcon"></i>
                         </button>
                     </td>
                     <td>
-                        <button class="btn" data-type="sorting" data-content="string" data-sort="dcs"
+                        <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
                             data-value="productName">Product Name
                             <i class="sort fa-solid"></i>
                         </button>
@@ -82,23 +83,27 @@
                         <button class="btn">Image</button>
                     </td>
                     <td>
-                        <button class="btn" data-type="sorting" data-content="number" data-sort="dcs"
+                        <button class="btn event" data-type="sorting" data-content="number" data-sort="dcs"
                             data-value="price">Price
                             <i class="sort fa-solid "></i>
                         </button>
                     </td>
                     <td>
-                        <button class="btn" data-type="sorting" data-content="string" data-sort="dcs"
+                        <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
                             data-value="description">Description
                             <i class="sort fa-solid"></i>
                         </button>
                     </td>
                     <td>
-                        <button class="btn" data-type="sorting" data-content="string" data-sort="dcs"
+                        <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
                             data-value="description">Catagory<i class="sort fa-solid"></i>
                         </button>
                     </td>
-                    <td>Action</td>
+                    <td>
+                        <button class="btn">Actions
+                            <i class="sort fa-solid"></i>
+                        </button>
+                    </td>
                 </tr>
             </thead>
             <tbody id="tableBody">
@@ -116,31 +121,32 @@
                 </div>
                 <div class="modal-body">
                     <form action="./product.html" id="form" data-type="add">
-                        <input type="hidden" id="productId" value="" data-val="">
+                        <input type="hidden" id="productId" value="" data-val="" name="hiddenProductId">
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="addProductName" placeholder="Product Name"
-                                required maxlength="30" />
+                                name="addProductName" required maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="addImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="" id="showImg">
                             <input type="file" accept="image/png" class="form-control" id="addImage" required
-                                placeholder="Image" />
+                                name="addImage" placeholder="Image" />
+                            <p id="messageImageSize"></p>
                         </div>
                         <select class="form-select select" aria-label="Default select example"
                             id="addItemcategoryOptions" data-type="categoryOptions">
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required />
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required  name="addPrice"/>
                         </div>
                         <div class="mb-3">
                             <label for="addDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
                                 maxlength="100" required></textarea>
                         </div>
-                        <input type="submit" class="btn btn-primary" id="formSubmit" data-type="add-submit" />
+                        <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit" name="formSubmit" />
                     </form>
                 </div>
             </div>

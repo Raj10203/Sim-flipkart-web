@@ -30,7 +30,8 @@ form.addEventListener('submit', () => {
 filter.addEventListener('input', () => {
     let searchData = arr.filter(product => product['productId'] == Number(filter.value)
         || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
-        || product.category.toLowerCase().includes(String(filter.value.toLowerCase())));
+        || product.description.toLowerCase().includes(String(filter.value.toLowerCase()))
+        || categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())));
     console.log(searchData);
 
     displayEliments(searchData);
@@ -54,18 +55,22 @@ function displayEliments(data) {
         }
         let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
         tableBody.innerHTML += `
-        <tr id="${i}">
-            <td>${element['productId']}</td>
-            <td>${element['productName']}</td>
-            <td><img class="tableImage" src="${element["image"]}" /></td>
-            <td>${element['price']}</td>
-            <td>${str}</td>
-            <td>${category}</td>
-            <td><button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${element['productId']}">
-                <i class="fa-solid fa-pencil"></i>  </button>  <button class="btn btn-outline-danger" data-type="delete" data-val="${element['productId']}">  
-                <i class="fa-solid fa-trash"></i>  </button> 
-            </td>
-        </tr>`;
+            <tr id="${i}">
+                <td>${element['productId']}</td>
+                <td>${element['productName']}</td>
+                <td><img class="tableImage" src="${element["image"]}" /></td>
+                <td>${element['price']}</td>
+                <td>${str}</td>
+                <td>${category}</td>
+                <td>
+                    <button class="btn btn-outline-success event" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${element['productId']}">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-outline-danger event" data-type="delete" data-val="${element['productId']}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
         buttonEventlisner();
     }
 }
@@ -109,15 +114,25 @@ function addClickHandler(pName, pPrice, pDescription, select) {
     base64String = null;
 }
 
-fileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    const showImg = document.getElementById('showImg');
-    reader.onloadend = await function () {
-        base64String = reader.result;
-        showImg.setAttribute('src', base64String);
-    };
-    await reader.readAsDataURL(file);
+fileInput.addEventListener('change', async function () {
+    let maxSize = 500 * 1080;
+    const file = this.files[0];
+    console.log(file.size > maxSize);
+    if (file) {
+        if (file.size > maxSize) {
+            document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
+            this.value = ""; // Reset the input
+        } else {
+            document.getElementById('messageImageSize').textContent = "File size is valid.";
+            const reader = new FileReader();
+            const showImg = document.getElementById('showImg');
+            reader.onloadend = await function () {
+                base64String = reader.result;
+                showImg.setAttribute('src', base64String);
+            };
+            await reader.readAsDataURL(file);
+        }
+    }
 });
 
 function sortAndDisplay(button) {
@@ -191,7 +206,8 @@ function handleClick() {
     console.log("Button clicked");
 };
 
-function removeEventListenersByClassName(className, eventType) {
+function removeEventListenersByClassName(className) {
+    // remove and add node. By doing this it will destroy past eventlisner.
     const elements = document.querySelectorAll(`.${className}`);
     elements.forEach(element => {
         const newElement = element.cloneNode(true);
@@ -200,8 +216,8 @@ function removeEventListenersByClassName(className, eventType) {
 }
 
 function buttonEventlisner() {
-    removeEventListenersByClassName("btn");
-    document.querySelectorAll('.btn').forEach(button => {
+    removeEventListenersByClassName("event");
+    document.querySelectorAll('.event').forEach(button => {
         button.addEventListener('click', () => {
             switch (button.dataset.type) {
                 case 'edit':

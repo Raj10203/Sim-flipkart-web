@@ -14,37 +14,39 @@ function displayEliments(data) {
             <td>${i}</td>
             <td>${element['categoryName']}</td>
             <td>${str}</td>
-            <td><button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${i}">
-                <i class="fa-solid fa-pencil"></i>  </button>  <button class="btn btn-outline-danger" data-type="delete" data-val="${i}">  
-                <i class="fa-solid fa-trash"></i>  </button> 
+            <td>
+                <button class="btn btn-outline-success" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${i}">
+                    <i class="fa-solid fa-pencil"></i>  </button>
+                    <button class="btn btn-outline-danger" data-type="delete" data-val="${i}">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </td>
         </tr>`;
     }
 }
 
-function addButton(categoryForm, categoryId, addCategoryName, addDescription) {
+function addButton(categoryForm, categoryId, categoryName, addDescription) {
     categoryForm.dataset.type = "add";
     categoryId.value = null;
-    categoryId.dataset.val = null;
-    addCategoryName.value = null;
+    categoryName.value = null;
     addDescription.value = null;
 }
 
-function editButton(button, categoryForm, categoryId, addCategoryName, addDescription) {
+function editButton(button, categoryForm, categoryId, categoryName, addDescription) {
     data = JSON.parse(jsonString);
     categoryId.value = button.dataset.val;
-    categoryId.dataset.categoryId = data[Number(categoryId.value)]['categoryId'];
-    addCategoryName.value = data[Number(categoryId.value)]['categoryName'];
+    categoryName.value = data[Number(categoryId.value)]['categoryName'];
     addDescription.value = data[Number(categoryId.value)]['description'];
     categoryForm.dataset.type = "edit";
 }
 
-function addCategorySubmitHandler(addCategoryName, addDescription) {
+function addCategorySubmitHandler(categoryName, addDescription) {
     data = JSON.parse(jsonString);
-    let categoryId = (Object.keys(data).length > 0) ? Object.keys(data).length + 1 : 1;
+    let keys = Object.keys(data)
+    let categoryId = (Object.keys(data).length > 0) ? data[keys[keys.length - 1]]['categoryId'] + 1  : 1;
     let newData = {
         categoryId: categoryId,
-        categoryName: addCategoryName.value,
+        categoryName: categoryName.value,
         description: addDescription.value,
     };
     data[categoryId] = newData;
@@ -52,20 +54,20 @@ function addCategorySubmitHandler(addCategoryName, addDescription) {
     localStorage.setItem('category', jsonString);
 }
 
-function editCategorySubmitHandler(addCategoryName, addDescription, categoryId) {
+function editCategorySubmitHandler(categoryName, addDescription, categoryId) {
     data = JSON.parse(jsonString);
-    addCategoryName.setAttribute('value', data[Number(categoryId.value)]['categoryName']);
-    data[Number(categoryId.value)]['categoryName'] = addCategoryName.value;
+    categoryName.setAttribute('value', data[Number(categoryId.value)]['categoryName']);
+    data[Number(categoryId.value)]['categoryName'] = categoryName.value;
     data[Number(categoryId.value)]['description'] = addDescription.value;
     localStorage.setItem('category', JSON.stringify(data));
 }
 
 categoryForm.addEventListener('submit', () => {
-    const addCategoryName = document.getElementById('addCategoryName');
+    const categoryName = document.getElementById('categoryName');
     const addDescription = document.getElementById('addDescription');
     const categoryId = document.getElementById('categoryId');
-    (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(addCategoryName, addDescription)
-        : editCategorySubmitHandler(addCategoryName, addDescription, categoryId);
+    (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(categoryName, addDescription)
+        : editCategorySubmitHandler(categoryName, addDescription, categoryId);
 });
 
 function sortAndDisplay(button) {
@@ -107,15 +109,15 @@ document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
         const categoryForm = document.getElementById('categoryForm');
         const categoryId = document.getElementById('categoryId');
-        const addCategoryName = document.getElementById('addCategoryName');
+        const categoryName = document.getElementById('categoryName');
         const addDescription = document.getElementById('addDescription');
         switch (button.dataset.type) {
             case 'edit':
-                editButton(button, categoryForm, categoryId, addCategoryName, addDescription);
+                editButton(button, categoryForm, categoryId, categoryName, addDescription);
                 break;
 
             case 'add':
-                addButton(categoryForm, categoryId, addCategoryName, addDescription);
+                addButton(categoryForm, categoryId, categoryName, addDescription);
                 break;
 
             case 'delete':
