@@ -1,13 +1,14 @@
 let jsonString = localStorage.getItem('category') || "{}";
 let product = JSON.parse(localStorage.getItem('products')) || "{}";
-addDescription.value = "";
+document.getElementById('addDescription').value = "";
 let data = JSON.parse(jsonString);
 displayEliments(data);
 
 function displayEliments(data) {
-    for (var i in data) {
+    for (let i in data) {
         const element = data[i];
         let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
+        let tableBody = document.getElementById('tableBody');
         tableBody.innerHTML += `
         <tr>
             <td>${i}</td>
@@ -21,7 +22,7 @@ function displayEliments(data) {
     }
 }
 
-function addButton() {
+function addButton(categoryForm, categoryId, addCategoryName, addDescription) {
     categoryForm.dataset.type = "add";
     categoryId.value = null;
     categoryId.dataset.val = null;
@@ -29,7 +30,7 @@ function addButton() {
     addDescription.value = null;
 }
 
-function editButton(button) {
+function editButton(button, categoryForm, categoryId, addCategoryName, addDescription) {
     data = JSON.parse(jsonString);
     categoryId.value = button.dataset.val;
     categoryId.dataset.categoryId = data[Number(categoryId.value)]['categoryId'];
@@ -49,7 +50,6 @@ function addCategorySubmitHandler(addCategoryName, addDescription) {
     data[categoryId] = newData;
     jsonString = JSON.stringify(data);
     localStorage.setItem('category', jsonString);
-    base64String = null;
 }
 
 function editCategorySubmitHandler(addCategoryName, addDescription, categoryId) {
@@ -61,6 +61,9 @@ function editCategorySubmitHandler(addCategoryName, addDescription, categoryId) 
 }
 
 categoryForm.addEventListener('submit', () => {
+    const addCategoryName = document.getElementById('addCategoryName');
+    const addDescription = document.getElementById('addDescription');
+    const categoryId = document.getElementById('categoryId');
     (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(addCategoryName, addDescription)
         : editCategorySubmitHandler(addCategoryName, addDescription, categoryId);
 });
@@ -74,20 +77,19 @@ function sortAndDisplay(button) {
     if (sort == "dsc") {
         button.firstElementChild.classList.add("fa-sort-up");
         button.dataset.sort = "asc";
-        data = data.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
+        arr = arr.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
     }
     else {
         button.firstElementChild.classList.add("fa-sort-down");
         button.dataset.sort = "dsc";
         button.setAttribute('data-sort', 'dsc');
-        data = data.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
+        arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    displayEliments(data);
+    displayEliments(arr);
 }
 
 function deleteButton(button) {
-    for(let i in product)
-    {
+    for (let i in product) {
         if (product[i]['category'] == data[button.dataset.val]['categoryId']) {
             delete product[i];
         }
@@ -103,13 +105,17 @@ function deleteButton(button) {
 
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
+        const categoryForm = document.getElementById('categoryForm');
+        const categoryId = document.getElementById('categoryId');
+        const addCategoryName = document.getElementById('addCategoryName');
+        const addDescription = document.getElementById('addDescription');
         switch (button.dataset.type) {
             case 'edit':
-                editButton(button);
+                editButton(button, categoryForm, categoryId, addCategoryName, addDescription);
                 break;
 
             case 'add':
-                addButton();
+                addButton(categoryForm, categoryId, addCategoryName, addDescription);
                 break;
 
             case 'delete':

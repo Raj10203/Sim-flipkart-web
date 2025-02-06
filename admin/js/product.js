@@ -9,10 +9,13 @@ displayEliments(data);
 resetSortIcons();
 updateSelect();
 buttonEventlisner();
+resetArr()
 const filter = document.getElementById('filter')
-
-for (var i in data) {
-    arr.push(data[i])
+function resetArr() {
+    arr = [];
+    for (let i in data) {
+        arr.push(data[i]);
+    }
 }
 
 form.addEventListener('submit', () => {
@@ -28,20 +31,22 @@ filter.addEventListener('input', () => {
     let searchData = arr.filter(product => product['productId'] == Number(filter.value)
         || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
         || product.category.toLowerCase().includes(String(filter.value.toLowerCase())));
+    console.log(searchData);
+
     displayEliments(searchData);
 });
 
 function updateSelect() {
+    let addItemcategoryOptions = document.getElementById('addItemcategoryOptions');
     for (let i in categoryOptions) {
         addItemcategoryOptions.innerHTML += ` <option value="${categoryOptions[i]['categoryId']}">${categoryOptions[i]['categoryName']}</option>`;
-        // addItemcategoryOptions.dataset.val = i;
     }
 }
 
 function displayEliments(data) {
     let tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = "";
-    for (var i in data) {
+    for (let i in data) {
         const element = data[i];
         let category = "removed";
         if (categoryOptions[element['category']]) {
@@ -76,8 +81,8 @@ function resetSortIcons() {
 }
 
 function editClickHandler(pName, pPrice, pDescription, productId, select) {
-    data = JSON.parse(jsonString); 
-    let product =  data[Number(productId.value)];
+    data = JSON.parse(jsonString);
+    let product = data[Number(productId.value)];
     pName.setAttribute('value', product['productName']);
     product['productName'] = pName.value;
     product['image'] = (base64String == undefined) ? product["image"] : base64String;
@@ -124,15 +129,17 @@ function sortAndDisplay(button) {
     if (sort == "dsc") {
         button.firstElementChild.classList.add("fa-sort-up");
         button.dataset.sort = "asc";
-        data = data.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
+        arr = arr.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
     }
     else {
         button.firstElementChild.classList.add("fa-sort-down");
         button.dataset.sort = "dsc";
         button.setAttribute('data-sort', 'dsc');
-        data = data.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
+        arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    displayEliments(data);
+    console.log(arr);
+    displayEliments(arr);
+    resetArr();
 }
 
 function editButton(button) {
@@ -180,7 +187,20 @@ function addButton() {
     pDescription.value = null;
 }
 
+function handleClick() {
+    console.log("Button clicked");
+};
+
+function removeEventListenersByClassName(className, eventType) {
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach(element => {
+        const newElement = element.cloneNode(true);
+        element.parentNode.replaceChild(newElement, element);
+    });
+}
+
 function buttonEventlisner() {
+    removeEventListenersByClassName("btn");
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', () => {
             switch (button.dataset.type) {
