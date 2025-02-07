@@ -5,7 +5,6 @@ let categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
 const fileInput = document.querySelector('#addImage');
 const filter = document.getElementById('filter')
 let base64String;
-
 displayElements(data);
 resetSortIcons();
 updateSelect();
@@ -121,8 +120,7 @@ fileInput.addEventListener('change', async function () {
         if (file.size > maxSize) {
             document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
             this.value = ""; // Reset the input of image
-        }
-        else {
+        } else {
             document.getElementById('messageImageSize').textContent = "File size is valid.";
             const reader = new FileReader();
             const showImg = document.getElementById('showImg');
@@ -202,8 +200,14 @@ function addButton() {
     pPrice.value = null;
     pDescription.value = null;
 }
-
-
+function removeEventListenersByClassName(className) {
+    // remove and add node. By doing this it will destroy past eventlisner.
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach(element => {
+        const newElement = element.cloneNode(true);
+        element.parentNode.replaceChild(newElement, element);
+    });
+}
 function buttonEventListner() {
     removeEventListenersByClassName("event");
     document.querySelectorAll('.event').forEach(button => {
