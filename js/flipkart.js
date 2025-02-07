@@ -2,10 +2,9 @@ let products = JSON.parse(localStorage.getItem('products')) || {};
 let category = JSON.parse(localStorage.getItem('category')) || {};
 const footer = document.getElementById('footer');
 
-
-for (var i in category) {
+for (let i in category) {
     let exist = 0;
-    for (var j in products) {
+    for (let j in products) {
         if (i == products[j]['category']) {
             exist = 1;
             break;
@@ -28,7 +27,7 @@ for (var i in category) {
     }
 }
 
-for (var i in products) {
+for (let i in products) {
     if (category[products[i]['category']]?.['categoryName']) {
         let element = products[i];
         let placeholder = document.getElementById(category[element['category']]['categoryName']);

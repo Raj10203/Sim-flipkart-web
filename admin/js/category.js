@@ -1,3 +1,4 @@
+import { removeEventListenersByClassName, buttonEventListner } from './similarFunctions.js';
 let jsonString = localStorage.getItem('category') || "{}";
 let product = JSON.parse(localStorage.getItem('products')) || "{}";
 let arr = []
@@ -24,13 +25,13 @@ function resetSortIcons() {
     })
 }
 
-function removeEventListenersByClassName(className) {
-    const elements = document.querySelectorAll(`.${className}`);
-    elements.forEach(element => {
-        const newElement = element.cloneNode(true);
-        element.parentNode.replaceChild(newElement, element);
-    });
-}
+// function removeEventListenersByClassName(className) {
+//     const elements = document.querySelectorAll(`.${className}`);
+//     elements.forEach(element => {
+//         const newElement = element.cloneNode(true);
+//         element.parentNode.replaceChild(newElement, element);
+//     });
+// }
 
 function displayElements(data) {
     let tableBody = document.getElementById('tableBody');
@@ -56,14 +57,22 @@ function displayElements(data) {
     }
 }
 
-function addButton(categoryForm, categoryId, categoryName, addDescription) {
+function addButton() {
+    const categoryForm = document.getElementById('categoryForm');
+    const categoryId = document.getElementById('categoryId');
+    const categoryName = document.getElementById('categoryName');
+    const addDescription = document.getElementById('addDescription');
     categoryForm.dataset.type = "add";
     categoryId.value = null;
     categoryName.value = null;
     addDescription.value = null;
 }
 
-function editButton(button, categoryForm, categoryId, categoryName, addDescription) {
+function editButton(button) {
+    const categoryForm = document.getElementById('categoryForm');
+    const categoryId = document.getElementById('categoryId');
+    const categoryName = document.getElementById('categoryName');
+    const addDescription = document.getElementById('addDescription');
     data = JSON.parse(jsonString);
     categoryId.value = button.dataset.val;
     categoryName.value = data[Number(categoryId.value)]['categoryName'];
@@ -118,8 +127,6 @@ function sortAndDisplay(button) {
         button.setAttribute('data-sort', 'dsc');
         arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    console.log(arr);
-
     displayElements(arr);
 }
 
@@ -138,37 +145,6 @@ function deleteButton(button) {
     location.reload();
 }
 
-function buttonEventlistner() {
-    removeEventListenersByClassName("event");
-    document.querySelectorAll('.event').forEach(button => {
-        button.addEventListener('click', () => {
-            const categoryForm = document.getElementById('categoryForm');
-            const categoryId = document.getElementById('categoryId');
-            const categoryName = document.getElementById('categoryName');
-            const addDescription = document.getElementById('addDescription');
-            switch (button.dataset.type) {
-                case 'edit':
-                    editButton(button, categoryForm, categoryId, categoryName, addDescription);
-                    break;
-
-                case 'add':
-                    addButton(categoryForm, categoryId, categoryName, addDescription);
-                    break;
-
-                case 'delete':
-                    deleteButton(button);
-                    break;
-
-                case 'sorting':
-                    sortAndDisplay(button);
-                    break;
-
-                default:
-                    break;
-            }
-        })
-    });
-}
 filter.addEventListener('input', () => {
     resetArr();
     arr = arr.filter(category => category['categoryId'] == Number(filter.value)
