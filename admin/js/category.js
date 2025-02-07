@@ -32,7 +32,8 @@ function removeEventListenersByClassName(className) {
     });
 }
 
-function displayElements(data) {
+function displayElements() {
+    data = JSON.parse(localStorage.getItem('category') || "{}");
     let tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = "";
     for (let i in data) {
@@ -93,12 +94,35 @@ function editCategorySubmitHandler(categoryName, addDescription, categoryId) {
     localStorage.setItem('category', JSON.stringify(data));
 }
 
-categoryForm.addEventListener('submit', () => {
+categoryForm.addEventListener('submit', (e) => {
+    e.preventDefault();
     const categoryName = document.getElementById('categoryName');
     const addDescription = document.getElementById('addDescription');
     const categoryId = document.getElementById('categoryId');
-    (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(categoryName, addDescription)
-        : editCategorySubmitHandler(categoryName, addDescription, categoryId);
+    Swal.fire({
+        title: 'Do you want to save the changes?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+            actions: 'my-actions',
+            cancelButton: 'order-1 right-gap',
+            confirmButton: 'order-2',
+            denyButton: 'order-3',
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            (categoryForm.dataset.type == "add") ? addCategorySubmitHandler(categoryName, addDescription)
+                : editCategorySubmitHandler(categoryName, addDescription, categoryId);
+            Swal.fire('Saved!', '', 'success');
+        } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+        }
+    }).then(()=>{
+        displayElements()
+    })
+
 });
 
 function sortAndDisplay(button) {

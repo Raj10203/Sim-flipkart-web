@@ -17,7 +17,8 @@ function resetArr() {
     }
 }
 
-form.addEventListener('submit', () => {
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
     const pName = document.getElementById('addProductName');
     const pPrice = document.getElementById('addPrice');
     const pDescription = document.getElementById('addDescription');
