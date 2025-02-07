@@ -5,10 +5,9 @@ let categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
 const fileInput = document.querySelector('#addImage');
 const filter = document.getElementById('filter')
 let base64String;
-displayEliments(data);
+displayElements(data);
 resetSortIcons();
 updateSelect();
-buttonEventlisner();
 resetArr()
 
 function resetArr() {
@@ -33,7 +32,7 @@ filter.addEventListener('input', () => {
         || product.description.toLowerCase().includes(String(filter.value.toLowerCase()))
         || categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())));
 
-    displayEliments(searchData);
+    displayElements(searchData);
 });
 
 function updateSelect() {
@@ -43,7 +42,7 @@ function updateSelect() {
     }
 }
 
-function displayEliments(data) {
+function displayElements(data) {
     let tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = "";
     for (let i in data) {
@@ -70,7 +69,7 @@ function displayEliments(data) {
                     </button>
                 </td>
             </tr>`;
-        buttonEventlisner();
+        buttonEventListner();
     }
 }
 
@@ -151,7 +150,8 @@ function sortAndDisplay(button) {
         button.setAttribute('data-sort', 'dsc');
         arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    displayEliments(arr);
+    console.log(arr);
+    displayElements(arr);
     resetArr();
 }
 
@@ -177,10 +177,12 @@ function editButton(button) {
 }
 
 function deleteButton(button) {
-    delete data[button.dataset.val];
-    jsonString = JSON.stringify(data);
-    localStorage.setItem('products', jsonString);
-    location.reload();
+    if (confirm(`are you sure you want to delete ${data[button.dataset.val]['prodctName']}`)) {
+        delete data[button.dataset.val];
+        jsonString = JSON.stringify(data);
+        localStorage.setItem('products', jsonString);
+        location.reload();
+    }
 }
 
 function addButton() {
@@ -209,7 +211,7 @@ function removeEventListenersByClassName(className) {
     });
 }
 
-function buttonEventlisner() {
+function buttonEventListner() {
     removeEventListenersByClassName("event");
     document.querySelectorAll('.event').forEach(button => {
         button.addEventListener('click', () => {

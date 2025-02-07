@@ -7,7 +7,7 @@ for (var i in category) {
     let exist = 0;
     for (var j in products) {
         if (i == products[j]['category']) {
-            exist = 1;            
+            exist = 1;
             break;
         }
     }

@@ -4,8 +4,9 @@ let arr = []
 document.getElementById('addDescription').value = "";
 let data = JSON.parse(jsonString);
 const filter = document.getElementById('filter')
-displayEliments(data);
+displayElements(data);
 resetSortIcons();
+resetArr();
 function resetArr() {
     arr = [];
     for (let i in data) {
@@ -31,7 +32,7 @@ function removeEventListenersByClassName(className) {
     });
 }
 
-function displayEliments(data) {
+function displayElements(data) {
     let tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = "";
     for (let i in data) {
@@ -51,7 +52,7 @@ function displayEliments(data) {
                     </button>
                 </td>
             </tr>`;
-        buttonEventlisner();
+        buttonEventlistner();
     }
 }
 
@@ -117,7 +118,9 @@ function sortAndDisplay(button) {
         button.setAttribute('data-sort', 'dsc');
         arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    displayEliments(arr);
+    console.log(arr);
+
+    displayElements(arr);
 }
 
 function deleteButton(button) {
@@ -135,7 +138,7 @@ function deleteButton(button) {
     location.reload();
 }
 
-function buttonEventlisner() {
+function buttonEventlistner() {
     removeEventListenersByClassName("event");
     document.querySelectorAll('.event').forEach(button => {
         button.addEventListener('click', () => {
@@ -171,5 +174,5 @@ filter.addEventListener('input', () => {
     arr = arr.filter(category => category['categoryId'] == Number(filter.value)
         || category.categoryName.toLowerCase().includes(String(filter.value.toLowerCase()))
         || category.description.toLowerCase().includes(String(filter.value.toLowerCase())));
-    displayEliments(arr);
+    displayElements(arr);
 });
