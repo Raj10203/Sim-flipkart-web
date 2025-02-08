@@ -1,0 +1,18 @@
+.tableImage {
+    padding: 10px;
+    height: 100px;
+    width: 100px;
+}
+
+.container>.btn {
+    margin: 10px 0;
+}
+
+td {
+    max-width: 120px;
+    max-height: 120px;
+    overflow: hidden;
+    min-height: 120px;
+    align-items: center;
+    text-align: center;
+}

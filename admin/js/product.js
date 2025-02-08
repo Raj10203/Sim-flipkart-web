@@ -17,6 +17,13 @@ function resetArr() {
     }
 }
 
+function upadateData() {
+    jsonString = localStorage.getItem('category') || "{}";
+    product = JSON.parse(localStorage.getItem('products')) || "{}";
+    data = JSON.parse(jsonString);
+    resetArr();
+}
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const pName = document.getElementById('addProductName');
@@ -25,15 +32,6 @@ form.addEventListener('submit', (e) => {
     const productId = document.getElementById('productId');
     const select = document.getElementById('addItemcategoryOptions');
     (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
-});
-
-filter.addEventListener('input', () => {
-    let searchData = arr.filter(product => product['productId'] == Number(filter.value)
-        || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
-        || product.description.toLowerCase().includes(String(filter.value.toLowerCase()))
-        || categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())));
-
-    displayElements(searchData);
 });
 
 function updateSelect() {
@@ -177,13 +175,45 @@ function editButton(button) {
 }
 
 function deleteButton(button) {
-    if (confirm(`are you sure you want to delete ${data[button.dataset.val]['prodctName']}`)) {
+    Swal.fire({
+        title: `Do you want to delete "${data[button.dataset.val]['productName']}" category?`,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+            actions: 'my-actions',
+            confirmButton: 'order-2',
+            denyButton: 'order-3',
+        },
+    }).then((result) => {
+        if (!result.isConfirmed) {
+            Swal.fire(`Product ${data[button.dataset.val]['productName']} has not been deleted. `, '', 'error')
+            return;
+        }
         delete data[button.dataset.val];
         jsonString = JSON.stringify(data);
         localStorage.setItem('products', jsonString);
-        location.reload();
-    }
+        Swal.fire('Deleted!', '', 'success');
+    }).then(() => {
+        upadateData();
+        resetArr();
+        filterEliments();
+        displayElements(arr)
+    })
 }
+
+function filterEliments() {
+    let searchData = arr.filter(product => product['productId'] == Number(filter.value)
+        || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
+        || product.description.toLowerCase().includes(String(filter.value.toLowerCase()))
+        || categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())));
+
+    displayElements(searchData);
+}
+
+filter.addEventListener('input', () => {
+    filterEliments();
+});
 
 function addButton() {
     document.getElementById('form').dataset.type = "add";
@@ -202,7 +232,6 @@ function addButton() {
     pDescription.value = null;
 }
 function removeEventListenersByClassName(className) {
-    // remove and add node. By doing this it will destroy past eventlisner.
     const elements = document.querySelectorAll(`.${className}`);
     elements.forEach(element => {
         const newElement = element.cloneNode(true);
