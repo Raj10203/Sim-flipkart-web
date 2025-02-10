@@ -1,14 +1,28 @@
 let jsonString = localStorage.getItem('products') || "{}";
+let categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
 let data = JSON.parse(jsonString);
 let arr = []
-let categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
+let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+let sortButtonId = 'productIdButton';
+let base64String;
 const fileInput = document.querySelector('#addImage');
 const filter = document.getElementById('filter')
-let base64String;
-displayElements(data);
-resetSortIcons();
-updateSelect();
-resetArr()
+showUpdatedChanges();
+
+function upadateData() {
+    categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
+    jsonString = localStorage.getItem('products') || "{}";
+    data = JSON.parse(jsonString);
+}
+
+function showUpdatedChanges() {
+    upadateData();
+    resetArr();
+    filterEliments();
+    sortAndDisplay(sortButtonId);
+    displayElements(arr);
+    updateSelect();
+}
 
 function resetArr() {
     arr = [];
@@ -17,21 +31,65 @@ function resetArr() {
     }
 }
 
-function upadateData() {
-    jsonString = localStorage.getItem('category') || "{}";
-    product = JSON.parse(localStorage.getItem('products')) || "{}";
-    data = JSON.parse(jsonString);
-    resetArr();
+function changeSortIcons(id) {
+    let button = document.getElementById(id);
+    let sort = button.dataset.sort;
+    resetSortIcons();
+    button.firstElementChild.classList.remove("fa-sort");
+    if (sort == "asc") {
+        button.firstElementChild.classList.add("fa-sort-down");
+        button.setAttribute('data-sort', 'dsc');
+    } else {
+        button.firstElementChild.classList.add("fa-sort-up");
+        button.setAttribute('data-sort', 'asc');
+    }
 }
-
-form.addEventListener('submit', (e) => {
+productForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const pName = document.getElementById('addProductName');
     const pPrice = document.getElementById('addPrice');
     const pDescription = document.getElementById('addDescription');
     const productId = document.getElementById('productId');
     const select = document.getElementById('addItemcategoryOptions');
-    (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
+    Swal.fire({
+        title: `Do you want to add "${pName.value}" category?`,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+        customClass: {
+            actions: 'my-actions',
+            confirmButton: 'order-2',
+            denyButton: 'order-3',
+        }
+    }).then((result) => {
+        if (productForm.dataset.type == "add") {
+            if (!result.isConfirmed) {
+                Swal.fire(`Category ${pName.value} has not been added. `, '', 'error')
+                return;
+            }
+            addClickHandler(pName, pPrice, pDescription, select).then((res) => {
+                Swal.fire(res, '', 'success')
+            }).catch(err => {
+                Swal.fire(`Error : ${err} ${pName.value} has not been added. `, '', 'error')
+                return;
+            });
+        } else {
+            if (!result.isConfirmed) {
+                Swal.fire(`Product ${pName.value} has not been edited. `, '', 'error')
+                return;
+            }
+            editClickHandler(pName, pPrice, pDescription, productId, select).then((res) => {
+                Swal.fire(res, '', 'success')
+            }).catch(err => {
+                Swal.fire(`Error : ${err} ${pName.value} has not been edited. `, '', 'error');
+                return;
+            });
+        }
+    }).then(() => {
+        showUpdatedChanges();
+        myModal.hide();
+    })
+    // (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
 });
 
 function updateSelect() {
@@ -77,21 +135,24 @@ function resetSortIcons() {
         button.classList.add("fa-sort");
         button.classList.remove("fa-sort-up");
         button.classList.remove("fa-sort-down");
-        button.addEventListener('click', () => {
-        });
     })
 }
 
 function editClickHandler(pName, pPrice, pDescription, productId, select) {
-    data = JSON.parse(jsonString);
-    let product = data[Number(productId.value)];
-    pName.setAttribute('value', product['productName']);
-    product['productName'] = pName.value;
-    product['image'] = (base64String == undefined) ? product["image"] : base64String;
-    product['price'] = Number(pPrice.value);
-    product['description'] = pDescription.value;
-    product['category'] = select.value;
-    localStorage.setItem('products', JSON.stringify(data));
+    try {
+        data = JSON.parse(jsonString);
+        let product = data[Number(productId.value)];
+        pName.setAttribute('value', product['productName']);
+        product['productName'] = pName.value;
+        product['image'] = (base64String == undefined) ? product["image"] : base64String;
+        product['price'] = Number(pPrice.value);
+        product['description'] = pDescription.value;
+        product['category'] = select.value;
+        localStorage.setItem('products', JSON.stringify(data));
+    } catch (error) {
+        return Promise.reject(error)
+    }
+    return Promise.resolve(`Product ${pName.value} has been updated successfully!`);
 }
 
 function addClickHandler(pName, pPrice, pDescription, select) {
@@ -106,12 +167,15 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         image: base64String,
         category: select.value
     };
-    data[productId] = newData;
-    jsonString = JSON.stringify(data);
-    localStorage.setItem('products', jsonString);
-    base64String = null;
+    try {
+        data[productId] = newData;
+        jsonString = JSON.stringify(data);
+        localStorage.setItem('products', jsonString);
+    } catch (error) {
+        return Promise.reject(error)
+    }
+    return Promise.resolve(`Product ${pName.value} has been added successfully!`);
 }
-
 fileInput.addEventListener('change', async function () {
     let maxSize = 500 * 1080;
     const file = this.files[0];
@@ -132,25 +196,16 @@ fileInput.addEventListener('change', async function () {
     }
 });
 
-function sortAndDisplay(button) {
+function sortAndDisplay(id) {
+    let button = document.getElementById(id);
     let value = button.dataset.value;
     let sort = button.dataset.sort;
     let type = button.dataset.content;
-    resetSortIcons();
-    button.firstElementChild.classList.remove("fa-sort");
-    if (sort == "dsc") {
-        button.firstElementChild.classList.add("fa-sort-up");
-        button.dataset.sort = "asc";
+    if (sort == "asc") {
         arr = arr.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
-    }
-    else {
-        button.firstElementChild.classList.add("fa-sort-down");
-        button.dataset.sort = "dsc";
-        button.setAttribute('data-sort', 'dsc');
+    } else {
         arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
     }
-    displayElements(arr);
-    resetArr();
 }
 
 function editButton(button) {
@@ -161,8 +216,9 @@ function editButton(button) {
     let pImg = document.getElementById('addImage');
     let showImg = document.getElementById('showImg');
     let select = document.getElementById('addItemcategoryOptions');
-    data = JSON.parse(jsonString);
     let productItem = data[button.dataset.val]
+    data = JSON.parse(jsonString);
+
     productId.value = button.dataset.val;
     pImg.required = false;
     showImg.setAttribute('src', productItem['image']);
@@ -171,7 +227,7 @@ function editButton(button) {
     pPrice.value = productItem['price'];
     pDescription.value = productItem['description'];
     select.value = categoryOptions[productItem['category']]['categoryId'];
-    document.getElementById('form').dataset.type = "edit";
+    document.getElementById('productForm').dataset.type = "edit";
 }
 
 function deleteButton(button) {
@@ -195,34 +251,30 @@ function deleteButton(button) {
         localStorage.setItem('products', jsonString);
         Swal.fire('Deleted!', '', 'success');
     }).then(() => {
-        upadateData();
-        resetArr();
-        filterEliments();
-        displayElements(arr)
+        showUpdatedChanges();
     })
 }
 
 function filterEliments() {
-    let searchData = arr.filter(product => product['productId'] == Number(filter.value)
-        || product.productName.toLowerCase().includes(String(filter.value.toLowerCase()))
-        || product.description.toLowerCase().includes(String(filter.value.toLowerCase()))
-        || categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())));
-
-    displayElements(searchData);
+    arr = arr.filter(product => String(product.productId).includes(String(filter.value)) ||
+        product.productName.toLowerCase().includes(String(filter.value.toLowerCase())) ||
+        product.description.toLowerCase().includes(String(filter.value.toLowerCase())) ||
+        categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())) ||
+        String(product.price).includes(filter.value));
 }
-
 filter.addEventListener('input', () => {
-    filterEliments();
+    showUpdatedChanges();
 });
 
 function addButton() {
-    document.getElementById('form').dataset.type = "add";
     let pName = document.getElementById('addProductName');
     let pPrice = document.getElementById('addPrice');
     let pDescription = document.getElementById('addDescription');
     let productId = document.getElementById('productId');
     let pImg = document.getElementById('addImage');
     let showImg = document.getElementById('showImg');
+
+    document.getElementById('productForm').dataset.type = "add";
     productId.value = null;
     pImg.required = true;
     showImg.setAttribute('src', "");
@@ -231,6 +283,7 @@ function addButton() {
     pPrice.value = null;
     pDescription.value = null;
 }
+
 function removeEventListenersByClassName(className) {
     const elements = document.querySelectorAll(`.${className}`);
     elements.forEach(element => {
@@ -238,6 +291,7 @@ function removeEventListenersByClassName(className) {
         element.parentNode.replaceChild(newElement, element);
     });
 }
+
 function buttonEventListner() {
     removeEventListenersByClassName("event");
     document.querySelectorAll('.event').forEach(button => {
@@ -246,19 +300,17 @@ function buttonEventListner() {
                 case 'edit':
                     editButton(button);
                     break;
-
                 case 'add':
                     addButton();
                     break;
-
                 case 'delete':
                     deleteButton(button);
                     break;
-
                 case 'sorting':
-                    sortAndDisplay(button);
+                    sortButtonId = button.id;
+                    changeSortIcons(sortButtonId);
+                    showUpdatedChanges();
                     break;
-
                 default:
                     break;
             }

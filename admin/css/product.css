@@ -16,3 +16,21 @@ td {
     align-items: center;
     text-align: center;
 }
+.table-responsive{
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.table-wrapper {
+    max-height: 80vh; 
+    overflow-y: auto;
+    top: 0;
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    background: #212529; 
+    color: white;
+    z-index: 10;
+}

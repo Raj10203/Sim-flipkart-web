@@ -42,52 +42,55 @@
         </div>
     </nav>
     <div class="container">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        <button type="button" class="btn btn-primary event" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
             data-type="add">Add Products
         </button>
-        <table id="example" class="display table table-bordered table-striped" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>
-                        <button class="btn event" data-type="sorting" data-content="number" data-sort="dcs"
-                            data-value="productId">Product Id
-                            <i class="sort fa-solid" id="productIdIcon"></i>
-                        </button>
-                    </th>
-                    <th>
-                        <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
-                            data-value="productName">Product Name
-                            <i class="sort fa-solid"></i>
-                        </button>
-                    </th>
-                    <th>
-                        <button class="btn">Image</button>
-                    </th>
-                    <th>
-                        <button class="btn event" data-type="sorting" data-content="number" data-sort="dcs"
-                            data-value="price">Price
-                            <i class="sort fa-solid "></i>
-                        </button>
-                    </th>
-                    <th>
-                        <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
-                            data-value="description">Description
-                            <i class="sort fa-solid"></i>
-                        </button>
-                    </th>
-                    <th>
-                        <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
-                            data-value="description">Catagory<i class="sort fa-solid"></i>
-                        </button>
-                    </th>
-                    <th>
-                        <button class="btn">Actions</button>
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table id="example" class="display table table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            <button class="btn event" data-type="sorting" data-content="number" data-sort="asc"
+                                data-value="productId" id="productIdButton">Product Id
+                                <i class="sort fa-solid fa-sort-up" id="productIdIcon"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
+                                data-value="productName" id="productNameButton">Product Name
+                                <i class="sort fa-solid fa-sort"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn">Image</button>
+                        </th>
+                        <th>
+                            <button class="btn event" data-type="sorting" data-content="number" data-sort="dcs"
+                                data-value="price" id="priceButton">Price
+                                <i class="sort fa-solid fa-sort"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
+                                data-value="description" id="descriptionButton">Description
+                                <i class="sort fa-solid fa-sort"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn event" data-type="sorting" data-content="string" data-sort="dcs"
+                                data-value="category" id="categoryButton">Catagory
+                                <i class="sort fa-solid fa-sort"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <button class="btn">Actions</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
@@ -99,7 +102,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="./product.html" id="form" data-type="add">
+                    <form action="./product.html" id="productForm" data-type="add">
                         <input type="hidden" id="productId" value="" data-val="" name="hiddenProductId">
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>

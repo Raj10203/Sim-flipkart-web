@@ -1,23 +1,21 @@
-let jsonString = localStorage.getItem('category') || "{}";
-let product = JSON.parse(localStorage.getItem('products')) || "{}";
-let arr = []
-document.getElementById('addDescription').value = "";
-let data = JSON.parse(jsonString);
+let jsonString, product, data;
+let arr = [];
 const filter = document.getElementById('filter');
+let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
 let sortButtonId = 'categoryIdButton';
-upadateData();
+
+function showUpdatedChanges() {
+    upadateData();
+    resetArr();
+    arr = filterEliments();
+    arr = sortAndDisplay(arr, sortButtonId);
+    displayElements(arr);
+}
+
 function upadateData() {
     jsonString = localStorage.getItem('category') || "{}";
     product = JSON.parse(localStorage.getItem('products')) || "{}";
     data = JSON.parse(jsonString);
-    showChanges();
-}
-
-function showChanges() {
-    resetArr();
-    filterEliments();
-    sortAndDisplay(sortButtonId);
-    displayElements(arr);
 }
 
 function resetArr() {
@@ -28,46 +26,40 @@ function resetArr() {
 }
 
 function filterEliments() {
-    arr = arr.filter(category => category['categoryId'] == Number(filter.value)
-        || category.categoryName.toLowerCase().includes(String(filter.value.toLowerCase()))
-        || category.description.toLowerCase().includes(String(filter.value.toLowerCase())));
+    let filterValue = filter.value.toLowerCase();
+    return arr.filter(category => category['categoryId'] == Number(filterValue) ||
+        category.categoryName.toLowerCase().includes(filterValue.toLowerCase()) ||
+        category.description.toLowerCase().includes(filterValue.toLowerCase()));
 }
 
 function updateSortIcons(id) {
     let button = document.getElementById(id);
     let sort = button.dataset.sort;
     resetSortIcons();
-    button.firstElementChild.classList.remove("fa-sort");
-    if (sort == "asc") {
-        button.firstElementChild.classList.add("fa-sort-down");
-        button.setAttribute('data-sort', 'dsc');
-    }
-    else {
-        button.firstElementChild.classList.add("fa-sort-up");
-        button.setAttribute('data-sort', 'asc');
-    }
-}
 
-function sortAndDisplay(id) {
-    
-    let button = document.getElementById(id);
-    let value = button.dataset.value;
-    let sort = button.dataset.sort;
-    let type = button.dataset.content;
-    if (sort == "asc") {
-        arr = arr.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
-    }
-    else {
-        arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
-    }
+    button.firstElementChild.classList.remove("fa-sort");
+    button.firstElementChild.classList.toggle("fa-sort-down", sort === "asc");
+    button.firstElementChild.classList.toggle("fa-sort-up", sort !== "asc");
+    button.dataset.sort = sort === "asc" ? "desc" : "asc";
 }
 
 function resetSortIcons() {
     document.querySelectorAll('.sort').forEach(button => {
         button.classList.add("fa-sort");
-        button.classList.remove("fa-sort-up");
-        button.classList.remove("fa-sort-down");
+        button.classList.remove("fa-sort-up", "fa-sort-down");
     })
+}
+
+function sortAndDisplay(arr, id) {
+    let button = document.getElementById(id);
+    let value = button.dataset.value;
+    let sortOrder = button.dataset.sort;
+    let type = button.dataset.content;
+    return arr.sort((a, b) =>
+        type === 'number' ?
+            (sortOrder === "asc" ? a[value] - b[value] : b[value] - a[value]) :
+            (sortOrder === "asc" ? String(a[value]).localeCompare(String(b[value])) : String(b[value]).localeCompare(String(a[value])))
+    );
 }
 
 function displayElements(data) {
@@ -92,15 +84,6 @@ function displayElements(data) {
             </tr>`;
         buttonEventlistner();
     }
-
-}
-
-function removeEventListenersByClassName(className) {
-    const elements = document.querySelectorAll(`.${className}`);
-    elements.forEach(element => {
-        const newElement = element.cloneNode(true);
-        element.parentNode.replaceChild(newElement, element);
-    });
 }
 
 function buttonEventlistner() {
@@ -115,19 +98,17 @@ function buttonEventlistner() {
                 case 'edit':
                     editButton(button, categoryForm, categoryId, categoryName, addDescription);
                     break;
-
                 case 'add':
                     addButton(categoryForm, categoryId, categoryName, addDescription);
                     break;
-
                 case 'delete':
                     deleteButton(button);
                     break;
-
                 case 'sorting':
-                    sortAndDisplay(button);
+                    sortButtonId = button.id;
+                    updateSortIcons(sortButtonId);
+                    showUpdatedChanges();
                     break;
-
                 default:
                     break;
             }
@@ -135,11 +116,12 @@ function buttonEventlistner() {
     });
 }
 
-function addButton(categoryForm, categoryId, categoryName, addDescription) {
-    categoryForm.dataset.type = "add";
-    categoryId.value = null;
-    categoryName.value = null;
-    addDescription.value = null;
+function removeEventListenersByClassName(className) {
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach(element => {
+        const newElement = element.cloneNode(true);
+        element.parentNode.replaceChild(newElement, element);
+    });
 }
 
 function editButton(button, categoryForm, categoryId, categoryName, addDescription) {
@@ -149,6 +131,41 @@ function editButton(button, categoryForm, categoryId, categoryName, addDescripti
     categoryForm.dataset.type = "edit";
 }
 
+function addButton(categoryForm, categoryId, categoryName, addDescription) {
+    categoryForm.dataset.type = "add";
+    categoryId.value = null;
+    categoryName.value = null;
+    addDescription.value = null;
+}
+
+function deleteButton(button) {
+    Swal.fire({
+        title: `Do you want to delete "${data[button.dataset.val]['categoryName']}" category?`,
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+    }).then((result) => {
+        if (!result.isConfirmed) {
+            Swal.fire(`Category ${data[button.dataset.val]['categoryName']} has not been deleted. `, '', 'error')
+            return;
+        }
+        upadateData();
+        for (let i in product) {
+            if (product[i]['category'] == data[button.dataset.val]['categoryId']) {
+                delete product[i];
+            }
+        }
+        delete data[button.dataset.val];
+        jsonString = JSON.stringify(data);
+        localStorage.setItem('category', jsonString);
+        localStorage.setItem('products', JSON.stringify(product));
+        Swal.fire('Deleted!', '', 'success');
+    }).then(() => {
+        showUpdatedChanges();
+    })
+}
+
+
 function addCategorySubmitHandler(categoryName, addDescription) {
     let keys = Object.keys(data)
     let categoryId = (Object.keys(data).length > 0) ? data[keys[keys.length - 1]]['categoryId'] + 1 : 1;
@@ -157,9 +174,14 @@ function addCategorySubmitHandler(categoryName, addDescription) {
         categoryName: categoryName.value,
         description: addDescription.value,
     };
-    data[categoryId] = newData;
-    jsonString = JSON.stringify(data);
-    localStorage.setItem('category', jsonString);
+    try {
+        data[categoryId] = newData;
+        jsonString = JSON.stringify(data);
+        localStorage.setItem('category', jsonString);
+    } catch (error) {
+        return Promise.reject(error);
+    }
+    return Promise.resolve(`Category ${categoryName.value} has been added successfully!`);
 }
 
 function editCategorySubmitHandler(categoryName, addDescription, categoryId) {
@@ -167,10 +189,10 @@ function editCategorySubmitHandler(categoryName, addDescription, categoryId) {
     data[Number(categoryId.value)]['categoryName'] = categoryName.value;
     data[Number(categoryId.value)]['description'] = addDescription.value;
     localStorage.setItem('category', JSON.stringify(data));
+    return Promise.resolve("Success");
 }
-var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
 
-
+filter.addEventListener('input', showUpdatedChanges);
 categoryForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const categoryName = document.getElementById('categoryName');
@@ -185,97 +207,36 @@ categoryForm.addEventListener('submit', (e) => {
             actions: 'my-actions',
             confirmButton: 'order-2',
             denyButton: 'order-3',
-        },
-    }).then((result) => {
-        if (!result.isConfirmed) {
-            Swal.fire(`Category ${categoryName.value} has not been added. `, '', 'error')
-            return;
         }
+    }).then((result) => {
         if (categoryForm.dataset.type == "add") {
-            addCategorySubmitHandler(categoryName, addDescription);
+            if (!result.isConfirmed) {
+                Swal.fire(`Category ${categoryName.value} has not been added. `, '', 'error')
+                return;
+            }
+            addCategorySubmitHandler(categoryName, addDescription).then((res) => {
+                Swal.fire(`Category ${categoryName.value} has been added.  `, '', 'success')
+            }).catch(err => {
+                Swal.fire(`Error : ${err} ${categoryName.value} has not been added. `, '', 'error')
+                return;
+            });
         }
         else {
-            editCategorySubmitHandler(categoryName, addDescription, categoryId);
+            if (!result.isConfirmed) {
+                Swal.fire(`Category ${categoryName.value} has not been added. `, '', 'error')
+                return;
+            }
+            editCategorySubmitHandler(categoryName, addDescription, categoryId).then((res) => {
+                Swal.fire(`Category ${categoryName.value} has been added. `, '', 'success')
+            }).catch(err => {
+                Swal.fire(`Error : ${err} ${categoryName.value} has not been added. `, '', 'error');
+                return;
+            });
         }
-        Swal.fire('Saved!', '', 'success');
     }).then(() => {
-        upadateData();
+        showUpdatedChanges();
         myModal.hide();
-
     })
 });
-
-function deleteButton(button) {
-    Swal.fire({
-        title: `Do you want to delete "${data[button.dataset.val]['categoryName']}" category?`,
-        showDenyButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: 'No',
-        customClass: {
-            actions: 'my-actions',
-            confirmButton: 'order-2',
-            denyButton: 'order-3',
-        },
-    }).then((result) => {
-        if (!result.isConfirmed) {
-            Swal.fire(`Category ${categoryName.value} has not been deleted. `, '', 'error')
-            return;
-        }
-        jsonString = localStorage.getItem('category') || "{}";
-        product = JSON.parse(localStorage.getItem('products')) || "{}";
-        data = JSON.parse(jsonString);
-        for (let i in product) {
-            if (product[i]['category'] == data[button.dataset.val]['categoryId']) {
-                delete product[i];
-            }
-        }
-        delete data[button.dataset.val];
-        jsonString = JSON.stringify(data);
-        localStorage.setItem('category', jsonString);
-
-        jsonString = JSON.stringify(product);
-        localStorage.setItem('products', jsonString);
-
-        Swal.fire('Saved!', '', 'success');
-    }).then(() => {
-        upadateData();
-    })
-}
-
-function buttonEventlistner() {
-    removeEventListenersByClassName("event");
-    document.querySelectorAll('.event').forEach(button => {
-        button.addEventListener('click', () => {
-            const categoryForm = document.getElementById('categoryForm');
-            const categoryId = document.getElementById('categoryId');
-            const categoryName = document.getElementById('categoryName');
-            const addDescription = document.getElementById('addDescription');
-            switch (button.dataset.type) {
-                case 'edit':
-                    editButton(button, categoryForm, categoryId, categoryName, addDescription);
-                    break;
-
-                case 'add':
-                    addButton(categoryForm, categoryId, categoryName, addDescription);
-                    break;
-
-                case 'delete':
-                    deleteButton(button);
-                    break;
-
-                case 'sorting':
-                    sortButtonId = button.id;
-                    updateSortIcons(sortButtonId);
-                    showChanges();
-                    break;
-
-                default:
-                    break;
-            }
-        })
-    });
-}
-
-filter.addEventListener('input', () => {
-    showChanges();
-});
+document.getElementById('addDescription').value = "";
+showUpdatedChanges();
