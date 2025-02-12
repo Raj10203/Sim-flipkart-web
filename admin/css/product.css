@@ -16,13 +16,14 @@ td {
     align-items: center;
     text-align: center;
 }
-.table-responsive{
+
+.table-responsive {
     height: 80vh;
     overflow-y: scroll;
 }
 
 .table-wrapper {
-    max-height: 80vh; 
+    max-height: 80vh;
     overflow-y: auto;
     top: 0;
 }
@@ -30,7 +31,7 @@ td {
 .table thead {
     position: sticky;
     top: 0;
-    background: #212529; 
+    background: #212529;
     color: white;
     z-index: 10;
 }

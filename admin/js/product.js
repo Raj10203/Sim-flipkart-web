@@ -1,13 +1,12 @@
-let jsonString = localStorage.getItem('products') || "{}";
-let categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
-let data = JSON.parse(jsonString);
-let arr = []
+let jsonString;
+let categoryOptions;
+let data;
+let arr = [];
 let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
 let sortButtonId = 'productIdButton';
 let base64String;
 const fileInput = document.querySelector('#addImage');
-const filter = document.getElementById('filter')
-showUpdatedChanges();
+const filter = document.getElementById('filter');
 
 function upadateData() {
     categoryOptions = JSON.parse(localStorage.getItem('category')) || {};
@@ -18,10 +17,9 @@ function upadateData() {
 function showUpdatedChanges() {
     upadateData();
     resetArr();
-    filterEliments();
-    sortAndDisplay(sortButtonId);
+    arr = filterEliments();
+    arr = sortAndDisplay(arr, sortButtonId);
     displayElements(arr);
-    updateSelect();
 }
 
 function resetArr() {
@@ -35,67 +33,18 @@ function changeSortIcons(id) {
     let button = document.getElementById(id);
     let sort = button.dataset.sort;
     resetSortIcons();
+
     button.firstElementChild.classList.remove("fa-sort");
-    if (sort == "asc") {
-        button.firstElementChild.classList.add("fa-sort-down");
-        button.setAttribute('data-sort', 'dsc');
-    } else {
-        button.firstElementChild.classList.add("fa-sort-up");
-        button.setAttribute('data-sort', 'asc');
-    }
+    button.firstElementChild.classList.toggle("fa-sort-down", sort === "asc");
+    button.firstElementChild.classList.toggle("fa-sort-up", sort !== "asc");
+    button.dataset.sort = sort === "asc" ? "desc" : "asc";
 }
-productForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const pName = document.getElementById('addProductName');
-    const pPrice = document.getElementById('addPrice');
-    const pDescription = document.getElementById('addDescription');
-    const productId = document.getElementById('productId');
-    const select = document.getElementById('addItemcategoryOptions');
-    Swal.fire({
-        title: `Do you want to add "${pName.value}" category?`,
-        showDenyButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: 'No',
-        customClass: {
-            actions: 'my-actions',
-            confirmButton: 'order-2',
-            denyButton: 'order-3',
-        }
-    }).then((result) => {
-        if (productForm.dataset.type == "add") {
-            if (!result.isConfirmed) {
-                Swal.fire(`Category ${pName.value} has not been added. `, '', 'error')
-                return;
-            }
-            addClickHandler(pName, pPrice, pDescription, select).then((res) => {
-                Swal.fire(res, '', 'success')
-            }).catch(err => {
-                Swal.fire(`Error : ${err} ${pName.value} has not been added. `, '', 'error')
-                return;
-            });
-        } else {
-            if (!result.isConfirmed) {
-                Swal.fire(`Product ${pName.value} has not been edited. `, '', 'error')
-                return;
-            }
-            editClickHandler(pName, pPrice, pDescription, productId, select).then((res) => {
-                Swal.fire(res, '', 'success')
-            }).catch(err => {
-                Swal.fire(`Error : ${err} ${pName.value} has not been edited. `, '', 'error');
-                return;
-            });
-        }
-    }).then(() => {
-        showUpdatedChanges();
-        myModal.hide();
-    })
-    // (form.dataset.type == "add") ? addClickHandler(pName, pPrice, pDescription, select) : editClickHandler(pName, pPrice, pDescription, productId, select);
-});
 
 function updateSelect() {
     let addItemcategoryOptions = document.getElementById('addItemcategoryOptions');
     for (let i in categoryOptions) {
-        addItemcategoryOptions.innerHTML += ` <option value="${categoryOptions[i]['categoryId']}">${categoryOptions[i]['categoryName']}</option>`;
+        addItemcategoryOptions.innerHTML += ` <option value="${categoryOptions[i]['categoryId']}">
+        ${categoryOptions[i]['categoryName']}</option>`;
     }
 }
 
@@ -110,31 +59,30 @@ function displayElements(data) {
         }
         let str = (element['description'].length > 50) ? element['description'].substring(0, 70) + "..." : element['description'];
         tableBody.innerHTML += `
-            <tr id="${i}">
-                <td>${element['productId']}</td>
-                <td>${element['productName']}</td>
-                <td><img class="tableImage" src="${element["image"]}" /></td>
-                <td>${element['price']}</td>
-                <td>${str}</td>
-                <td>${category}</td>
-                <td>
-                    <button class="btn btn-outline-success event" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${element['productId']}">
-                        <i class="fa-solid fa-pencil"></i>
-                    </button>
-                    <button class="btn btn-outline-danger event" data-type="delete" data-val="${element['productId']}">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </td>
-            </tr>`;
-        buttonEventListner();
+        <tr id="${i}">
+        <td>${element['productId']}</td>
+        <td>${element['productName']}</td>
+        <td><img class="tableImage" src="${element["image"]}" /></td>
+        <td>${element['price']}</td>
+        <td>${str}</td>
+        <td>${category}</td>
+        <td>
+        <button class="btn btn-outline-success event" data-type="edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-val="${element['productId']}">
+        <i class="fa-solid fa-pencil"></i>
+        </button>
+        <button class="btn btn-outline-danger event" data-type="delete" data-val="${element['productId']}">
+        <i class="fa-solid fa-trash"></i>
+        </button>
+        </td>
+        </tr>`;
     }
+    buttonEventListner();
 }
 
 function resetSortIcons() {
     document.querySelectorAll('.sort').forEach(button => {
         button.classList.add("fa-sort");
-        button.classList.remove("fa-sort-up");
-        button.classList.remove("fa-sort-down");
+        button.classList.remove("fa-sort-up", "fa-sort-down");
     })
 }
 
@@ -149,10 +97,10 @@ function editClickHandler(pName, pPrice, pDescription, productId, select) {
         product['description'] = pDescription.value;
         product['category'] = select.value;
         localStorage.setItem('products', JSON.stringify(data));
+        return Promise.resolve(`Product ${pName.value} has been edited successfully!!`);
     } catch (error) {
         return Promise.reject(error)
     }
-    return Promise.resolve(`Product ${pName.value} has been updated successfully!`);
 }
 
 function addClickHandler(pName, pPrice, pDescription, select) {
@@ -171,44 +119,25 @@ function addClickHandler(pName, pPrice, pDescription, select) {
         data[productId] = newData;
         jsonString = JSON.stringify(data);
         localStorage.setItem('products', jsonString);
+        return Promise.resolve(`Product ${pName.value} has been added successfully!!`);
     } catch (error) {
         return Promise.reject(error)
     }
-    return Promise.resolve(`Product ${pName.value} has been added successfully!`);
 }
-fileInput.addEventListener('change', async function () {
-    let maxSize = 500 * 1080;
-    const file = this.files[0];
-    if (file) {
-        if (file.size > maxSize) {
-            document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
-            this.value = ""; // Reset the input of image
-        } else {
-            document.getElementById('messageImageSize').textContent = "File size is valid.";
-            const reader = new FileReader();
-            const showImg = document.getElementById('showImg');
-            reader.onloadend = await function () {
-                base64String = reader.result;
-                showImg.setAttribute('src', base64String);
-            };
-            await reader.readAsDataURL(file);
-        }
-    }
-});
 
-function sortAndDisplay(id) {
+function sortAndDisplay(arr, id) {
     let button = document.getElementById(id);
     let value = button.dataset.value;
-    let sort = button.dataset.sort;
+    let sortOrder = button.dataset.sort;
     let type = button.dataset.content;
-    if (sort == "asc") {
-        arr = arr.sort((a, b) => (type == 'number') ? a[value] - b[value] : String(a[value]).localeCompare(String(b[value])));
-    } else {
-        arr = arr.sort((a, b) => (type == 'number') ? b[value] - a[value] : String(b[value]).localeCompare(String(a[value])));
-    }
+    return arr.sort((a, b) =>
+        type === 'number' ?
+            (sortOrder === "asc" ? a[value] - b[value] : b[value] - a[value]) :
+            (sortOrder === "asc" ? String(a[value]).localeCompare(String(b[value])) : String(b[value]).localeCompare(String(a[value])))
+    );
 }
 
-function editButton(button) {
+function setEditForm(button) {
     let pName = document.getElementById('addProductName');
     let pPrice = document.getElementById('addPrice');
     let pDescription = document.getElementById('addDescription');
@@ -217,8 +146,8 @@ function editButton(button) {
     let showImg = document.getElementById('showImg');
     let select = document.getElementById('addItemcategoryOptions');
     let productItem = data[button.dataset.val]
-    data = JSON.parse(jsonString);
 
+    data = JSON.parse(jsonString);
     productId.value = button.dataset.val;
     pImg.required = false;
     showImg.setAttribute('src', productItem['image']);
@@ -232,7 +161,7 @@ function editButton(button) {
 
 function deleteButton(button) {
     Swal.fire({
-        title: `Do you want to delete "${data[button.dataset.val]['productName']}" category?`,
+        title: `Do you want to delete "${data[button.dataset.val]['productName']}" Product                                                                               ?`,
         showDenyButton: true,
         confirmButtonText: 'Yes',
         denyButtonText: 'No',
@@ -242,31 +171,35 @@ function deleteButton(button) {
             denyButton: 'order-3',
         },
     }).then((result) => {
-        if (!result.isConfirmed) {
-            Swal.fire(`Product ${data[button.dataset.val]['productName']} has not been deleted. `, '', 'error')
-            return;
+        if (result.isConfirmed) {
+            delete data[button.dataset.val];
+            jsonString = JSON.stringify(data);
+            localStorage.setItem('products', jsonString);
+            Swal.fire('Deleted!', '', 'success');
+            showUpdatedChanges();
+        } else {
+            Swal.fire('Not Deleted', '', 'warning')
         }
-        delete data[button.dataset.val];
-        jsonString = JSON.stringify(data);
-        localStorage.setItem('products', jsonString);
-        Swal.fire('Deleted!', '', 'success');
     }).then(() => {
-        showUpdatedChanges();
     })
 }
 
 function filterEliments() {
-    arr = arr.filter(product => String(product.productId).includes(String(filter.value)) ||
+    return arr.filter(product => String(product.productId).includes(String(filter.value)) ||
         product.productName.toLowerCase().includes(String(filter.value.toLowerCase())) ||
         product.description.toLowerCase().includes(String(filter.value.toLowerCase())) ||
         categoryOptions[product.category]['categoryName'].toLowerCase().includes(String(filter.value.toLowerCase())) ||
         String(product.price).includes(filter.value));
 }
-filter.addEventListener('input', () => {
-    showUpdatedChanges();
-});
+function resetAddForm() {
+    if (!document.getElementById('addItemcategoryOptions').firstElementChild) {
+        $('.openModal').on('click', '.btn', function (e) { e.stopPropagation(); })
+        Swal.fire(`you have not added a single category you should add it first`,
+            '', 'warning').then(() => {
+                location.href = "category.html";
 
-function addButton() {
+            })
+    }
     let pName = document.getElementById('addProductName');
     let pPrice = document.getElementById('addPrice');
     let pDescription = document.getElementById('addDescription');
@@ -298,10 +231,10 @@ function buttonEventListner() {
         button.addEventListener('click', () => {
             switch (button.dataset.type) {
                 case 'edit':
-                    editButton(button);
+                    setEditForm(button);
                     break;
                 case 'add':
-                    addButton();
+                    resetAddForm();
                     break;
                 case 'delete':
                     deleteButton(button);
@@ -317,3 +250,53 @@ function buttonEventListner() {
         })
     });
 }
+filter.addEventListener('input', () => {
+    showUpdatedChanges();
+});
+fileInput.addEventListener('change', async function () {
+    let maxSize = 500 * 1024;
+    const file = this.files[0];
+    if (file) {
+        if (file.size > maxSize) {
+            document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
+            this.value = ""; // Reset the input of image
+        } else {
+            document.getElementById('messageImageSize').textContent = "File size is valid.";
+            const reader = new FileReader();
+            const showImg = document.getElementById('showImg');
+            reader.onloadend = await function () {
+                base64String = reader.result;
+                showImg.setAttribute('src', base64String);
+            };
+            await reader.readAsDataURL(file);
+        }
+    }
+});
+productForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const pName = document.getElementById('addProductName');
+    const pPrice = document.getElementById('addPrice');
+    const pDescription = document.getElementById('addDescription');
+    const productId = document.getElementById('productId');
+    const select = document.getElementById('addItemcategoryOptions');
+
+    if (productForm.dataset.type == "add") {
+        addClickHandler(pName, pPrice, pDescription, select).then((res) => {
+            Swal.fire(res, '', 'success')
+        }).catch(err => {
+            Swal.fire(`Error : ${err} ${pName.value} has not been added. `, '', 'error')
+            return;
+        });
+    } else {
+        editClickHandler(pName, pPrice, pDescription, productId, select).then((res) => {
+            Swal.fire(res, '', 'success')
+        }).catch(err => {
+            Swal.fire(`Error : ${err} ${pName.value} has not been edited. `, '', 'error');
+            return;
+        });
+    }
+    showUpdatedChanges();
+    myModal.hide();
+})
+showUpdatedChanges();
+updateSelect();

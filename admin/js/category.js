@@ -99,7 +99,7 @@ function buttonEventlistner() {
                     editButton(button, categoryForm, categoryId, categoryName, addDescription);
                     break;
                 case 'add':
-                    addButton(categoryForm, categoryId, categoryName, addDescription);
+                    addButton(categoryForm, categoryName, addDescription);
                     break;
                 case 'delete':
                     deleteButton(button);
@@ -131,9 +131,8 @@ function editButton(button, categoryForm, categoryId, categoryName, addDescripti
     categoryForm.dataset.type = "edit";
 }
 
-function addButton(categoryForm, categoryId, categoryName, addDescription) {
+function addButton(categoryForm, categoryName, addDescription) {
     categoryForm.dataset.type = "add";
-    categoryId.value = null;
     categoryName.value = null;
     addDescription.value = null;
 }
@@ -146,7 +145,7 @@ function deleteButton(button) {
         denyButtonText: 'No',
     }).then((result) => {
         if (!result.isConfirmed) {
-            Swal.fire(`Category ${data[button.dataset.val]['categoryName']} has not been deleted. `, '', 'error')
+            Swal.fire(`Category ${data[button.dataset.val]['categoryName']} has not been deleted. `, '', 'warning')
             return;
         }
         upadateData();
@@ -158,38 +157,51 @@ function deleteButton(button) {
         delete data[button.dataset.val];
         jsonString = JSON.stringify(data);
         localStorage.setItem('category', jsonString);
-        localStorage.setItem('products', JSON.stringify(product));
+        if (localStorage.getItem('products'))
+            localStorage.setItem('products', JSON.stringify(Object(product)));
         Swal.fire('Deleted!', '', 'success');
     }).then(() => {
         showUpdatedChanges();
     })
 }
 
-
 function addCategorySubmitHandler(categoryName, addDescription) {
-    let keys = Object.keys(data)
-    let categoryId = (Object.keys(data).length > 0) ? data[keys[keys.length - 1]]['categoryId'] + 1 : 1;
-    let newData = {
-        categoryId: categoryId,
-        categoryName: categoryName.value,
-        description: addDescription.value,
-    };
     try {
+        let isDuplicate = Object.values(data).some(item => item.categoryName === categoryName.value);
+        if (isDuplicate) {
+            return Promise.reject(`Category "${categoryName.value}" is already exist!`);
+        }
+        let keys = Object.keys(data)
+        let categoryId = (Object.keys(data).length > 0) ? data[keys[keys.length - 1]]['categoryId'] + 1 : 1;
+        let newData = {
+            categoryId: categoryId,
+            categoryName: categoryName.value,
+            description: addDescription.value,
+        };
         data[categoryId] = newData;
         jsonString = JSON.stringify(data);
         localStorage.setItem('category', jsonString);
+        return Promise.resolve(`Category ${categoryName.value} has been added successfully!`);
     } catch (error) {
         return Promise.reject(error);
     }
-    return Promise.resolve(`Category ${categoryName.value} has been added successfully!`);
 }
 
 function editCategorySubmitHandler(categoryName, addDescription, categoryId) {
-    categoryName.setAttribute('value', data[Number(categoryId.value)]['categoryName']);
-    data[Number(categoryId.value)]['categoryName'] = categoryName.value;
-    data[Number(categoryId.value)]['description'] = addDescription.value;
-    localStorage.setItem('category', JSON.stringify(data));
-    return Promise.resolve("Success");
+    try {
+        categoryName.setAttribute('value', data[Number(categoryId.value)]['categoryName']);
+        data[Number(categoryId.value)]['categoryName'] = categoryName.value;
+        data[Number(categoryId.value)]['description'] = addDescription.value;
+        localStorage.setItem('category', JSON.stringify(data));
+        return Promise.resolve(`Category ${categoryName.value} has been edited successfuly!`);
+
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+function swalFire(message, icon) {
+    Swal.fire(message, '', icon);
 }
 
 filter.addEventListener('input', showUpdatedChanges);
@@ -198,45 +210,32 @@ categoryForm.addEventListener('submit', (e) => {
     const categoryName = document.getElementById('categoryName');
     const addDescription = document.getElementById('addDescription');
     const categoryId = document.getElementById('categoryId');
-    Swal.fire({
-        title: `Do you want to add "${categoryName.value}" category?`,
-        showDenyButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: 'No',
-        customClass: {
-            actions: 'my-actions',
-            confirmButton: 'order-2',
-            denyButton: 'order-3',
-        }
-    }).then((result) => {
-        if (categoryForm.dataset.type == "add") {
-            if (!result.isConfirmed) {
-                Swal.fire(`Category ${categoryName.value} has not been added. `, '', 'error')
-                return;
-            }
-            addCategorySubmitHandler(categoryName, addDescription).then((res) => {
-                Swal.fire(`Category ${categoryName.value} has been added.  `, '', 'success')
-            }).catch(err => {
-                Swal.fire(`Error : ${err} ${categoryName.value} has not been added. `, '', 'error')
-                return;
-            });
-        }
-        else {
-            if (!result.isConfirmed) {
-                Swal.fire(`Category ${categoryName.value} has not been added. `, '', 'error')
-                return;
-            }
-            editCategorySubmitHandler(categoryName, addDescription, categoryId).then((res) => {
-                Swal.fire(`Category ${categoryName.value} has been added. `, '', 'success')
-            }).catch(err => {
-                Swal.fire(`Error : ${err} ${categoryName.value} has not been added. `, '', 'error');
-                return;
-            });
-        }
-    }).then(() => {
-        showUpdatedChanges();
-        myModal.hide();
-    })
-});
+    console.log(!categoryId.value);
+
+    if ((!categoryName.value != "") || (!addDescription.value!="") || (!categoryId.value)) {
+        swalFire('some input field is empty', 'error')
+        return;
+    }
+
+    if (categoryForm.dataset.type == "add") {
+        addCategorySubmitHandler(categoryName, addDescription).then((res) => {
+            swalFire(res, 'success');
+        }).catch(err => {
+            swalFire(err, 'error');
+            return;
+        });
+    }
+    else {
+        editCategorySubmitHandler(categoryName, addDescription, categoryId).then(() => {
+            swalFire(res, 'success');
+        }).catch(err => {
+            swalFire(err, 'error');
+            return;
+        });
+    }
+    showUpdatedChanges();
+    myModal.hide();
+})
+
 document.getElementById('addDescription').value = "";
 showUpdatedChanges();
