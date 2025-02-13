@@ -210,13 +210,12 @@ categoryForm.addEventListener('submit', (e) => {
     const categoryName = document.getElementById('categoryName');
     const addDescription = document.getElementById('addDescription');
     const categoryId = document.getElementById('categoryId');
-    console.log(!categoryId.value);
 
-    if ((!categoryName.value != "") || (!addDescription.value!="") || (!categoryId.value)) {
+    if ((!categoryName.value != "") || (!addDescription.value != "") || (!categoryId.value)) {
         swalFire('some input field is empty', 'error')
         return;
     }
-
+    
     if (categoryForm.dataset.type == "add") {
         addCategorySubmitHandler(categoryName, addDescription).then((res) => {
             swalFire(res, 'success');

@@ -147,6 +147,7 @@ function setEditForm(button) {
     let select = document.getElementById('addItemcategoryOptions');
     let productItem = data[button.dataset.val]
 
+    $('#staticBackdropLabel').text("Edit Category");
     data = JSON.parse(jsonString);
     productId.value = button.dataset.val;
     pImg.required = false;
@@ -206,8 +207,11 @@ function resetAddForm() {
     let productId = document.getElementById('productId');
     let pImg = document.getElementById('addImage');
     let showImg = document.getElementById('showImg');
-
-    document.getElementById('productForm').dataset.type = "add";
+    
+    $('#addImage').val("");
+    $('#showImg').addClass('d-none');
+    $('#productForm').attr('data-type','add');
+    $('#staticBackdropLabel').append("Add Category");
     productId.value = null;
     pImg.required = true;
     showImg.setAttribute('src', "");
@@ -259,7 +263,7 @@ fileInput.addEventListener('change', async function () {
     if (file) {
         if (file.size > maxSize) {
             document.getElementById('messageImageSize').textContent = "File size exceeds 500KB. Please upload a smaller file.";
-            this.value = ""; // Reset the input of image
+            this.value = "";
         } else {
             document.getElementById('messageImageSize').textContent = "File size is valid.";
             const reader = new FileReader();
@@ -270,7 +274,8 @@ fileInput.addEventListener('change', async function () {
             };
             await reader.readAsDataURL(file);
         }
-    }
+    }    
+    $('#showImg').removeClass('d-none');
 });
 productForm.addEventListener('submit', (e) => {
     e.preventDefault();
