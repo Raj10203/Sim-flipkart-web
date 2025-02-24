@@ -16,6 +16,7 @@ function upadateData() {
 
 function showUpdatedChanges() {
     upadateData();
+    updateSelect();
     resetArr();
     arr = filterEliments();
     arr = sortAndDisplay(arr, sortButtonId);
@@ -304,4 +305,3 @@ productForm.addEventListener('submit', (e) => {
     myModal.hide();
 })
 showUpdatedChanges();
-updateSelect();
