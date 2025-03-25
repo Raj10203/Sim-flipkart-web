@@ -4585,7 +4585,7 @@
     hooks.prototype             = proto;
 
     // currently HTML5 input type only supports 24-hour formats
-    hooks.HTML5_FMT = {
+    hooks.html5_FMT = {
         DATETIME_LOCAL: 'YYYY-MM-DDTHH:mm',             // <input type="datetime-local" />
         DATETIME_LOCAL_SECONDS: 'YYYY-MM-DDTHH:mm:ss',  // <input type="datetime-local" step="1" />
         DATETIME_LOCAL_MS: 'YYYY-MM-DDTHH:mm:ss.SSS',   // <input type="datetime-local" step="0.001" />
