@@ -1,54 +1,27 @@
 <?php
-
-namespace Mysql_php\Classes;
-
+namespace Admin\Classes;
 class User
 {
-    protected $db;
+    protected $conn;
+    private $table = "users";
 
-    public $sql;
-
-    protected $arr = [];
-
-    protected $result;
-    
-
-    public function __construct($conn)
+    public function __construct(Database $db)
     {
-        $this->db = $conn;
+        $this->conn = $db->connect();
     }
 
-    private function executeQuery()
+    public function login($email, $password)
     {
-        $this->result = $this->db->query($this->sql);
+        $query = "SELECT * FROM " . $this->table . " WHERE email = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
-        if ($this->result === false) {
-            die("Error in query: " . $this->db->error);
+        if ($user && $password == $user['password']) {
+            return true;
         }
-
-        if ($this->result->num_rows > 0) {
-
-            while ($row = $this->result->fetch_assoc()) {
-                $this->arr[] = $row;
-            }
-        }
-    }
-
-    public function getAllUsers()
-    {
-        $this->sql = "SELECT * FROM users";
-        $this->executeQuery();
-        return $this->arr;
-    }
-
-    public function getPasswordOfSingleUser($email)
-    {
-        if (!$email) {
-            $this->arr['error'] = "empty UserName";
-        } else {
-            $this->sql = "SELECT password FROM users WHERE email = '$email'";
-            $this->executeQuery();
-            return $this?->arr[0]['password'];
-        }
+        return false;
     }
 }

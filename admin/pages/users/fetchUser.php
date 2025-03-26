@@ -1,6 +1,9 @@
 <?php
-include_once('../../conf/db_connection.php');
+require_once('../../classes/Database.php');
+use Admin\Classes\Database;
 
+$db = new Database;
+$conn = $db->connect();
 
 $columns = array(
     0 => 'id', 

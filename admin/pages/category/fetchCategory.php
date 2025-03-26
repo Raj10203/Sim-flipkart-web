@@ -1,11 +1,16 @@
 <?php
-include_once('../../conf/db_connection.php');
-
+require_once('../../classes/Database.php');
+use Admin\Classes\Database;
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+$db = new Database;
+$conn = $db->connect();
 
 $columns = array(
     0 => 'id', 
     1 => 'name',  
-    2 => 'discription',  
+    2 => 'description', 
 );
 
 $start = $_POST['start'];  
@@ -46,4 +51,3 @@ $response = array(
 echo json_encode($response);
 
 $conn->close();
-?>

@@ -63,7 +63,7 @@
                             session_start();
                             if(isset($_SESSION['invalid-credentials'])){
                                 echo  ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-credentials'] . '  </div>';
-                            } 
+                            };
                             ?>
                         <div class="login-form">
                             <form action="/admin/pages/login/login.php" method="post">

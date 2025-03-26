@@ -108,11 +108,11 @@ include('../../conf/authenticate_user.php');
                         </li>
                         <li class="active">
                             <a href="#">
-                                <i class="fas fa-user"></i>Category</a>
+                                <i class="fas fa-table"></i>Category</a>
                         </li>
                         <li>
                             <a href="../users/">
-                                <i class="fas fa-table"></i>Users</a>
+                                <i class="fas fa-user"></i>Users</a>
                         </li>
                     </ul>
                 </nav>
@@ -120,22 +120,25 @@ include('../../conf/authenticate_user.php');
         </aside>
         <!-- END MENU SIDEBAR-->
 
-        <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
             <?php
             include_once('../layout/header.php')
                 ?>
+
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <table id="myTable" class="table table-striped table-light" cellspacing="0" width="100%">
+                        <div class="notifications">
+                        </div>
+                        <!-- PAGE CONTAINER-->
+                        <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Discription</th>
-                                    <!-- <th>Email</th> -->
+                                    <th>Description</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>
@@ -145,86 +148,104 @@ include('../../conf/authenticate_user.php');
         </div>
     </div>
 
-    <!-- Models -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+    <!-- Add Models -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="./product.html" id="productForm" data-type="add">
-                        <input type="hidden" id="productId" value="" data-val="" name="hiddenProductId">
+                    <form action="#" id="addCategoryForm" method="post">
+                        <input name="cateforyId" type="hidden" id="categoryId" value="1">
                         <div class="mb-3">
-                            <label for="addProductName" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="addProductName" placeholder="Product Name"
-                                name="addProductName" required maxlength="30" />
+                            <label for="categoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName"
+                                placeholder="Category Name" required maxlength="30" />
                         </div>
                         <div class="mb-3">
-                            <label for="addImage" class="form-label">Image</label>
-                            <img src="" class="tableImage d-none" alt="your image" id="showImg">
-                            <input type="file" accept="image/png" class="form-control" id="addImage" required
-                                name="addImage" placeholder="Image" />
-                            <p id="messageImageSize"></p>
+                            <label for="categoryDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="categoryDescription" placeholder="Description ..."
+                                name="categoryDescription" maxlength="200" required></textarea>
                         </div>
-                        <select class="form-select select" aria-label="Default select example"
-                            id="addItemcategoryOptions" data-type="categoryOptions">
-                        </select>
-                        <div class="mb-3">
-                            <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required
-                                name="addPrice" max="1000000000000" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="addDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
-                                maxlength="100" required></textarea>
-                        </div>
-                        <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
+                        <input type="submit" class="btn event btn-primary" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Confirm</button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Models -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="editCategoryForm" method="post">
+                        <input name="categoryId" type="hidden" id="categoryId" value="1">
+                        <div class="mb-3">
+                            <label for="editCategoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="editCategoryName" name="categoryName"
+                                placeholder="Category Name" required maxlength="30" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategoryDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="editCategoryDescription" placeholder="Description ..."
+                                name="categoryDescription" maxlength="200" required></textarea>
+                        </div>
+                        <input type="submit" class="btn event btn-primary" id="editFormSubmit" data-type="add-submit"
+                            name="editFormSubmit" />
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-
+    <!-- jQuery (Required for most plugins) -->
     <script src="/admin/vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
+
+    <!-- Bootstrap JS (Includes Popper.js for tooltips & popovers) -->
     <script src="/admin/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="/admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="/admin/vendor/slick/slick.min.js">
-    </script>
-    <script src="/admin/vendor/wow/wow.min.js"></script>
 
-    <script src="/admin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <script src="/admin/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="/admin/vendor/counter-up/jquery.counterup.min.js"></script>
-    <script src="/admin/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="/admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="/admin/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="/admin/vendor/select2/select2.min.js"></script>
+    <!-- Vendor JS Plugins -->
+    <script src="/admin/vendor/slick/slick.min.js"></script> <!-- Slick Slider -->
+    <script src="/admin/vendor/wow/wow.min.js"></script> <!-- WOW.js for animations -->
+    <script src="/admin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script> <!-- Progress Bars -->
+    <script src="/admin/vendor/counter-up/jquery.waypoints.min.js"></script> <!-- Counter Animations -->
+    <script src="/admin/vendor/counter-up/jquery.counterup.min.js"></script> <!-- Counter -->
+    <script src="/admin/vendor/circle-progress/circle-progress.min.js"></script> <!-- Circle Progress -->
+    <script src="/admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script> <!-- Scrollbar Styling -->
+    <script src="/admin/vendor/chartjs/Chart.bundle.min.js"></script> <!-- Chart.js for charts -->
+    <script src="/admin/vendor/select2/select2.min.js"></script> <!-- Select2 for better dropdowns -->
 
-    <!-- Main JS-->
+    <!-- Main JavaScript -->
     <script src="/admin/js/main.js"></script>
+
+    <!-- Latest jQuery (Ensures compatibility with newer plugins) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Bootstrap 5 Bundle (Includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- SweetAlert2 (For better alerts & confirmations) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-    <!-- jQuery (required for DataTables) -->
-
+    <!-- DataTables & Export Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
         integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG"
         crossorigin="anonymous"></script>
@@ -234,12 +255,16 @@ include('../../conf/authenticate_user.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"
         integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n"
         crossorigin="anonymous"></script>
+
+    <!-- DataTables Core -->
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"
         integrity="sha384-AenwROccLjIcbIsJuEZmrLlBzwrhvO94q+wm9RwETq4Kkqv9npFR2qbpdMhsehX3"
         crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.min.js"
         integrity="sha384-G85lmdZCo2WkHaZ8U1ZceHekzKcg37sFrs4St2+u/r2UtfvSDQmQrkMsEx4Cgv/W"
         crossorigin="anonymous"></script>
+
+    <!-- DataTables Buttons (Export Features) -->
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.min.js"
         integrity="sha384-DmaAfo+/+UjRKHPidNNswlNqd9ybuE6yx9zKHyMY+vYy9SZhQEu4nauMVgwSx4Z/"
         crossorigin="anonymous"></script>
@@ -255,11 +280,15 @@ include('../../conf/authenticate_user.php');
     <script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"
         integrity="sha384-FvTRywo5HrkPlBKFrm2tT8aKxIcI/VU819roC/K/8UrVwrl4XsF3RKRKiCAKWNly"
         crossorigin="anonymous"></script>
+
+    <!-- DataTables Select Plugin -->
     <script src="https://cdn.datatables.net/select/3.0.0/js/dataTables.select.min.js"
         integrity="sha384-Y/112jU1UJsyj7J/WhficUVfFZTLF2TgmBuDHBvJmYS8f+dGaz3ZNKxgwcg4YgP9"
         crossorigin="anonymous"></script>
 
+    <!-- Custom JavaScript -->
     <script src="/admin/js/category.js"></script>
+
 </body>
 
 </html>

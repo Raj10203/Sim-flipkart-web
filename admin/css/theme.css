@@ -260,6 +260,21 @@ section {
     border-radius: 3px !important;
 }
 
+.notifications{
+    position: absolute;
+    right: 0;
+    width: 50%;
+    max-width: 450px;
+    z-index:20;
+    top: -50px;
+}
+@media (max-width: 600px) {
+    .notifications {
+        width: 100%;
+        top: -53px;
+    }
+}
+
 table.dataTable td {
     align-self: center;
     padding: 5px;

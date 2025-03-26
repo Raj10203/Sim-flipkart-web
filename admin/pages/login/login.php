@@ -3,10 +3,13 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 session_start();
-require_once('../../conf/db_connection.php');
+require_once('../../classes/Database.php');
 require_once('../../classes/User.php');
-use Mysql_php\Classes\User;
+use Admin\Classes\User;
+use Admin\Classes\Database;
 
+$db = new Database;
+$user = new User($db);
 function test_input($data)
 {
     $data = trim($data);
@@ -16,22 +19,14 @@ function test_input($data)
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    $user = new User($conn);
-
     $email = test_input($_POST['email']);
     $password = hash("sha256", $_POST['password']);
-
-    $dbPass = $user->getPasswordOfSingleUser($email);   
-    echo $password . "\n db pass : " . $dbPass;
-    if ($password == $dbPass) {
+    if ($user->login($email,$password)) {
         $_SESSION['email'] = "email";
         header('location: /admin/pages/');
     } else {
         $_SESSION['invalid-credentials'] = 'Incorrenct credentials';
-        echo  $_SESSION['invalid-credentials'];
         header('location: /admin/pages/login.php');
     }
 }
-
 ?></pre>
