@@ -15,7 +15,7 @@ $(document).ready(function () {
                 data: 'id',
                 sorting:false,
                 render: function (data) {
-                    let editBtn = `
+                    return `
                     <div class="btn-group">
                         <button class="btn btn-success" data-toggle="modal" data-target="#editModal" data-id="+`+ data + `+">
                             <i class="fas fa-edit"></i>
@@ -24,7 +24,7 @@ $(document).ready(function () {
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>`;
-                    return editBtn;
+                    
                 }
             }
         ],

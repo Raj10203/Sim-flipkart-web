@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+    header('location: /admin/pages/');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,11 +66,12 @@
                             </a>
                         </div>
                         <?php
-                            session_start();
-                            if(isset($_SESSION['invalid-credentials'])){
-                                echo  ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-credentials'] . '  </div>';
-                            };
-                            ?>
+                        session_start();
+                        if (isset($_SESSION['invalid-credentials'])) {
+                            echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-credentials'] . '  </div>';
+                        }
+                        ;
+                        ?>
                         <div class="login-form">
                             <form action="/admin/pages/login/login.php" method="post">
                                 <div class="form-group">

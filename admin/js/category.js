@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let table = $("#myTable").DataTable({
         responsive: true,
-        scrollY: 500,
+        scrollY: '70vh',
         scrollCollapse: true,
         scrollX: true,
         columnDefs: [
@@ -18,16 +18,14 @@ $(document).ready(function () {
                 data: 'id',
                 orderable: false,
                 render: function (data) {
-                    let editBtn = `
-                    <div class="btn-group">
-                        <button class="btn btn-success edit event"  data-id="`+ data + `">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                         <button class="btn btn-danger delete event" data-id="`+data+`">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>`;
-                    return editBtn;
+                    return `<div class="btn-group">
+                                <button class="btn btn-success edit event"  data-id="`+ data + `">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger delete event" data-id="`+ data + `">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>`;
                 }
             }
         ],
@@ -57,7 +55,7 @@ $(document).ready(function () {
                         text: 'Add Category',
                         className: 'btn btn-light btn-datatable',
                         action: function (e, node, config) {
-                            $('#addModal').modal('show')
+                            $('#addModal').modal('show');
                         }
                     },
                 ]
@@ -133,7 +131,7 @@ $(document).ready(function () {
             $(".delete").each(function () {
                 $(this)[0].addEventListener("click", function () {
                     console.log(this.parentNode);
-                    
+
                     $.ajax({
                         type: "post",
                         url: "deleteCategory.php",

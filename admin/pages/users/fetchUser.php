@@ -1,4 +1,5 @@
 <?php
+include_once('../../conf/backend_authenticate.php');
 require_once('../../classes/Database.php');
 use Admin\Classes\Database;
 

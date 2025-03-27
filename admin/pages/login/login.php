@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
@@ -22,9 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = test_input($_POST['email']);
     $password = hash("sha256", $_POST['password']);
     if ($user->login($email,$password)) {
-        $_SESSION['email'] = "email";
+        $_SESSION['email'] = $email;
         header('location: /admin/pages/');
     } else {
+        unset($_SESSION['email']);
         $_SESSION['invalid-credentials'] = 'Incorrenct credentials';
         header('location: /admin/pages/login.php');
     }

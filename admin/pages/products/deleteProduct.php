@@ -1,16 +1,16 @@
 <?php
 include_once('../../conf/backend_authenticate.php');
-require_once('../../classes/Category.php');
 require_once('../../classes/Database.php');
+require_once('../../classes/Product.php');
 
 use Admin\Classes\Database;
-use Admin\Classes\Category;
+use Admin\Classes\Product;
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 $db = new Database;
-$category = new Category($db);
+$product = new Product($db);
 $response = [];
 if (!isset($_POST['id'])) {
     http_response_code(400);
@@ -18,7 +18,7 @@ if (!isset($_POST['id'])) {
     die;
 }
 try {
-    $response['result'] = $category->deleteCategory($_POST['id']);
+    $response['result'] = $product->deleteProduct($_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

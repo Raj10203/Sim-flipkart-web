@@ -1,16 +1,15 @@
 <?php
 include_once('../../conf/backend_authenticate.php');
 require_once('../../classes/Database.php');
-require_once('../../classes/Category.php');
-
+require_once('../../classes/Product.php');
 use Admin\Classes\Database;
-use Admin\Classes\Category;
+use Admin\Classes\Product;
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 $db = new Database;
-$prod = new Category($db);
+$prod = new Product($db);
 $conn = $prod->getConnection();
 $tableName = $prod->getTableName();
 
@@ -30,8 +29,8 @@ $length = $_POST['length'] ?? $sql_total;
 $result_total = $conn->query($sql_total);
 $total_records = $result_total->fetch_row()[0];
 
-$sql = "SELECT id, name, description FROM $tableName
-        WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%' 
+$sql = "SELECT p.*, c.name as category_name FROM products p JOIN categories c  ON p.category_id = c.id
+        WHERE p.name LIKE '%$search_value%' OR p.description LIKE '%$search_value%' OR p.id LIKE '%$search_value%' OR p.price LIKE '%$search_value%' OR c.name LIKE '%$search_value%'
         ORDER BY " . $columns[$order_column] . " $order_dir 
         LIMIT $start, $length";
 
