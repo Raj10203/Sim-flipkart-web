@@ -166,7 +166,7 @@ include('../../conf/authenticate_user.php');
                     <h5 class="modal-title" id="addModalLabel">Add Category</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="#" id="paddPoductForm" enctype="multipart/form-data">
+                    <form action="#" id="addProductForm" enctype="multipart/form-data">
                         <input type="hidden" id="addProductId" value="" name="addProductId">
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>
@@ -180,7 +180,8 @@ include('../../conf/authenticate_user.php');
                                 name="addImage" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
-                        <select class="form-select select" aria-label="Default select example" id="addCategory">
+                        <select class="form-control select" aria-label="Default select example" id="addCategory" name="addCategory">
+                            <option value="abc">abc</option>
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
@@ -189,7 +190,7 @@ include('../../conf/authenticate_user.php');
                         </div>
                         <div class="mb-3">
                             <label for="addDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
+                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..." name="addDescription"
                                 maxlength="100" required></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
@@ -219,12 +220,14 @@ include('../../conf/authenticate_user.php');
                         <div class="mb-3">
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
-                            <input type="file" accept="image/png" class="form-control imageInput" id="editImage" required
-                                name="editImage" placeholder="Image" />
+                            <input type="file" accept="image/png" class="form-control imageInput" id="editImage"
+                                required name="editImage" placeholder="Image" />
                             <p id="messageImageSize"></p>
+                        </div >
+                        <div class="mb-3 form-group" >
+                            <select class="form-control" aria-label="Default select example" id="editCategory">
+                            </select>
                         </div>
-                        <select class="form-select select" aria-label="Default select example" id="editCategory">
-                        </select>
                         <div class="mb-3">
                             <label for="editPrice" class="form-label">Price</label>
                             <input type="number" class="form-control" id="editPrice" placeholder="Price" required

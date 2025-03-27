@@ -36,10 +36,6 @@ $(document).ready(function () {
                 targets: "_all"
             },
             {
-                targets: 1,
-                className: "noVis",
-            },
-            {
                 targets: 2,
                 data: 'image_path',
                 orderable: false,
@@ -80,8 +76,7 @@ $(document).ready(function () {
                     },
                     {
                         extend: "colvis",
-                        columns: ":not(.noVis)",
-                        popoverTitle: "Column visibility selector",
+                        popoverTitle: "Column visibility",
                         className: 'btn btn-light btn-datatable',
                     },
                     {
@@ -207,16 +202,21 @@ $(document).ready(function () {
         table.ajax.reload(null, false);
     }, 30000);
 
-    $('#addCategoryForm').submit(function (e) {
+    $('#addProductForm').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
+        let files = $('#addImage')[0].files;
+        formData.append('image', files[0]);
+        
         $.ajax({
             type: "post",
-            url: "addEditCategory.php",
+            url: "addEditProduct.php",
             data: formData,
             processData: false,
             contentType: false,
             success: function (response) {
+                console.log(response);
+                
                 table.ajax.reload(null, false);
                 response = JSON.parse(response);
                 $('#addModal').modal('hide');

@@ -21,6 +21,10 @@ class Product
         return $product;
     }
 
+    public function addProduct(){
+        
+    }
+
     public function deleteProduct($id)
     {
         $query = "DELETE FROM " . $this->table . " WHERE id = ?";
