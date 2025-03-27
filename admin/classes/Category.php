@@ -12,6 +12,20 @@ class Category
         $this->conn = $db?->connect();
     }
 
+
+    public function getAllCategories()
+    {
+        $query = "SELECT * FROM " . $this->table;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $categories = [];
+        while ($row = $result->fetch_assoc()) {
+            $categories[] = $row;
+        }
+        return $categories;
+    }
+
     public function getCategoryById($id)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE id = ?";

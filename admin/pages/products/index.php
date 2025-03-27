@@ -181,7 +181,7 @@ include('../../conf/authenticate_user.php');
                             <p id="messageImageSize"></p>
                         </div>
                         <select class="form-control select" aria-label="Default select example" id="addCategory" name="addCategory">
-                            <option value="abc">abc</option>
+
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
@@ -221,11 +221,11 @@ include('../../conf/authenticate_user.php');
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
                             <input type="file" accept="image/png" class="form-control imageInput" id="editImage"
-                                required name="editImage" placeholder="Image" />
+                                name="editImage" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div >
                         <div class="mb-3 form-group" >
-                            <select class="form-control" aria-label="Default select example" id="editCategory">
+                            <select class="form-control select" aria-label="Default select example" id="editCategory">
                             </select>
                         </div>
                         <div class="mb-3">

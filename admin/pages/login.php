@@ -66,7 +66,6 @@ if (isset($_SESSION['email'])) {
                             </a>
                         </div>
                         <?php
-                        session_start();
                         if (isset($_SESSION['invalid-credentials'])) {
                             echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-credentials'] . '  </div>';
                         }

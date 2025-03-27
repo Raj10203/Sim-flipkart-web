@@ -15,6 +15,21 @@ $(document).ready(function () {
             }
         });
     });
+        
+        $.ajax({
+            type: "post",
+            url: "fetchCategories.php",
+            dataType: "json",
+            success: function (response) {
+                $(".select").each(function (index, element) {
+                    response.forEach(function (category) {
+                        $(element).append(`<option value="${category.id}">${category.name}</option>`);
+                    });
+                })
+
+            }
+        });
+
     $(".imageInput").change(function(event) {
         let file = event.target.files[0]; // Get the selected file
         if (file) {
@@ -118,7 +133,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "fetchCategory.php",
+            url: "fetchProducts.php",
             type: "POST",
             data: function (d) {
                 d.customParam = "value";
@@ -166,6 +181,8 @@ $(document).ready(function () {
                             $('#editProductId').val(response.id);
                             $('#editProductName').val(response.name);
                             $('#previewImage').attr('src', response.image_path);
+                            // $('#editImage').attr('data-default-file', response.image_path);
+                            $('#editCategory').val(response.category_id);
                             $('#editPrice').val(response.price);
                             $('#editDescription').val(response.description);
                             $('#editModal').modal('show');
@@ -221,10 +238,57 @@ $(document).ready(function () {
                 response = JSON.parse(response);
                 $('#addModal').modal('hide');
                 notify(response['message'], response['class']);
+            },
+            error: function (jqXHR) {
+                console.error("Error:", jqXHR.status, jqXHR.responseJSON?.error || "Unknown error");
+                alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
             }
         });
-
     });
+
+    $('#editProductForm').submit(function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        let id = $('#editProductId').val();
+        formData.append('id', id);
+        
+        // Get the product name, category, price, and description
+        let name = $('#editProductName').val();
+        let category = $('#editCategory').val();
+        let price = $('#editPrice').val();
+        let description = $('#editDescription').val();
+        
+        formData.append('addProductName', name);
+        formData.append('addCategory', category);
+        formData.append('addPrice', price);
+        formData.append('addDescription', description);
+        
+        // Only append the image file if a new one is selected
+        let files = $('#editImage')[0].files;
+        if (files.length > 0) {
+            formData.append('addImage', files[0]);
+        }
+        
+        $.ajax({
+            type: "post",
+            url: "addEditProduct.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response);
+                table.ajax.reload(null, false);
+                response = JSON.parse(response);
+                $('#editModal').modal('hide');
+                notify(response['message'], response['class']);
+            },
+            error: function (jqXHR) {
+                console.error("Error:", jqXHR.status, jqXHR.responseJSON?.error || "Unknown error");
+                alert("Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"));
+            }
+        });
+    });
+    
     $('#editCategoryForm').submit(function (e) {
         e.preventDefault();
         let id = $('#categoryId').val();
