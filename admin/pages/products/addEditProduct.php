@@ -23,6 +23,12 @@ $disciption = $_POST['addDescription'] ?? '';
 $imagePath = '';        
 if (!empty($image['name'])) {
     $uploadDir = '/var/www/projects/Sim-flipkart-web/admin/uploads/images';
+    
+    // Create directory if it doesn't exist
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    
     $uploadFile = $uploadDir . '/' . basename($image['name']);
     if (move_uploaded_file($image['tmp_name'], $uploadFile)) {
         $imagePath = '/admin/uploads/images/' . basename($image['name']);
@@ -38,14 +44,12 @@ try {
         $response['message'] = "Successfully added product $name";
     }
     $response['class'] = 'success';
-
 } catch (Exception $e) {
     $response['result'] = false;
     $response['error'] = $e->getMessage();
-    $response['message'] = $name . " has not been ". (isset($_POST['id']) ? " edited" : " added");
+    $response['message'] = $name . " has not been " . (isset($_POST['id']) ? " edited" : " added");
     $response['class'] = 'danger';
 }
 
 echo json_encode($response);
-
 ?>

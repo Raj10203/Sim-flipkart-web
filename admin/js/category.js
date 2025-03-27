@@ -19,7 +19,7 @@ $(document).ready(function () {
                 orderable: false,
                 render: function (data) {
                     return `<div class="btn-group">
-                                <button class="btn btn-success edit event"  data-id="`+ data + `">
+                                <button class="btn btn-success edit event" data-id="`+ data + `">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button class="btn btn-danger delete event" data-id="`+ data + `">
@@ -73,7 +73,6 @@ $(document).ready(function () {
                 search: {
                     placeholder: 'Search'
                 },
-
             },
             bottomEnd: {
                 paging: {
@@ -130,8 +129,6 @@ $(document).ready(function () {
             });
             $(".delete").each(function () {
                 $(this)[0].addEventListener("click", function () {
-                    console.log(this.parentNode);
-
                     $.ajax({
                         type: "post",
                         url: "deleteCategory.php",
@@ -144,7 +141,6 @@ $(document).ready(function () {
                             notify(response['message'], response['class']);
                         },
                         error: function (jqXHR) {
-                            console.error("Error:", jqXHR.status, jqXHR.responseJSON?.error || "Unknown error");
                             alert("Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"));
                         }
                     });
@@ -173,14 +169,14 @@ $(document).ready(function () {
                 notify(response['message'], response['class']);
             }
         });
-
     });
+    
     $('#editCategoryForm').submit(function (e) {
         e.preventDefault();
         let id = $('#categoryId').val();
         let name = $('#editCategoryName').val();
         let description = $('#editCategoryDescription').val();
-        // let formData = new FormData(this);
+        
         $.ajax({
             type: "post",
             url: "addEditCategory.php",
@@ -196,7 +192,6 @@ $(document).ready(function () {
                 notify(response['message'], response['class']);
             }
         });
-
     });
 
     function notify(message, type) {

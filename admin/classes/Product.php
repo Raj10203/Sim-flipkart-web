@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Classes;
+
 class Product
 {
     protected $conn;
@@ -21,7 +22,8 @@ class Product
         return $product;
     }
 
-    public function addProduct($name, $image, $category, $price, $description){
+    public function addProduct($name, $image, $category, $price, $description)
+    {
         $query = "INSERT INTO " . $this->table . " (name, image_path, category_id, price, description) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sssss", $name, $image, $category, $price, $description);

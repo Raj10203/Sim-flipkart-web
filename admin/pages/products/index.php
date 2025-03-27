@@ -223,8 +223,8 @@ include('../../conf/authenticate_user.php');
                             <input type="file" accept="image/png" class="form-control imageInput" id="editImage"
                                 name="editImage" placeholder="Image" />
                             <p id="messageImageSize"></p>
-                        </div >
-                        <div class="mb-3 form-group" >
+                        </div>
+                        <div class="mb-3 form-group">
                             <select class="form-control select" aria-label="Default select example" id="editCategory">
                             </select>
                         </div>
