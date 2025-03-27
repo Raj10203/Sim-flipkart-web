@@ -8,40 +8,51 @@ include('../../conf/authenticate_user.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap4.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-    <!-- Required meta tags -->
+    <!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap4.css">
 
-    <!-- Title Page-->
-    <title>Dashboard</title>
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- Fontfaces CSS-->
-    <link href="/admin/css/font-face.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+<!-- SweetAlert2 Dark Theme -->
+<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 
-    <!-- Bootstrap CSS-->
-    <link href="/admin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+<!-- Meta Tags (Required) -->
+<!-- Add your meta tags here for responsiveness, SEO, and performance -->
 
-    <!-- Vendor CSS-->
+<!-- Page Title -->
+<title>Dashboard</title>
 
-    <link href="/admin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="/admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+<!-- Custom Font Faces -->
+<link href="/admin/css/font-face.css" rel="stylesheet" media="all">
 
-    <link href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap5.min.css" rel="stylesheet"
-        integrity="sha384-DJhypeLg79qWALC844KORuTtaJcH45J+36wNgzj4d1Kv1vt2PtRuV2eVmdkVmf/U" crossorigin="anonymous" />
+<!-- Font Awesome (Version 4 & 5 for compatibility) -->
+<link href="/admin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+<link href="/admin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
 
-    <link href="https://cdn.datatables.net/select/3.0.0/css/select.bootstrap5.min.css" rel="stylesheet"
-        integrity="sha384-TlxQ7BelG5MWHP/TbW8dDV3/3kwuo6rinsUsoQdbLGPvurwx/DA2Z49RVLIOxVrG" crossorigin="anonymous" />
-    <!-- Main CSS-->
+<!-- Material Design Icons -->
+<link href="/admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
-    <link href="/admin/css/theme.css" rel="stylesheet" media="all">
+<!-- Bootstrap Core CSS -->
+<link href="/admin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+<!-- Vendor CSS Files -->
+<link href="/admin/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+<link href="/admin/vendor/wow/animate.css" rel="stylesheet" media="all">
+<link href="/admin/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+<link href="/admin/vendor/slick/slick.css" rel="stylesheet" media="all">
+<link href="/admin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+<link href="/admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+<!-- DataTables Extensions -->
+<link href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap5.min.css" rel="stylesheet"
+    integrity="sha384-DJhypeLg79qWALC844KORuTtaJcH45J+36wNgzj4d1Kv1vt2PtRuV2eVmdkVmf/U" crossorigin="anonymous" />
+
+<link href="https://cdn.datatables.net/select/3.0.0/css/select.bootstrap5.min.css" rel="stylesheet"
+    integrity="sha384-TlxQ7BelG5MWHP/TbW8dDV3/3kwuo6rinsUsoQdbLGPvurwx/DA2Z49RVLIOxVrG" crossorigin="anonymous" />
+
+<!-- Main Theme CSS -->
+<link href="/admin/css/theme.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -155,9 +166,7 @@ include('../../conf/authenticate_user.php');
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Add Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    
                 </div>
                 <div class="modal-body">
                     <form action="#" id="addCategoryForm" method="post">
@@ -188,9 +197,7 @@ include('../../conf/authenticate_user.php');
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                   
                 </div>
                 <div class="modal-body">
                     <form action="#" id="editCategoryForm" method="post">

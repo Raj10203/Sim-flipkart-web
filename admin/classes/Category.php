@@ -23,6 +23,16 @@ class Category
         return $user;
     }
 
+    public function deleteCategory($id)
+    {
+        $query = "DELETE FROM " . $this->table . " WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result;
+    }
+
     public function editCategory($id, $name, $description)
     {
         $query = "UPDATE " . $this->table . " SET name = ?, description = ? WHERE id = ?";

@@ -1,7 +1,5 @@
 $(document).ready(function () {
-    // $(".alert").alert('close')
     let table = $("#myTable").DataTable({
-        // pageResize: true,
         responsive: true,
         scrollY: 500,
         scrollCollapse: true,
@@ -25,7 +23,7 @@ $(document).ready(function () {
                         <button class="btn btn-success edit event"  data-id="`+ data + `">
                             <i class="fas fa-edit"></i>
                         </button>
-                         <button class="btn btn-danger delete event" data-id="'+data+'">
+                         <button class="btn btn-danger delete event" data-id="`+data+`">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>`;
@@ -62,7 +60,6 @@ $(document).ready(function () {
                             $('#addModal').modal('show')
                         }
                     },
-
                 ]
             },
             topEnd: {
@@ -112,8 +109,7 @@ $(document).ready(function () {
                 width: '10%'
             },
         ],
-        drawCallback: function (settings) {
-            console.log(settings);
+        drawCallback: function () {
             removeEventListenersByClassName('event');
             $(".edit").each(function () {
                 $(this)[0].addEventListener("click", function () {
@@ -124,20 +120,45 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
+                            table.ajax.reload(null, false);
                             response = JSON.parse(response);
-                            console.log(response.description);
                             $('#categoryId').val(response.id);
                             $('#editCategoryName').val(response.name);
                             $('#editCategoryDescription').val(response.description);
-                            $('#editModal').modal('show');  
- 
-
+                            $('#editModal').modal('show');
+                        }
+                    });
+                });
+            });
+            $(".delete").each(function () {
+                $(this)[0].addEventListener("click", function () {
+                    console.log(this.parentNode);
+                    
+                    $.ajax({
+                        type: "post",
+                        url: "deleteCategory.php",
+                        data: {
+                            id: this.dataset.id
+                        },
+                        success: function (response) {
+                            table.ajax.reload(null, false);
+                            response = JSON.parse(response);
+                            notify(response['message'], response['class']);
+                        },
+                        error: function (jqXHR) {
+                            console.error("Error:", jqXHR.status, jqXHR.responseJSON?.error || "Unknown error");
+                            alert("Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"));
                         }
                     });
                 });
             });
         }
     });
+
+    setInterval(function () {
+        table.ajax.reload(null, false);
+    }, 30000);
+
     $('#addCategoryForm').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
@@ -148,7 +169,7 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
+                table.ajax.reload(null, false);
                 response = JSON.parse(response);
                 $('#addModal').modal('hide');
                 notify(response['message'], response['class']);
@@ -171,11 +192,9 @@ $(document).ready(function () {
                 categoryDescription: description
             },
             success: function (response) {
+                table.ajax.reload(null, false);
                 response = JSON.parse(response);
-                console.log('successd');
-
-                $('#editModal').modal('hide');  
-                console.log($('#editModal'));
+                $('#editModal').modal('hide');
                 notify(response['message'], response['class']);
             }
         });
@@ -189,7 +208,6 @@ $(document).ready(function () {
             </button>
         `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show');
         $('.notifications').append(notification);
-        console.log(notification);
         setTimeout(() => {
             notification.fadeOut(500, function () {
                 $(this).remove();

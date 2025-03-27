@@ -11,4 +11,3 @@ $db = new Database;
 $category = new Category($db);
 $id = $_POST['id'];
 echo json_encode($category->getCategoryById($id));
-?>

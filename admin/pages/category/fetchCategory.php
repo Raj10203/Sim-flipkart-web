@@ -13,13 +13,13 @@ $columns = array(
     2 => 'description', 
 );
 
-$start = $_POST['start'];  
-$length = $_POST['length'];  
-$search_value = $_POST['search']['value'];  
+$start = $_POST['start'] ?? 0;  
+$search_value = $_POST['search']['value'] ?? "";  
 $order_column = $_POST['order'][0]['column'] ?? 0;
 $order_dir = $_POST['order'][0]['dir'] ?? 'asc';  
 
 $sql_total = "SELECT COUNT(id) FROM category";  
+$length = $_POST['length'] ?? $sql_total;  
 $result_total = $conn->query($sql_total);
 $total_records = $result_total->fetch_row()[0];
 
