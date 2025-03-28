@@ -4,17 +4,17 @@ $(document).ready(function () {
             let file = e.target.files[0];
             if (file) {
                 let reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $(element.previousElementSibling).attr("src", e.target.result).removeClass('d-none');
                 };
                 reader.readAsDataURL(file);
             }
         });
     });
-    
+
     $.ajax({
         type: "post",
-        url: "fetchCategories.php",
+        url: "../../pages/category/getAllCategories.php",
         dataType: "json",
         success: function (response) {
             $(".select").each(function (index, element) {
@@ -25,11 +25,11 @@ $(document).ready(function () {
         }
     });
 
-    $(".imageInput").change(function(event) {
+    $(".imageInput").change(function (event) {
         let file = event.target.files[0];
         if (file) {
             let reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $("#imagePreview").attr("src", e.target.result).show();
             };
             reader.readAsDataURL(file);
@@ -51,8 +51,7 @@ $(document).ready(function () {
                 data: 'image_path',
                 orderable: false,
                 render: function (data) {
-                    let image = `<img class="tableImage" src="`+ data + `" alt="product_image" srcset="">`;
-                    return image;
+                    return `<img class="tableImage" src="` + data + `" alt="product_image" srcset="">`;
                 }
             },
             {
@@ -60,7 +59,7 @@ $(document).ready(function () {
                 data: 'id',
                 orderable: false,
                 render: function (data) {
-                    let editBtn = `
+                    return `
                     <div class="btn-group">
                         <button class="btn btn-success edit event" data-id="`+ data + `">
                             <i class="fas fa-edit"></i>
@@ -69,7 +68,6 @@ $(document).ready(function () {
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>`;
-                    return editBtn;
                 }
             }
         ],
@@ -98,7 +96,7 @@ $(document).ready(function () {
                         text: 'Add Product',
                         className: 'btn btn-light btn-datatable',
                         action: function (e, node, config) {
-                            $('#addModal').modal('show')
+                            $('#addModal').modal('show');
                         }
                     },
                 ]
@@ -135,15 +133,12 @@ $(document).ready(function () {
         columns: [
             {
                 data: "id",
-                width: '5%'
             },
             {
                 data: "name",
-                width: '15%'
             },
             {
                 data: "image_path",
-                width: '5%'
             },
             {
                 data: "description",
@@ -156,7 +151,7 @@ $(document).ready(function () {
             },
             {
                 data: "id",
-                width: '10%'
+
             },
         ],
         drawCallback: function () {
@@ -182,7 +177,7 @@ $(document).ready(function () {
                     });
                 });
             });
-            
+
             $(".delete").each(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
@@ -202,6 +197,20 @@ $(document).ready(function () {
                     });
                 });
             });
+        },
+        initComplete: function () {
+            this.api().columns([5]).every(function () {
+                let column = this;
+
+                let select = document.getElementById('selectCategory');
+
+                select.addEventListener('change', function () {
+                    column
+                        .search(select.value, { exact: true })
+                        .draw();
+                });
+
+            });
         }
     });
 
@@ -214,7 +223,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         let files = $('#addImage')[0].files;
         formData.append('image', files[0]);
-        
+
         $.ajax({
             type: "post",
             url: "addEditProduct.php",
@@ -238,22 +247,22 @@ $(document).ready(function () {
         let formData = new FormData(this);
         let id = $('#editProductId').val();
         formData.append('id', id);
-        
+
         let name = $('#editProductName').val();
         let category = $('#editCategory').val();
         let price = $('#editPrice').val();
         let description = $('#editDescription').val();
-        
+
         formData.append('addProductName', name);
         formData.append('addCategory', category);
         formData.append('addPrice', price);
         formData.append('addDescription', description);
-        
+
         let files = $('#editImage')[0].files;
         if (files.length > 0) {
             formData.append('addImage', files[0]);
         }
-        
+
         $.ajax({
             type: "post",
             url: "addEditProduct.php",
@@ -271,13 +280,13 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     $('#editCategoryForm').submit(function (e) {
         e.preventDefault();
         let id = $('#categoryId').val();
         let name = $('#editCategoryName').val();
         let description = $('#editCategoryDescription').val();
-        
+
         $.ajax({
             type: "post",
             url: "addEditCategory.php",

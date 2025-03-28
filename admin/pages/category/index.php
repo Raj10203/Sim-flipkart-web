@@ -131,8 +131,8 @@ include('../../conf/authenticate_user.php');
         <div class="page-container">
             <!-- HEADER DESKTOP-->
             <?php
-            include_once('../layout/header.php')
-                ?>
+            include_once('../layout/header.php');
+            ?>
 
             <div class="main-content">
                 <div class="section__content section__content--p30">

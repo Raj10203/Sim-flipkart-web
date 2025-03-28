@@ -1,8 +1,11 @@
 <?php
 namespace Admin\Classes;
+require_once('../../classes/traits/ItemOperations.php');
 
+use Admin\Classes\Traits\ItemOperations;
 class Product
 {
+    use ItemOperations;
     protected $conn;
     protected $table = 'products';
 
@@ -32,15 +35,15 @@ class Product
         return $result;
     }
 
-    public function deleteProduct($id)
-    {
-        $query = "DELETE FROM " . $this->table . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
-    }
+    // public function deleteProduct($id)
+    // {
+    //     $query = "DELETE FROM " . $this->table . " WHERE id = ?";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bind_param("s", $id);
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     return $result;
+    // }
 
     public function editProduct($id, $name, $image, $category, $price, $description) 
     {

@@ -1,7 +1,7 @@
 <?php
 include_once('../../conf/backend_authenticate.php');
-require_once('../../classes/Category.php');
 require_once('../../classes/Database.php');
+require_once('../../classes/Category.php');
 
 use Admin\Classes\Database;
 use Admin\Classes\Category;
@@ -18,7 +18,7 @@ if (!isset($_POST['id'])) {
     die;
 }
 try {
-    $response['result'] = $category->deleteCategory($_POST['id']);
+    $response['result'] = $category->deleteItem($category->getTableName(),$_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

@@ -137,6 +137,13 @@ include('../../conf/authenticate_user.php');
 
                         <div class="notifications">
                         </div>
+                        <div id="select-container"  class=" d-flex">
+                        <select class="form-control select" aria-label="Default select example" id="selectCategory"
+                            name="addCategory" style="width: min-content">
+                            <option selected value="">Select Category</option>
+                        </select>
+
+                        </div>
                         <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
                             <thead>
@@ -150,6 +157,7 @@ include('../../conf/authenticate_user.php');
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+                          
                         </table>
                     </div>
                 </div>
@@ -180,7 +188,8 @@ include('../../conf/authenticate_user.php');
                                 name="addImage" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
-                        <select class="form-control select" aria-label="Default select example" id="addCategory" name="addCategory">
+                        <select class="form-control select" aria-label="Default select example" id="addCategory"
+                            name="addCategory">
 
                         </select>
                         <div class="mb-3">
@@ -190,8 +199,8 @@ include('../../conf/authenticate_user.php');
                         </div>
                         <div class="mb-3">
                             <label for="addDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..." name="addDescription"
-                                maxlength="100" required></textarea>
+                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
+                                name="addDescription" maxlength="100" required></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />

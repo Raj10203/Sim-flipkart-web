@@ -1,9 +1,11 @@
 <?php
-
 namespace Admin\Classes;
+
+require_once('../../classes/traits/ItemOperations.php');
+use Admin\Classes\Traits\ItemOperations;
 class Category
 {
-
+    use ItemOperations;
     protected $conn;
     protected $table = 'categories';
 
@@ -13,18 +15,7 @@ class Category
     }
 
 
-    public function getAllCategories()
-    {
-        $query = "SELECT * FROM " . $this->table;
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $categories = [];
-        while ($row = $result->fetch_assoc()) {
-            $categories[] = $row;
-        }
-        return $categories;
-    }
+    
 
     public function getCategoryById($id)
     {

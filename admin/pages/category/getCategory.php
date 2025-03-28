@@ -1,6 +1,6 @@
 <?php
-require_once('../../classes/Category.php');
 require_once('../../classes/Database.php');
+require_once('../../classes/Category.php');
 use Admin\Classes\Database;
 use Admin\Classes\Category;
 ini_set('display_errors', '1');

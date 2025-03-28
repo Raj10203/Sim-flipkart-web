@@ -1,8 +1,7 @@
 <?php
 include_once('../../conf/backend_authenticate.php');
-require_once('../../classes/Product.php');
 require_once('../../classes/Database.php');
-
+require_once('../../classes/Product.php');
 use Admin\Classes\Database;
 use Admin\Classes\Product;
 
@@ -19,16 +18,15 @@ $image = $_FILES['addImage'] ?? [];
 $category = $_POST['addCategory'] ?? '';
 $price = $_POST['addPrice'] ?? '';
 $disciption = $_POST['addDescription'] ?? '';
-
-$imagePath = '';        
+$imagePath = '';
 if (!empty($image['name'])) {
-    $uploadDir = '/var/www/projects/Sim-flipkart-web/admin/uploads/images';
-    
-    // Create directory if it doesn't exist
+
+    $uploadDir = '../../uploads/product-images';
+
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
-    
+
     $uploadFile = $uploadDir . '/' . basename($image['name']);
     if (move_uploaded_file($image['tmp_name'], $uploadFile)) {
         $imagePath = '/admin/uploads/images/' . basename($image['name']);

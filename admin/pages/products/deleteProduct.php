@@ -18,7 +18,7 @@ if (!isset($_POST['id'])) {
     die;
 }
 try {
-    $response['result'] = $product->deleteProduct($_POST['id']);
+    $response['result'] = $product->deleteItem($product->getTableName(),$_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

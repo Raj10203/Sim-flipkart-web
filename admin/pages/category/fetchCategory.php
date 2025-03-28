@@ -3,16 +3,16 @@ include_once('../../conf/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
-use Admin\Classes\Database;
-use Admin\Classes\Category;
-
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
+use Admin\Classes\Database;
+use Admin\Classes\Category;
+
 $db = new Database;
-$prod = new Category($db);
-$conn = $prod->getConnection();
-$tableName = $prod->getTableName();
+$category = new Category($db);
+$conn = $category->getConnection();
+$tableName = $category->getTableName();
 
 $columns = [];
 $result_columns = $conn->query("SHOW COLUMNS FROM $tableName");
