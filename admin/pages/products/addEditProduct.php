@@ -29,7 +29,7 @@ if (!empty($image['name'])) {
 
     $uploadFile = $uploadDir . '/' . basename($image['name']);
     if (move_uploaded_file($image['tmp_name'], $uploadFile)) {
-        $imagePath = '/admin/uploads/images/' . basename($image['name']);
+        $imagePath = '/admin/uploads/product-images/' . basename($image['name']);
     }
 }
 

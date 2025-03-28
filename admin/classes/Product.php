@@ -35,21 +35,11 @@ class Product
         return $result;
     }
 
-    // public function deleteProduct($id)
-    // {
-    //     $query = "DELETE FROM " . $this->table . " WHERE id = ?";
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->bind_param("s", $id);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-    //     return $result;
-    // }
-
     public function editProduct($id, $name, $image, $category, $price, $description) 
     {
         if (!empty($image['name'])) {
             $query = "UPDATE " . $this->table . " SET name = ?, image_path = ?, category_id = ?, price = ?, description = ? WHERE id = ?";
-            $imagePath = '/admin/uploads/images/' . basename($image['name']);
+            $imagePath = '/admin/uploads/product-images/' . basename($image['name']);
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("ssssss", $name, $imagePath, $category, $price, $description, $id);
         } else {
