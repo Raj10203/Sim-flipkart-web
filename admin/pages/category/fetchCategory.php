@@ -1,38 +1,46 @@
 <?php
+include_once('../../conf/backend_authenticate.php');
 require_once('../../classes/Database.php');
-use Admin\Classes\Database;
+require_once('../../classes/Category.php');
+
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
+use Admin\Classes\Database;
+use Admin\Classes\Category;
+
 $db = new Database;
-$conn = $db->connect();
+$category = new Category($db);
+$conn = $category->getConnection();
+$tableName = $category->getTableName();
 
-$columns = array(
-    0 => 'id', 
-    1 => 'name',  
-    2 => 'description', 
-);
+$columns = [];
+$result_columns = $conn->query("SHOW COLUMNS FROM $tableName");
+while ($row = $result_columns->fetch_assoc()) {
+    $columns[] = $row['Field'];
+}
 
-$start = $_POST['start'] ?? 0;  
-$search_value = $_POST['search']['value'] ?? "";  
+$start = $_POST['start'] ?? 0;
+$search_value = $_POST['search']['value'] ?? "";
 $order_column = $_POST['order'][0]['column'] ?? 0;
-$order_dir = $_POST['order'][0]['dir'] ?? 'asc';  
+$order_dir = $_POST['order'][0]['dir'] ?? 'asc';
 
-$sql_total = "SELECT COUNT(id) FROM category";  
-$length = $_POST['length'] ?? $sql_total;  
+$sql_total = "SELECT COUNT(id) FROM $tableName";
+$length = $_POST['length'] ?? $sql_total;
 $result_total = $conn->query($sql_total);
 $total_records = $result_total->fetch_row()[0];
 
-$sql = "SELECT id, name, description FROM category
+$sql = "SELECT id, name, description FROM $tableName
         WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%' 
         ORDER BY " . $columns[$order_column] . " $order_dir 
         LIMIT $start, $length";
 
 $result = $conn->query($sql);
 
-$sql_filter = "SELECT COUNT(id) FROM category 
+$sql_filter = "SELECT COUNT(id) FROM $tableName 
         WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%'
         ORDER BY " . $columns[$order_column] . " $order_dir ;";
+        
 $filtered_records = $conn->query($sql_filter)->fetch_row()[0];
 
 $data = array();
@@ -44,7 +52,7 @@ while ($row = $result->fetch_assoc()) {
 $response = array(
     "draw" => $_POST['draw'],
     "recordsTotal" => $total_records,
-    "recordsFiltered" => $filtered_records,  
+    "recordsFiltered" => $filtered_records,
     "data" => $data,
 );
 

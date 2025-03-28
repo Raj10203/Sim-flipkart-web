@@ -1,16 +1,21 @@
 <?php
-
 namespace Admin\Classes;
+
+require_once('../../classes/traits/ItemOperations.php');
+use Admin\Classes\Traits\ItemOperations;
 class Category
 {
-
+    use ItemOperations;
     protected $conn;
-    protected $table = 'category';
+    protected $table = 'categories';
 
     public function __construct(Database $db)
     {
         $this->conn = $db?->connect();
     }
+
+
+    
 
     public function getCategoryById($id)
     {
@@ -19,8 +24,8 @@ class Category
         $stmt->bind_param("s", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-        return $user;
+        $category = $result->fetch_assoc();
+        return $category;
     }
 
     public function deleteCategory($id)
@@ -50,5 +55,14 @@ class Category
         $result = $stmt->execute();
         return $result;
     }
+
+    public function getTableName()
+    {
+        return $this->table;
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
 }
-?>

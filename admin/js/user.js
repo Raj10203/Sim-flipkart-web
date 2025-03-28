@@ -13,9 +13,9 @@ $(document).ready(function () {
             {
                 targets: 5,
                 data: 'id',
-                sorting:false,
+                sorting: false,
                 render: function (data) {
-                    let editBtn = `
+                    return `
                     <div class="btn-group">
                         <button class="btn btn-success" data-toggle="modal" data-target="#editModal" data-id="+`+ data + `+">
                             <i class="fas fa-edit"></i>
@@ -24,7 +24,6 @@ $(document).ready(function () {
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>`;
-                    return editBtn;
                 }
             }
         ],
@@ -56,14 +55,8 @@ $(document).ready(function () {
                         text: 'Add User',
                         className: 'btn btn-light btn-datatable',
                         render: function (params) {
-                            console.log(params);
-                            
-                        },
-                        // action: function (e, dt, node, config) {
-                        //     // alert('Button activated');
-                        //     console.log(node);
-                            
-                        // }
+                            // Add user functionality
+                        }
                     }
                 ]
             },

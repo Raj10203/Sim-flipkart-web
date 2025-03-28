@@ -1,5 +1,7 @@
 <?php
 namespace Admin\Classes;
+
+require_once('../../classes/traits/ItemOperations.php');
 class User
 {
     protected $conn;
@@ -19,7 +21,7 @@ class User
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        if ($user && $password == $user['password']) {
+        if ($user && ($password == $user['password'])) {
             return true;
         }
         return false;
