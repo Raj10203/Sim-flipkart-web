@@ -14,7 +14,7 @@ class Cart
         $this->conn = $db?->connect();
     }
 
-    public function addToCart($userId, $productId, $price)
+    public function addToCart($userId, $productId)
     {
         $query = "SELECT id FROM " . $this->table . " WHERE user_id = ? AND product_id = ?";
         $stmt = $this->conn->prepare($query);
@@ -29,9 +29,9 @@ class Cart
                 "class" => "error"
             ];
         } else {
-            $query = "INSERT INTO " . $this->table . " (user_id, product_id, price) VALUES (?, ?, ?)";
+            $query = "INSERT INTO " . $this->table . " (user_id, product_id) VALUES (?, ?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("iid", $userId, $productId, $price);
+            $stmt->bind_param("ii", $userId, $productId);
 
             if ($stmt->execute()) {
                 return [
@@ -46,6 +46,31 @@ class Cart
                     "class" => "error"
                 ];
             }
+        }
+    }
+
+    public function gettAllCartByUserId($userId){
+        $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . $this->table . " c JOIN products p on c.product_id = p.id  WHERE user_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $cartsByUserId = [];
+        while ($row = $result->fetch_assoc()) {
+            $cartsByUserId[] = $row;
+        }
+        return $cartsByUserId;
+    }
+
+    public function changeQuanityById($id, $change)
+    {
+        $query = "UPDATE " . $this->table . " c SET c.quantity = c.quantity + ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $change, $id); // 's' for strings, 'i' for integer
+        $result = $stmt->execute();
+        if($result) {
+            $cartDetail = $this->getItemById($this->getTableName(),$id);
+            return $cartDetail;
         }
     }
 

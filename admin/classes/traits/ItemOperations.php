@@ -8,8 +8,7 @@ trait ItemOperations
         $query = "DELETE FROM " . $tableName . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result =  $stmt->execute();
         return $result;
     }
 

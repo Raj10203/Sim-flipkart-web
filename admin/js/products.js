@@ -64,7 +64,7 @@ $(document).ready(function () {
                 }
             },
             {
-                targets: 6,
+                targets: 7,
                 data: 'id',
                 orderable: false,
                 render: function (data) {
@@ -106,6 +106,7 @@ $(document).ready(function () {
                         className: 'btn btn-light btn-datatable',
                         action: function (e, node, config) {
                             $('#addModal').modal('show');
+    
                         }
                     },
                 ]
@@ -156,12 +157,17 @@ $(document).ready(function () {
                 data: "price",
             },
             {
+                data: "discount",
+
+            },
+            {
                 data: "category_name",
             },
             {
                 data: "id",
 
             },
+            
         ],
         drawCallback: function () {
             removeEventListenersByClassName('event');
@@ -180,6 +186,7 @@ $(document).ready(function () {
                             $('#previewImage').attr('src', response.image_path);
                             $('#editCategory').val(response.category_id);
                             $('#editPrice').val(response.price);
+                            $('#editDiscount').val(response.discount);
                             $('#editDescription').val(response.description);
                             $('#editModal').modal('show');
                         }
@@ -241,9 +248,8 @@ $(document).ready(function () {
             contentType: false,
             success: function (response) {
                 table.ajax.reload(null, false);
-                response = JSON.parse(response);
                 $('#addModal').modal('hide');
-                notify(response['message'], response['class']);
+                // notify(response['message'], response['class']);
             },
             error: function (jqXHR) {
                 alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
@@ -280,7 +286,6 @@ $(document).ready(function () {
             contentType: false,
             success: function (response) {
                 table.ajax.reload(null, false);
-                response = JSON.parse(response);
                 $('#editModal').modal('hide');
                 notify(response['message'], response['class']);
             },

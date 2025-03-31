@@ -5,9 +5,7 @@ require_once('../../classes/Product.php');
 use Admin\Classes\Database;
 use Admin\Classes\Product;
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+
 
 $db = new Database;
 $prod = new Product($db);
@@ -26,7 +24,7 @@ $orderDir = $_POST['order'][0]['dir'] ?? 'asc';
 $sql_total = "SELECT COUNT(p.id) FROM products p";
 $totalRecords = $conn->query($sql_total)->fetch_row()[0];
 
-$sql = "SELECT p.id, p.name, p.image_path, p.description, p.price, c.name AS category_name , p.category_id FROM products p 
+$sql = "SELECT p.id, p.name, p.image_path, p.description, p.price, p.discount, c.name AS category_name , p.category_id FROM products p 
         JOIN categories c ON p.category_id = c.id WHERE (1=1)";
 
 if (!empty($searchValue)) {

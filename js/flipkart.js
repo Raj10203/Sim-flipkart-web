@@ -77,7 +77,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "./admin/page/cart/addToCart.php",
+            url: "admin/page/cart/addToCart.php",
             data: {
                 'productId': productId
             },

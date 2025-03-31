@@ -82,6 +82,7 @@ include('../../authentication/authenticate_user.php');
                                     <th>Image Path</th>
                                     <th>Description</th>
                                     <th>Price</th>
+                                    <th>Discount</th>
                                     <th>Category Name</th>
                                     <th>Actions</th>
                                 </tr>
@@ -104,32 +105,37 @@ include('../../authentication/authenticate_user.php');
                 </div>
                 <div class="modal-body">
                     <form action="#" id="addProductForm" enctype="multipart/form-data">
-                        <input type="hidden" id="addProductId" value="" name="addProductId">
+                        <input type="hidden" id="addProductId" value="" name="productId">
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="addProductName" placeholder="Product Name"
-                                name="addProductName" required maxlength="30" />
+                                name="productName" required maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="addImage" class="form-label">Image</label>
                             <img src="" class="tableImage d-none" alt="your image" id="showImg">
                             <input type="file" accept="image/png" class="form-control imageInput" id="addImage" required
-                                name="addImage" placeholder="Image" />
+                                name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
                         <select class="form-control select" aria-label="Default select example" id="addCategory"
-                            name="addCategory">
+                            name="category">
 
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required
-                                name="addPrice" max="1000000000000" />
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required step=".01"
+                                name="price" max="1000000000000" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="addDiscount" class="form-label">Discount</label>
+                            <input type="number" class="form-control" id="addDiscount" placeholder="Discount" step=".01"
+                                name="discount" max="100" />
                         </div>
                         <div class="mb-3">
                             <label for="addDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
-                                name="addDescription" maxlength="100" required></textarea>
+                                name="description" maxlength="100" required></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />
@@ -149,31 +155,36 @@ include('../../authentication/authenticate_user.php');
                 </div>
                 <div class="modal-body">
                     <form action="./product.html" id="editProductForm" enctype="multipart/form-data">
-                        <input type="hidden" id="editProductId" value="" data-val="" name="editProductId">
+                        <input type="hidden" id="editProductId" value="" data-val="" name="productId">
                         <div class="mb-3">
                             <label for="editProductName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="editProductName" placeholder="Product Name"
-                                name="editProductName" required maxlength="30" />
+                                name="productName" required maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
                             <input type="file" accept="image/png" class="form-control imageInput" id="editImage"
-                                name="editImage" placeholder="Image" />
+                                name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
                         <div class="mb-3 form-group">
-                            <select class="form-control select" aria-label="Default select example" id="editCategory">
+                            <select class="form-control select" aria-label="Default select example" id="editCategory" name="category">
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="editPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="editPrice" placeholder="Price" required
-                                name="editPrice" max="1000000000000" />
+                            <input type="number" class="form-control" id="editPrice" placeholder="Price" required step=".01"
+                                name="price" max="1000000000000" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDiscount" class="form-label">Discount</label>
+                            <input type="number" class="form-control" id="editDiscount" placeholder="Discount" step=".01"
+                                name="discount" max="100" />
                         </div>
                         <div class="mb-3">
                             <label for="editDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="editDescription" rows="3" placeholder="Description ..."
+                            <textarea class="form-control" id="editDescription" name="description" rows="3" placeholder="Description ..."
                                 maxlength="100" required></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="editFormSubmit" name="formSubmit" />

@@ -1,23 +1,27 @@
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 use Admin\Classes\Database;
 use Admin\Classes\Product;
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+
 $db = new Database;
 $product = new Product($db);
 
 $response = [];
 
-$name = $_POST['addProductName'] ?? '';
-$image = $_FILES['addImage'] ?? [];
-$category = $_POST['addCategory'] ?? '';
-$price = $_POST['addPrice'] ?? '';
-$disciption = $_POST['addDescription'] ?? '';
+$name = $_POST['productName'] ?? '';
+$image = $_FILES['image'] ?? [];
+$category = $_POST['category'] ?? '';
+$price = $_POST['price'] ?? '';
+$disciption = $_POST['description'] ?? '';
+$discount = $_POST['discount'] ?? 0;
+var_dump($discount);
+
 $imagePath = '';
 if (!empty($image['name'])) {
 
@@ -35,10 +39,10 @@ if (!empty($image['name'])) {
 
 try {
     if (isset($_POST['id'])) {
-        $response['result'] = $product->editProduct($_POST['id'], $name, $image, $category, $price, $disciption);
+        $response['result'] = $product->editProduct($_POST['id'], $name, $image, $category, $price, $disciption, $discount);
         $response['message'] = "Successfully edited product $name";
     } else {
-        $response['result'] = $product->addProduct($name, $imagePath, $category, $price, $disciption);
+        $response['result'] = $product->addProduct($name, $imagePath, $category, $price, $disciption, $discount);
         $response['message'] = "Successfully added product $name";
     }
     $response['class'] = 'success';
