@@ -95,10 +95,6 @@ echo json_encode([
     "recordsTotal" => $totalRecords,
     "recordsFiltered" => $filteredRecords,
     "data" => $data,
-    "sql" => $sql,
-    "columnName" => $columnName ?? "",
-    "colValue" => $colValue ?? "",
-    "orderColumn" => $orderColumn ?? ""
 ]);
 
 $conn->close();
