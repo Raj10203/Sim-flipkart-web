@@ -1,5 +1,13 @@
+$('.asideMember').each(function (index, element) {
+    if (element.dataset.li == 'users') {
+        $(element).addClass('active');
+    } else {
+        $(element).removeClass('active');
+    }
+
+});
 $(document).ready(function () {
-    let table = $("#myTable").DataTable({
+    $("#myTable").DataTable({
         scrollX: true,
         columnDefs: [
             {
@@ -74,7 +82,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "fetchUser.php",
+            url: "./users/fetchUser.php",
             type: "POST",
             data: function (d) {
                 d.customParam = "value";

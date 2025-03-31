@@ -273,7 +273,7 @@ section {
     width: 50%;
     max-width: 450px;
     z-index:20;
-    top: -50px;
+    top: -40px;
 }
 @media (max-width: 600px) {
     .notifications {

@@ -1646,5 +1646,18 @@
   } catch (error) {
     console.log(error);
   }
+})(jQuery);
 
+(function ($) {
+  // USE STRICT
+  "use strict";
+  $('.asideMember').each(function (index, element) {
+    if (element.dataset.li == 'dashboard') {
+        $(element).addClass('active');        
+    } else {
+        $(element).removeClass('active');
+    }
+
+});
+  
 })(jQuery);

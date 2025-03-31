@@ -50,14 +50,8 @@ section {
     align-items: center;
 }
 
-.navbar-child2 li {
-    display: flex;
-    padding: 0 10px;
-    width: max-content;
-}
-
 .header-li-child {
-    margin: 0 5px;
+    padding: 0 10px;
 }
 
 .p1-item a {
@@ -68,14 +62,14 @@ section {
 }
 
 .login-li {
+    display: flex;
+    width: max-content;
     align-items: center;
 }
-
-.login-li:hover {
+.header-li-custom li:hover {
     color: white;
 }
-
-.header-li-custom:hover #login-down-arrow {
+.header-li-custom #login-down-arrow:hover {
     transform: rotate(180deg);
     transition: transform .5s ease;
 }

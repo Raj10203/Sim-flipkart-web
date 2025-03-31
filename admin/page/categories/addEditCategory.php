@@ -1,5 +1,5 @@
 <?php
-include_once('../../conf/backend_authenticate.php');
+include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 

@@ -1,5 +1,5 @@
 <?php
-include_once('../../conf/backend_authenticate.php');
+include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 use Admin\Classes\Database;
@@ -24,7 +24,7 @@ if (!empty($image['name'])) {
     $uploadDir = '../../uploads/product-images';
 
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0755, true);
     }
 
     $uploadFile = $uploadDir . '/' . basename($image['name']);

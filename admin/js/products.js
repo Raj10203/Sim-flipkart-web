@@ -1,4 +1,13 @@
+$('.asideMember').each(function (index, element) {
+    if (element.dataset.li == 'products') {
+        $(element).addClass('active');
+    } else {
+        $(element).removeClass('active');
+    }
+
+});
 $(document).ready(function () {
+
     $(".imageInput").each(function (index, element) {
         element.addEventListener("change", function (e) {
             let file = e.target.files[0];
@@ -14,7 +23,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "post",
-        url: "../../pages/category/getAllCategories.php",
+        url: "../page/categories/getAllCategories.php",
         dataType: "json",
         success: function (response) {
             $(".select").each(function (index, element) {
@@ -124,7 +133,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "fetchProducts.php",
+            url: "./products/fetchProducts.php",
             type: "POST",
             data: function (d) {
                 d.customParam = "value";
@@ -160,7 +169,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "getProduct.php",
+                        url: "./products/getProduct.php",
                         data: {
                             id: this.dataset.id
                         },
@@ -182,7 +191,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "deleteProduct.php",
+                        url: "./products/deleteProduct.php",
                         data: {
                             id: this.dataset.id
                         },
@@ -226,7 +235,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "addEditProduct.php",
+            url: "./products/addEditProduct.php",
             data: formData,
             processData: false,
             contentType: false,
@@ -265,7 +274,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "addEditProduct.php",
+            url: "./products/addEditProduct.php",
             data: formData,
             processData: false,
             contentType: false,
@@ -289,7 +298,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "addEditCategory.php",
+            url: "../products/addEditCategory.php",
             data: {
                 id: id,
                 categoryName: name,

@@ -1,4 +1,14 @@
+$('.asideMember').each(function (index, element) {
+    if (element.dataset.li == 'categories') {
+        $(element).addClass('active');
+    } else {
+        $(element).removeClass('active');
+    }
+
+});
 $(document).ready(function () {
+
+
     let table = $("#myTable").DataTable({
         responsive: true,
         scrollY: '70vh',
@@ -83,7 +93,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "fetchCategory.php",
+            url: "./categories/fetchCategory.php",
             type: "POST",
             data: function (d) {
                 d.customParam = "value";
@@ -112,7 +122,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "getCategory.php",
+                        url: "./categories/getCategory.php",
                         data: {
                             id: this.dataset.id
                         },
@@ -131,7 +141,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "deleteCategory.php",
+                        url: "./categories/deleteCategory.php",
                         data: {
                             id: this.dataset.id
                         },
@@ -158,7 +168,7 @@ $(document).ready(function () {
         let formData = new FormData(this);
         $.ajax({
             type: "post",
-            url: "addEditCategory.php",
+            url: "./categories/addEditCategory.php",
             data: formData,
             processData: false,
             contentType: false,
@@ -170,16 +180,16 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     $('#editCategoryForm').submit(function (e) {
         e.preventDefault();
         let id = $('#categoryId').val();
         let name = $('#editCategoryName').val();
         let description = $('#editCategoryDescription').val();
-        
+
         $.ajax({
             type: "post",
-            url: "addEditCategory.php",
+            url: "./categories/addEditCategory.php",
             data: {
                 id: id,
                 categoryName: name,
@@ -215,4 +225,5 @@ $(document).ready(function () {
             element.parentNode.replaceChild(newElement, element);
         });
     }
+
 });

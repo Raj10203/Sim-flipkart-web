@@ -10,4 +10,4 @@ error_reporting(E_ALL);
 $db = new Database;
 $product = new Product($db);
 $id = $_POST['id'];
-echo json_encode($product->getProductById($id));
+echo json_encode($product->getItemById($product->getTableName(),$id));

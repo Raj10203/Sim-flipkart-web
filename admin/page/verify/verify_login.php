@@ -1,5 +1,5 @@
 <?php
-include_once('../../conf/backend_authenticate.php');
+include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/User.php');
 
@@ -26,10 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = hash("sha256", $_POST['password']);
     if ($user->login($email,$password)) {
         $_SESSION['email'] = $email;
-        header('location: /admin/pages/');
+        $_SESSION['id'] = $user;
+        header('location: /');
     } else {
         unset($_SESSION['email']);
+        unset($_SESSION['id']);
         $_SESSION['invalid-credentials'] = 'Incorrenct credentials';
-        header('location: /admin/pages/login.php');
+        header('location: /admin/page/login.php');
     }
 }

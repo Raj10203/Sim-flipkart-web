@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['email'])) {
-    header('location: /admin/pages/');
+    header('location: /');
 }
 ?>
 <!DOCTYPE html>
@@ -72,7 +72,7 @@ if (isset($_SESSION['email'])) {
                         ;
                         ?>
                         <div class="login-form">
-                            <form action="/admin/pages/login/login.php" method="post">
+                            <form action="/admin/page/verify/verify_login.php" method="post">
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input class="au-input au-input--full" type="email" name="email"
@@ -93,6 +93,12 @@ if (isset($_SESSION['email'])) {
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">sign in</button>
                             </form>
+                            <div class="register-link">
+                                <p>
+                                    Don't you have account?
+                                    <a href="register.php">Sign Up Here</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
