@@ -24,9 +24,10 @@ function test_input($data)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ? $_POST['email'] : "";
     $password = hash("sha256", $_POST['password']);
-    if ($user->login($email,$password)) {
+    $userDetail = $user->login($email,$password);
+    if ($userDetail['id']) {
         $_SESSION['email'] = $email;
-        $_SESSION['id'] = $user;
+        $_SESSION['id'] = $userDetail['id'];
         header('location: /');
     } else {
         unset($_SESSION['email']);

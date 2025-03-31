@@ -21,8 +21,8 @@ class User
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        if ($user && ($password == $user['password'])) {
-            return $user['id'];
+        if ($email && ($password == $user['password'])) {
+            return $user;
         }
         return false;
     }

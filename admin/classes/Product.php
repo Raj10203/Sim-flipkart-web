@@ -30,8 +30,7 @@ class Product
         $query = "INSERT INTO " . $this->table . " (name, image_path, category_id, price, description) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sssss", $name, $image, $category, $price, $description);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result =  $stmt->execute();
         return $result;
     }
 

@@ -13,10 +13,6 @@ class Category
     {
         $this->conn = $db?->connect();
     }
-
-
-    
-
     public function getCategoryById($id)
     {
         $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
@@ -26,16 +22,6 @@ class Category
         $result = $stmt->get_result();
         $category = $result->fetch_assoc();
         return $category;
-    }
-
-    public function deleteCategory($id)
-    {
-        $query = "DELETE FROM " . $this->table . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
     }
 
     public function editCategory($id, $name, $description)
