@@ -255,9 +255,16 @@ section {
     padding: 0 30px;
 }
 
+/* mycss */
+
 .btn-datatable {
     margin: 5px 10px;
     border-radius: 3px !important;
+}
+.tableImage {
+    /* padding: 10px; */
+    height: 100px;
+    width: 100px;
 }
 
 .notifications{
@@ -266,7 +273,7 @@ section {
     width: 50%;
     max-width: 450px;
     z-index:20;
-    top: -50px;
+    top: -40px;
 }
 @media (max-width: 600px) {
     .notifications {
