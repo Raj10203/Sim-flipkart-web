@@ -22,7 +22,6 @@ class User
         $user = $result->fetch_assoc();
 
         if ($user && ($password == $user['password'])) {
-
             return $user['id'];
         }
         return false;
