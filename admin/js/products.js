@@ -26,6 +26,8 @@ $(document).ready(function () {
         url: "../page/categories/getAllCategories.php",
         dataType: "json",
         success: function (response) {
+            console.log(response);
+            
             $(".select").each(function (index, element) {
                 response.forEach(function (category) {
                     $(element).append(`<option value="${category.id}">${category.name}</option>`);
@@ -212,7 +214,7 @@ $(document).ready(function () {
             });
         },
         initComplete: function () {
-            this.api().columns([5]).every(function () {
+            this.api().columns([6]).every(function () {
                 let column = this;
 
                 let select = document.getElementById('selectCategory');
@@ -227,9 +229,9 @@ $(document).ready(function () {
         }
     });
 
-    setInterval(function () {
-        table.ajax.reload(null, false);
-    }, 30000);
+    // setInterval(function () {
+    //     table.ajax.reload(null, false);
+    // }, 30000);
 
     $('#addProductForm').submit(function (e) {
         e.preventDefault();

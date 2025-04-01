@@ -3,21 +3,21 @@ include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 
-if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    header('location: /admin/page/login.php');
-}
 use Admin\Classes\Database;
 use Admin\Classes\Product;
 
 $db = new Database;
-$product = new Product($db);
+$prod = new Product($db);
 $response = [];
 if (!isset($_POST['id'])) {
     echo json_encode(["error" => "Id is required"]);
     die;
 }
 try {
-    $response['result'] = $product->deleteItem($product->getTableName(),$_POST['id']);
+    $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
+    unlink("/var/www/html/flipkart/Sim-flipkart-web" . $oldProduct['image_path']);
+
+    $response['result'] = $prod->deleteItem($prod->getTableName(), $_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

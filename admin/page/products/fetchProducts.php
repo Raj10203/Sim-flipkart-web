@@ -52,11 +52,7 @@ $orderColumnName = $columns[$orderColumn] ?? 'p.id';
 $sql .= " ORDER BY $orderColumnName $orderDir LIMIT $start, $length";
 
 $result = $conn->query($sql);
-$data = [];
-while ($row = $result->fetch_assoc()) {
-    $row['DT_RowId'] = 'row_' . $row['id'];
-    $data[] = $row;
-}
+$data = $result->fetch_all(MYSQLI_ASSOC);
 
 $sqlFilter = "SELECT COUNT(p.id) FROM products p 
               JOIN categories c ON p.category_id = c.id WHERE (1=1)";

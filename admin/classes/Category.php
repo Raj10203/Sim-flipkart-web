@@ -8,7 +8,7 @@ class Category
 {
     use ItemOperations;
     protected $conn;
-    protected $table = 'categories';
+    protected static $table = 'categories';
 
     public function __construct(Database $db)
     {
@@ -17,7 +17,7 @@ class Category
 
     public function editCategory($id, $name, $description)
     {
-        $query = "UPDATE " . $this->table . " SET name = ?, description = ? WHERE id = ?";
+        $query = "UPDATE " . self::$table . " SET name = ?, description = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ssi", $name, $description, $id); // 's' for strings, 'i' for integer
         $result = $stmt->execute();
@@ -26,7 +26,7 @@ class Category
 
     public function addCategory($name, $description)
     {
-        $query = "INSERT INTO " . $this->table . " (name, description) VALUES (?, ?)";
+        $query = "INSERT INTO " . self::$table . " (name, description) VALUES (?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ss", $name, $description);
         $result = $stmt->execute();
@@ -35,7 +35,7 @@ class Category
 
     public function getTableName()
     {
-        return $this->table;
+        return self::$table;
     }
 
     public function getConnection()

@@ -83,7 +83,6 @@ $(document).ready(function () {
             },
             dataType: 'JSON',
             success: function (response) {
-                console.log(response);
                 if (response.message === "not_logged_in") {
                     window.location.href = "admin/page/login.php"; // Redirect to login page
                 } else {

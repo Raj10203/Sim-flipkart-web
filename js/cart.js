@@ -34,7 +34,6 @@ function updateCartCount() {
 }
 
 function updateEventListeners() {
-    // Quantity decrease buttons
     $('.minus-btn').click(function (e) {
         e.preventDefault();
         let id = this.dataset.id;
@@ -60,7 +59,6 @@ function removeItem(id) {
             id: id
         },
         success: function (response) {
-            console.log(response);
         }
     });
     showCartItems();
@@ -132,9 +130,7 @@ function showCartItems() {
             $('#total-discount').html(parseFloat(totalPrice - totalAmount).toFixed(2));
             $('#total-savings').html(parseFloat(totalPrice - totalAmount).toFixed(2));
             $('#final-price').html(parseFloat(totalAmount).toFixed(2));
-            
             updateEventListeners();
         }
     });
-
 }

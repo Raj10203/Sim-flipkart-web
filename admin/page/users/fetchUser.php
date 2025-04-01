@@ -14,7 +14,6 @@ $columns = array(
     4 => 'created_at',  
 );
 
-
 $start = $_POST['start'];  
 $length = $_POST['length'];  
 $search_value = $_POST['search']['value'];  

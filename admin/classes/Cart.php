@@ -3,13 +3,12 @@ namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
 use Admin\Classes\Traits\ItemOperations;
-use Admin\Classes\Product;
 
 class Cart
 {
     use ItemOperations;
     protected $conn;
-    protected $table = 'cart';
+    protected static $table = 'cart';
     public function __construct(Database $db)
     {
         $this->db = $db;
@@ -18,7 +17,7 @@ class Cart
 
     public function addToCart($userId, $productId)
     {
-        $query = "SELECT id FROM " . $this->table . " WHERE user_id = ? AND product_id = ?";
+        $query = "SELECT id FROM " . self::$table . " WHERE user_id = ? AND product_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ii", $userId, $productId);
         $stmt->execute();
@@ -31,7 +30,7 @@ class Cart
                 "class" => "error"
             ];
         } else {
-            $query = "INSERT INTO " . $this->table . " (user_id, product_id) VALUES (?, ?)";
+            $query = "INSERT INTO " . self::$table . " (user_id, product_id) VALUES (?, ?)";
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("ii", $userId, $productId);
 
@@ -52,21 +51,18 @@ class Cart
     }
 
     public function gettAllCartByUserId($userId){
-        $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . $this->table . " c JOIN products p on c.product_id = p.id  WHERE user_id = ?";
+        $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . self::$table . " c JOIN products p on c.product_id = p.id  WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $userId);
+        $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $cartsByUserId = [];
-        while ($row = $result->fetch_assoc()) {
-            $cartsByUserId[] = $row;
-        }
+        $cartsByUserId = $result->fetch_all();
         return $cartsByUserId;
     }
 
     public function changeQuanityById($id, $change)
     {
-        $query = "UPDATE " . $this->table . " c SET c.quantity = c.quantity + ? WHERE id = ?";
+        $query = "UPDATE " . self::$table . " c SET c.quantity = c.quantity + ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ii", $change, $id); // 's' for strings, 'i' for integer
         $result = $stmt->execute();
@@ -78,7 +74,8 @@ class Cart
 
     public function getTableName()
     {
-        return $this->table;
+        return self::$table;
+        // return self::$table;
     }
 
     public function getConnection()

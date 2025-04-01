@@ -3,7 +3,6 @@ include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
-
 use Admin\Classes\Database;
 use Admin\Classes\Category;
 
@@ -14,8 +13,8 @@ $tableName = $category->getTableName();
 
 $columns = [];
 $result_columns = $conn->query("SHOW COLUMNS FROM $tableName");
-while ($row = $result_columns->fetch_assoc()) {
-    $columns[] = $row['Field'];
+foreach ($row as $column) {
+    $columns[] = $column['Field'];
 }
 
 $start = $_POST['start'] ?? 0;
@@ -34,18 +33,13 @@ $sql = "SELECT id, name, description FROM $tableName
         LIMIT $start, $length";
 
 $result = $conn->query($sql);
+$data = $result->fetch_all(MYSQLI_ASSOC);
 
 $sql_filter = "SELECT COUNT(id) FROM $tableName 
         WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%'
         ORDER BY " . $columns[$order_column] . " $order_dir ;";
         
 $filtered_records = $conn->query($sql_filter)->fetch_row()[0];
-
-$data = array();
-while ($row = $result->fetch_assoc()) {
-    $row['DT_RowId'] = 'row_' . $row['id'];
-    $data[] = $row;
-}
 
 $response = array(
     "draw" => $_POST['draw'],

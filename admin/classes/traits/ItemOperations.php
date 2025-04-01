@@ -7,7 +7,7 @@ trait ItemOperations
     {
         $query = "DELETE FROM " . $tableName . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $id);
+        $stmt->bind_param("i", $id);
         $result =  $stmt->execute();
         return $result;
     }
@@ -15,7 +15,7 @@ trait ItemOperations
     public function getItemById ($tableName, $id) {
         $query = "SELECT * FROM " . $tableName . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $id);
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         $items = $result->fetch_assoc();
@@ -27,10 +27,7 @@ trait ItemOperations
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
-        $items = [];
-        while ($row = $result->fetch_assoc()) {
-            $items[] = $row;
-        }
+        $items = $result->fetch_all(MYSQLI_ASSOC);
         return $items;
     }
 }

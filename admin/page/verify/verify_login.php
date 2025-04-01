@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/User.php');
@@ -25,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userDetail = $user->login($email,$password);
     if ($userDetail['id']) {
         $_SESSION['email'] = $email;
-        $_SESSION['id'] = $userDetail['id'];
+        $_SESSION['user_id'] = $userDetail['id'];
         header('location: /');
     } else {
         unset($_SESSION['email']);
-        unset($_SESSION['id']);
+        unset($_SESSION['user_id']);
         $_SESSION['invalid-credentials'] = 'Incorrenct credentials';
         header('location: /admin/page/login.php');
     }
