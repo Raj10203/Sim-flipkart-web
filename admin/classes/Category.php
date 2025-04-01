@@ -3,6 +3,7 @@ namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
 use Admin\Classes\Traits\ItemOperations;
+
 class Category
 {
     use ItemOperations;
@@ -12,16 +13,6 @@ class Category
     public function __construct(Database $db)
     {
         $this->conn = $db?->connect();
-    }
-    public function getCategoryById($id)
-    {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $category = $result->fetch_assoc();
-        return $category;
     }
 
     public function editCategory($id, $name, $description)

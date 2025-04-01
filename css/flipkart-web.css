@@ -3,6 +3,7 @@
     --flipkart-yellow: #ffe500;
     --light-gray: #f1f3f6;
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -72,9 +73,11 @@ section {
     width: max-content;
     align-items: center;
 }
+
 .header-li-custom li:hover {
     color: white;
 }
+
 .header-li-custom #login-down-arrow:hover {
     transform: rotate(180deg);
     transition: transform .5s ease;
@@ -369,134 +372,6 @@ footer {
     justify-content: space-between;
 }
 
-
-
-
-.cart-container {
-    padding: 20px;
-}
-
-.cart-header {
-    background-color: white;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
-}
-
-.cart-item {
-    background-color: white;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
-}
-
-.cart-item img {
-    max-width: 100px;
-    max-height: 100px;
-    object-fit: contain;
-}
-
-.product-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: #212121;
-}
-
-.product-seller {
-    font-size: 14px;
-    color: #757575;
-}
-
-.price-container {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.original-price {
-    text-decoration: line-through;
-    color: #757575;
-    font-weight: normal;
-}
-
-.discount {
-    color: #388e3c;
-}
-
-.quantity-selector {
-    border: 1px solid #c2c2c2;
-    border-radius: 3px;
-    display: inline-flex;
-    align-items: center;
-}
-
-.qty-btn {
-    border: none;
-    background: none;
-    width: 30px;
-    height: 30px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.qty-input {
-    width: 40px;
-    border: none;
-    text-align: center;
-    font-weight: bold;
-}
-
-.remove-btn {
-    border: none;
-    background: none;
-    color: var(--flipkart-blue);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.price-summary {
-    background-color: white;
-    padding: 15px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
-}
-
-.checkout-btn {
-    background-color: #fb641b;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-    border-radius: 2px;
-}
-
-.total-row {
-    font-weight: bold;
-    border-top: 1px dashed #e0e0e0;
-    padding-top: 10px;
-    margin-top: 10px;
-}
-
-.empty-cart {
-    text-align: center;
-    padding: 50px 0;
-}
-
-.empty-cart img {
-    max-width: 200px;
-    margin-bottom: 20px;
-}
-
-.savings {
-    color: #388e3c;
-    font-size: 14px;
-}
 
 @media(max-width:1430px) {
     .p1-placeholder {

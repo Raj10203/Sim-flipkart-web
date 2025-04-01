@@ -1,8 +1,9 @@
 <?php
 namespace Admin\Classes;
-require_once('../../classes/traits/ItemOperations.php');
 
+require_once('../../classes/traits/ItemOperations.php');
 use Admin\Classes\Traits\ItemOperations;
+
 class Product
 {
     use ItemOperations;
@@ -12,17 +13,6 @@ class Product
     public function __construct(Database $db)
     {
         $this->conn = $db?->connect();
-    }
-
-    public function getProductById($id)
-    {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
-        return $product;
     }
 
     public function addProduct($name, $image, $category, $price, $description, $discount)

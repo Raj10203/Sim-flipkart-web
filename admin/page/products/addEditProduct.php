@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
@@ -20,7 +17,6 @@ $category = $_POST['category'] ?? '';
 $price = $_POST['price'] ?? '';
 $disciption = $_POST['description'] ?? '';
 $discount = $_POST['discount'] ?? 0;
-var_dump($discount);
 
 $imagePath = '';
 if (!empty($image['name'])) {

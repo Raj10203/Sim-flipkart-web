@@ -2,6 +2,7 @@
 namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
+
 class User
 {
     protected $conn;

@@ -2,8 +2,6 @@
 include_once('../../authentication/backend_authenticate.php');
 include_once('../../classes/Database.php');
 include_once('../../classes/Cart.php');
-require_once('../../classes/Product.php');
-use Admin\Classes\Product;
 use Admin\Classes\Database;
 use Admin\Classes\Cart;
 session_start();
@@ -14,11 +12,8 @@ if (!isset($_SESSION['id'])) {
 }
 $db = new Database;
 $cart = new Cart($db);
-$prod = new Product($db);
 
 $userId = $_SESSION['id'];
 $productId = (int)$_POST['productId'];
-// $product = $prod->getItemById($prod->getTableName() ,$productId);
-// $price = (float)$product['price'] ?? 0;
 $response = $cart->addToCart($userId,$productId);
 echo json_encode($response);

@@ -3,14 +3,16 @@ namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
 use Admin\Classes\Traits\ItemOperations;
+use Admin\Classes\Product;
+
 class Cart
 {
     use ItemOperations;
     protected $conn;
     protected $table = 'cart';
-
     public function __construct(Database $db)
     {
+        $this->db = $db;
         $this->conn = $db?->connect();
     }
 

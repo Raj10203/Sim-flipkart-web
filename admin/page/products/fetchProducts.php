@@ -12,7 +12,7 @@ $prod = new Product($db);
 $conn = $prod->getConnection();
 $tableName = $prod->getTableName();
 
-$columns = [ "p.id", "p.name", "p.image_path", "p.description", "p.price", "category_name", "p.category_id"];
+$columns = [ "p.id", "p.name", "p.image_path", "p.description", "p.price", "p.discount", "category_name", "p.category_id"];
 
 $columnSearch = $_POST['columns'];
 $searchValue = $_POST['search']['value'] ?? '';

@@ -5,16 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flipkart Cart</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/flipkart-web.css">
-
+    <link rel="stylesheet" href="./css/cart.css">
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <div class="perent-head">
@@ -83,10 +79,8 @@
             </div>
         </div>
     </nav>
-
     <div class="container mt-3">
         <div class="row">
-            <!-- Cart items column -->
             <div class="col-md-8">
                 <div class="cart-header">
                     <h5 class="mb-0">My Cart (<span id="cart-count"></span>)</h5>
@@ -98,16 +92,15 @@
 
                 <div class="cart-item d-none" id="empty-cart-message">
                     <div class="empty-cart">
-                        <img src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"alt="Empty Cart">
+                        <img src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+                            alt="Empty Cart">
                         <h4>Your cart is empty!</h4>
                         <p>Add items to it now.</p>
-                        <a href="#" class="btn" style="background-color: var(--flipkart-blue); color: white;">Shop
+                        <a href="index.html" class="btn" style="background-color: var(--flipkart-blue); color: white;">Shop
                             Now</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Price summary column -->
             <div class="col-md-4">
                 <div class="price-summary" id="price-summary">
                     <h5 class="mb-3">PRICE DETAILS</h5>
@@ -133,10 +126,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="./js/cart.js"></script>
 </body>
