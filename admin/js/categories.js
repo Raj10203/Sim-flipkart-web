@@ -4,7 +4,6 @@ $('.asideMember').each(function (index, element) {
     } else {
         $(element).removeClass('active');
     }
-
 });
 
 $(document).ready(function () {
@@ -99,21 +98,10 @@ $(document).ready(function () {
             },
         },
         columns: [
-            {
-                data: "id",
-                width: '10%'
-            },
-            {
-                data: "name",
-                width: '20%'
-            },
-            {
-                data: "description",
-            },
-            {
-                data: "id",
-                width: '10%'
-            },
+            { data: "id" },
+            { data: "name" },
+            { data: "description" },
+            { data: "id" },
         ],
         drawCallback: function () {
             removeEventListenersByClassName('event');
@@ -136,7 +124,7 @@ $(document).ready(function () {
                     });
                 });
             });
-            
+
             $(".delete").each(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
@@ -158,7 +146,6 @@ $(document).ready(function () {
             });
         }
     });
-
     setInterval(function () {
         table.ajax.reload(null, false);
     }, 30000);
@@ -225,5 +212,4 @@ $(document).ready(function () {
             element.parentNode.replaceChild(newElement, element);
         });
     }
-
 });

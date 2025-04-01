@@ -66,10 +66,6 @@ include('../authentication/authenticate_user.php');
                     <div class="container-fluid">
 
                         <div id="select-container" class=" d-flex" style="gap:10px" >
-                            <select class="form-control select" aria-label="Default select example" id="selectCategory"
-                                name="addCategory" style="width: min-content">
-                                <option selected value="">Select Category</option>
-                            </select>
                             <div id="categoryDropdown" class="dropdown"></div>
                         </div>
                         <!-- PAGE CONTAINER-->

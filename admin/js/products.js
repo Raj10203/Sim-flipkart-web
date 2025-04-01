@@ -4,7 +4,6 @@ $('.asideMember').each(function (index, element) {
     } else {
         $(element).removeClass('active');
     }
-
 });
 $(document).ready(function () {
 
@@ -19,19 +18,6 @@ $(document).ready(function () {
                 reader.readAsDataURL(file);
             }
         });
-    });
-
-    $.ajax({
-        type: "post",
-        url: "../page/categories/getAllCategories.php",
-        dataType: "json",
-        success: function (response) {
-            $(".select").each(function (index, element) {
-                response.forEach(function (category) {
-                    $(element).append(`<option value="${category.id}">${category.name}</option>`);
-                });
-            });
-        }
     });
 
     $(".imageInput").change(function (event) {
@@ -104,13 +90,13 @@ $(document).ready(function () {
                                 extend: 'excelHtml5',
                                 text: 'Excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6], // Adjust based on your table structure
+                                    columns: [0, 1, 2, 3, 4, 5, 6], 
                                     modifier: {
                                         page: 'all'
                                     },
                                     format: {
                                         body: function (data, row, column, node) {
-                                            if (column === 2) { // Assuming the image path is in column 1
+                                            if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
                                                 return "flipkart-web.com" + imagePath;
                                             }
@@ -123,13 +109,13 @@ $(document).ready(function () {
                                 extend: 'csvHtml5',
                                 text: 'CSV',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6], // Adjust based on your table structure
+                                    columns: [0, 1, 2, 3, 4, 5, 6], 
                                     modifier: {
                                         page: 'all'
                                     },
                                     format: {
                                         body: function (data, row, column, node) {
-                                            if (column === 2) { // Assuming the image path is in column 1
+                                            if (column === 2) { 
                                                 let imagePath = $(node).find('img').attr('src');
                                                 return "flipkart-web.com" + imagePath;
                                             }
@@ -143,13 +129,13 @@ $(document).ready(function () {
                                 extend: 'pdfHtml5',
                                 text: 'PDF',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6], // Adjust based on your table structure
+                                    columns: [0, 1, 2, 3, 4, 5, 6], 
                                     modifier: {
                                         page: 'all'
                                     },
                                     format: {
                                         body: function (data, row, column, node) {
-                                            if (column === 2) { // Assuming the image path is in column 1
+                                            if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
                                                 return "flipkart-web.com" + imagePath;
                                             }
@@ -199,31 +185,14 @@ $(document).ready(function () {
             },
         },
         columns: [
-            {
-                data: "id",
-            },
-            {
-                data: "name",
-            },
-            {
-                data: "image_path",
-            },
-            {
-                data: "description",
-            },
-            {
-                data: "price",
-            },
-            {
-                data: "discount",
-            },
-            {
-                data: "category_name",
-            },
-            {
-                data: "id",
-            },
-
+            { data: "id" },
+            { data: "name" },
+            { data: "image_path" },
+            { data: "description" },
+            { data: "price" },
+            { data: "discount" },
+            { data: "category_name" },
+            { data: "id" },
         ],
         drawCallback: function () {
             removeEventListenersByClassName('event');
@@ -270,81 +239,63 @@ $(document).ready(function () {
                 });
             });
         },
-        // initComplete: function () {
-        //     this.api().columns([6]).every(function () {
-        //         let column = this;
-
-        //         let select = document.getElementById('selectCategory');
-
-        //         select.addEventListener('change', function () {
-        //             column
-        //                 .search(select.value, { exact: true })
-        //                 .draw();
-        //         });
-
-        //     });
-        // }
         initComplete: function () {
             let api = this.api();
-            let column = api.column(6); // Category column index
-
-            // Create the dropdown container
+            let column = api.column(6); 
             let filterContainer = document.getElementById('categoryDropdown');
             filterContainer.innerHTML = `
                 <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
                     Select Categories
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="categoryDropdownButton" id="categoryList" style="max-height: 200px; overflow-y: auto; padding: 10px;">
+                <ul class="dropdown-menu dropdown-menu-lg" aria-labelledby="categoryDropdownButton" id="categoryList" style="max-height: 400px; overflow-y: auto; padding: 15px; width: 300px; min-width: 300px;">
                 </ul>
             `;
 
-            let categoryList = document.getElementById('categoryList'); // The list inside the dropdown
-
-            let categories = new Set();
-
-            // Get unique categories from the table data
-            column.data().each(function (category) {
-                categories.add(category);
-            });
-
-            // Generate checkboxes inside the dropdown
-            categories.forEach(function (category) {
-                let listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <input type="checkbox" class="category-checkbox" value="${category}"> ${category}
-                `;
-                categoryList.appendChild(listItem);
-            });
-
-            // Listen for changes in checkbox selection
-            document.querySelectorAll('.category-checkbox').forEach(function (checkbox) {
-                checkbox.addEventListener('change', function () {
-                    let selectedCategories = [];
-
-                    // Get all checked categories
-                    document.querySelectorAll('.category-checkbox:checked').forEach(function (checkedBox) {
-                        selectedCategories.push(checkedBox.value);
+            let categoryList = document.getElementById('categoryList');
+            $.ajax({
+                type: "post",
+                url: "../page/categories/getAllCategories.php",
+                dataType: "json",
+                success: function (response) {
+                    $(".select").each(function (index, element) {
+                        response.forEach(function (category) {
+                            let listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input category-checkbox" id="category-${category.id}" value="${category.name}">
+                                    <label class="form-check-label" for="category-${category.id}">${category.name}</label>
+                                </div>
+                            `;
+                            categoryList.appendChild(listItem);
+                        });
                     });
+                    document.querySelectorAll('.category-checkbox').forEach(function (checkbox) {
+                        checkbox.addEventListener('change', function () {
+                            let selectedCategories = [];
+                            document.querySelectorAll('.category-checkbox:checked').forEach(function (checkedBox) {
+                                selectedCategories.push(checkedBox.value);
+                            });
 
-                    // Use regex for multiple category filtering
-                    let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
-                    column.search(searchString, true, false).draw();
-                });
+                            let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
+                            column.search(searchString, true, false).draw();
+                        });
+                    });
+                }
             });
         }
 
+
     });
 
-    // setInterval(function () {
-    //     table.ajax.reload(null, false);
-    // }, 30000);
+    setInterval(function () {
+        table.ajax.reload(null, false);
+    }, 30000);
 
     $('#addProductForm').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
         let files = $('#addImage')[0].files;
         formData.append('image', files[0]);
-
         $.ajax({
             type: "post",
             url: "./products/addEditProduct.php",
