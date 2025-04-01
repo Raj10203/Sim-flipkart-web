@@ -11,7 +11,6 @@ class Cart
     protected static $table = 'cart';
     public function __construct(Database $db)
     {
-        $this->db = $db;
         $this->conn = $db?->connect();
     }
 
@@ -56,7 +55,7 @@ class Cart
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $cartsByUserId = $result->fetch_all();
+        $cartsByUserId = $result->fetch_all(MYSQLI_ASSOC);
         return $cartsByUserId;
     }
 

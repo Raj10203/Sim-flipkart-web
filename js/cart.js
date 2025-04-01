@@ -5,6 +5,19 @@ $(document).ready(function () {
     showCartItems();
 });
 
+function removeItem(id) {
+    $.ajax({
+        type: "post",
+        url: "admin/page/cart/deleteCart.php",
+        data: {
+            id: id
+        },
+        success: function (response) {
+            showCartItems();
+        }
+    });
+}
+
 function updateQuantity(id, change) {
     let newQuantity;
     $.ajax({
@@ -51,18 +64,6 @@ function updateEventListeners() {
     });
 }
 
-function removeItem(id) {
-    $.ajax({
-        type: "post",
-        url: "admin/page/cart/deleteCart.php",
-        data: {
-            id: id
-        },
-        success: function (response) {
-        }
-    });
-    showCartItems();
-}
 
 function showCartItems() {
     totalPrice = 0;
