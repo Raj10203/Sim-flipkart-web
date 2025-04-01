@@ -5,14 +5,11 @@ require_once('../../classes/Product.php');
 use Admin\Classes\Database;
 use Admin\Classes\Product;
 
-
-
 $db = new Database;
 $prod = new Product($db);
 $conn = $prod->getConnection();
 $tableName = $prod->getTableName();
-
-$columns = [ "p.id", "p.name", "p.image_path", "p.description", "p.price", "p.discount", "category_name", "p.category_id"];
+$columns = ["p.id", "p.name", "p.image_path", "p.description", "p.price", "p.discount", "category_name", "p.category_id"];
 
 $columnSearch = $_POST['columns'];
 $searchValue = $_POST['search']['value'] ?? '';
@@ -34,13 +31,14 @@ if (!empty($searchValue)) {
                 OR p.description LIKE '%$searchValue%' 
                 OR p.id LIKE '%$searchValue%' 
                 OR p.price LIKE '%$searchValue%' 
+                OR p.discount LIKE '%$searchValue%' 
                 OR c.name LIKE '%$searchValue%'
             )";
 }
 
 foreach ($columnSearch as $index => $col) {
     if (!empty($col['search']['value'])) {
-        $colValue =  $col['search']['value'];
+        $colValue = $col['search']['value'];
         $columnName = $columns[$index];
         if ($columnName == "category_name") {
             $sql .= " AND p.category_id = $colValue";
@@ -69,6 +67,7 @@ if (!empty($searchValue)) {
                     OR p.description LIKE '%$searchValue%' 
                     OR p.id LIKE '%$searchValue%' 
                     OR p.price LIKE '%$searchValue%' 
+                    OR p.discount LIKE '%$searchValue%' 
                     OR c.name LIKE '%$searchValue%'
                 )";
 }

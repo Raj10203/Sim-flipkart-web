@@ -6,9 +6,8 @@ $('.asideMember').each(function (index, element) {
     }
 
 });
+
 $(document).ready(function () {
-
-
     let table = $("#myTable").DataTable({
         responsive: true,
         scrollY: '70vh',
@@ -137,6 +136,7 @@ $(document).ready(function () {
                     });
                 });
             });
+            
             $(".delete").each(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({

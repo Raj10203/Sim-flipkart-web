@@ -106,7 +106,6 @@ $(document).ready(function () {
                         className: 'btn btn-light btn-datatable',
                         action: function (e, node, config) {
                             $('#addModal').modal('show');
-    
                         }
                     },
                 ]
@@ -158,14 +157,12 @@ $(document).ready(function () {
             },
             {
                 data: "discount",
-
             },
             {
                 data: "category_name",
             },
             {
                 data: "id",
-
             },
             
         ],
@@ -249,7 +246,6 @@ $(document).ready(function () {
             success: function (response) {
                 table.ajax.reload(null, false);
                 $('#addModal').modal('hide');
-                // notify(response['message'], response['class']);
             },
             error: function (jqXHR) {
                 alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));

@@ -1,5 +1,5 @@
 <?php
-// include_once('../../authentication/backend_authenticate.php');
+include_once('../../authentication/backend_authenticate.php');
 include_once('../../classes/Database.php');
 include_once('../../classes/Cart.php');
 require_once('../../classes/Product.php');

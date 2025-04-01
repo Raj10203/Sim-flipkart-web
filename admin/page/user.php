@@ -1,5 +1,5 @@
 <?php
-include('../../authentication/authenticate_user.php');
+include('../authentication/authenticate_user.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
