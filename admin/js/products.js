@@ -25,9 +25,7 @@ $(document).ready(function () {
         type: "post",
         url: "../page/categories/getAllCategories.php",
         dataType: "json",
-        success: function (response) {
-            console.log(response);
-            
+        success: function (response) {            
             $(".select").each(function (index, element) {
                 response.forEach(function (category) {
                     $(element).append(`<option value="${category.id}">${category.name}</option>`);
