@@ -90,7 +90,7 @@ $(document).ready(function () {
                                 extend: 'excelHtml5',
                                 text: 'Excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6], 
+                                    columns: [0, 1, 2, 3, 4, 5, 6],
                                     modifier: {
                                         page: 'all'
                                     },
@@ -109,13 +109,13 @@ $(document).ready(function () {
                                 extend: 'csvHtml5',
                                 text: 'CSV',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6], 
+                                    columns: [0, 1, 2, 3, 4, 5, 6],
                                     modifier: {
                                         page: 'all'
                                     },
                                     format: {
                                         body: function (data, row, column, node) {
-                                            if (column === 2) { 
+                                            if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
                                                 return "flipkart-web.com" + imagePath;
                                             }
@@ -129,7 +129,7 @@ $(document).ready(function () {
                                 extend: 'pdfHtml5',
                                 text: 'PDF',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6], 
+                                    columns: [0, 1, 2, 3, 4, 5, 6],
                                     modifier: {
                                         page: 'all'
                                     },
@@ -241,7 +241,7 @@ $(document).ready(function () {
         },
         initComplete: function () {
             let api = this.api();
-            let column = api.column(6); 
+            let column = api.column(6);
             let filterContainer = document.getElementById('categoryDropdown');
             filterContainer.innerHTML = `
                 <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -259,6 +259,9 @@ $(document).ready(function () {
                 success: function (response) {
                     $(".select").each(function (index, element) {
                         response.forEach(function (category) {
+                            $(".select").each(function (index, element) {
+                                $(element).append(`<option value="${category.id}">${category.name}</option>`);
+                            });
                             let listItem = document.createElement('li');
                             listItem.innerHTML = `
                                 <div class="form-check">
