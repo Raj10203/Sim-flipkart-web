@@ -10,12 +10,7 @@ $db = new Database;
 $category = new Category($db);
 $conn = $category->getConnection();
 $tableName = $category->getTableName();
-
-$columns = [];
-$result_columns = $conn->query("SHOW COLUMNS FROM $tableName");
-foreach ($row as $column) {
-    $columns[] = $column['Field'];
-}
+$columns = ['id', 'name', 'description'];
 
 $start = $_POST['start'] ?? 0;
 $search_value = $_POST['search']['value'] ?? "";
@@ -47,7 +42,5 @@ $response = array(
     "recordsFiltered" => $filtered_records,
     "data" => $data,
 );
-
 echo json_encode($response);
-
 $conn->close();

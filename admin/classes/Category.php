@@ -19,7 +19,7 @@ class Category
     {
         $query = "UPDATE " . self::$table . " SET name = ?, description = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssi", $name, $description, $id); // 's' for strings, 'i' for integer
+        $stmt->bind_param("ssi", $name, $description, $id); 
         $result = $stmt->execute();
         return $result;
     }

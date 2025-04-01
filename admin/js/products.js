@@ -25,7 +25,7 @@ $(document).ready(function () {
         type: "post",
         url: "../page/categories/getAllCategories.php",
         dataType: "json",
-        success: function (response) {            
+        success: function (response) {
             $(".select").each(function (index, element) {
                 response.forEach(function (category) {
                     $(element).append(`<option value="${category.id}">${category.name}</option>`);
@@ -99,7 +99,66 @@ $(document).ready(function () {
                         extend: 'collection',
                         text: 'Export',
                         className: 'btn btn-light btn-datatable',
-                        buttons: ['csv', 'excel', 'pdf']
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: 'Excel',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6], // Adjust based on your table structure
+                                    modifier: {
+                                        page: 'all'
+                                    },
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            if (column === 2) { // Assuming the image path is in column 1
+                                                let imagePath = $(node).find('img').attr('src');
+                                                return "flipkart-web.com" + imagePath;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: 'CSV',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6], // Adjust based on your table structure
+                                    modifier: {
+                                        page: 'all'
+                                    },
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            if (column === 2) { // Assuming the image path is in column 1
+                                                let imagePath = $(node).find('img').attr('src');
+                                                return "flipkart-web.com" + imagePath;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                extend: 'pdfHtml5',
+                                text: 'PDF',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6], // Adjust based on your table structure
+                                    modifier: {
+                                        page: 'all'
+                                    },
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            if (column === 2) { // Assuming the image path is in column 1
+                                                let imagePath = $(node).find('img').attr('src');
+                                                return "flipkart-web.com" + imagePath;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                }
+                            }
+                        ]
                     },
                     {
                         text: 'Add Product',
@@ -164,7 +223,7 @@ $(document).ready(function () {
             {
                 data: "id",
             },
-            
+
         ],
         drawCallback: function () {
             removeEventListenersByClassName('event');
@@ -211,20 +270,69 @@ $(document).ready(function () {
                 });
             });
         },
+        // initComplete: function () {
+        //     this.api().columns([6]).every(function () {
+        //         let column = this;
+
+        //         let select = document.getElementById('selectCategory');
+
+        //         select.addEventListener('change', function () {
+        //             column
+        //                 .search(select.value, { exact: true })
+        //                 .draw();
+        //         });
+
+        //     });
+        // }
         initComplete: function () {
-            this.api().columns([6]).every(function () {
-                let column = this;
+            let api = this.api();
+            let column = api.column(6); // Category column index
 
-                let select = document.getElementById('selectCategory');
+            // Create the dropdown container
+            let filterContainer = document.getElementById('categoryDropdown');
+            filterContainer.innerHTML = `
+                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Categories
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdownButton" id="categoryList" style="max-height: 200px; overflow-y: auto; padding: 10px;">
+                </ul>
+            `;
 
-                select.addEventListener('change', function () {
-                    column
-                        .search(select.value, { exact: true })
-                        .draw();
+            let categoryList = document.getElementById('categoryList'); // The list inside the dropdown
+
+            let categories = new Set();
+
+            // Get unique categories from the table data
+            column.data().each(function (category) {
+                categories.add(category);
+            });
+
+            // Generate checkboxes inside the dropdown
+            categories.forEach(function (category) {
+                let listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <input type="checkbox" class="category-checkbox" value="${category}"> ${category}
+                `;
+                categoryList.appendChild(listItem);
+            });
+
+            // Listen for changes in checkbox selection
+            document.querySelectorAll('.category-checkbox').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    let selectedCategories = [];
+
+                    // Get all checked categories
+                    document.querySelectorAll('.category-checkbox:checked').forEach(function (checkedBox) {
+                        selectedCategories.push(checkedBox.value);
+                    });
+
+                    // Use regex for multiple category filtering
+                    let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
+                    column.search(searchString, true, false).draw();
                 });
-
             });
         }
+
     });
 
     // setInterval(function () {

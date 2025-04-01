@@ -52,26 +52,25 @@ include('../authentication/authenticate_user.php');
 </head>
 
 <body>
-<div class="page-wrapper">
+    <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <?php include_once('layout/headerMobile.php') ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <?php include_once('./layout/headerDesktop.php'); ?>
-        <!-- HEADER MOBILE-->
- 
+            <!-- HEADER MOBILE-->
+
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
 
-                        
-                        <div id="select-container"  class=" d-flex">
-                        <select class="form-control select" aria-label="Default select example" id="selectCategory"
-                            name="addCategory" style="width: min-content">
-                            <option selected value="">Select Category</option>
-                        </select>
-
+                        <div id="select-container" class=" d-flex" style="gap:10px" >
+                            <select class="form-control select" aria-label="Default select example" id="selectCategory"
+                                name="addCategory" style="width: min-content">
+                                <option selected value="">Select Category</option>
+                            </select>
+                            <div id="categoryDropdown" class="dropdown"></div>
                         </div>
                         <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
@@ -87,7 +86,6 @@ include('../authentication/authenticate_user.php');
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                          
                         </table>
                     </div>
                 </div>
@@ -124,8 +122,8 @@ include('../authentication/authenticate_user.php');
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required step=".01"
-                                name="price" max="1000000000000" />
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required
+                                step=".01" name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
                             <label for="addDiscount" class="form-label">Discount</label>
@@ -169,23 +167,24 @@ include('../authentication/authenticate_user.php');
                             <p id="messageImageSize"></p>
                         </div>
                         <div class="mb-3 form-group">
-                            <select class="form-control select" aria-label="Default select example" id="editCategory" name="category">
+                            <select class="form-control select" aria-label="Default select example" id="editCategory"
+                                name="category">
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="editPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="editPrice" placeholder="Price" required step=".01"
-                                name="price" max="1000000000000" />
+                            <input type="number" class="form-control" id="editPrice" placeholder="Price" required
+                                step=".01" name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
                             <label for="editDiscount" class="form-label">Discount</label>
-                            <input type="number" class="form-control" id="editDiscount" placeholder="Discount" step=".01"
-                                name="discount" max="100" />
+                            <input type="number" class="form-control" id="editDiscount" placeholder="Discount"
+                                step=".01" name="discount" max="100" />
                         </div>
                         <div class="mb-3">
                             <label for="editDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="editDescription" name="description" rows="3" placeholder="Description ..."
-                                maxlength="100" required></textarea>
+                            <textarea class="form-control" id="editDescription" name="description" rows="3"
+                                placeholder="Description ..." maxlength="100" required></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="editFormSubmit" name="formSubmit" />
                     </form>

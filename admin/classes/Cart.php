@@ -64,7 +64,7 @@ class Cart
     {
         $query = "UPDATE " . self::$table . " c SET c.quantity = c.quantity + ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ii", $change, $id); // 's' for strings, 'i' for integer
+        $stmt->bind_param("ii", $change, $id);
         $result = $stmt->execute();
         if($result) {
             $cartDetail = $this->getItemById($this->getTableName(),$id);
@@ -75,7 +75,6 @@ class Cart
     public function getTableName()
     {
         return self::$table;
-        // return self::$table;
     }
 
     public function getConnection()

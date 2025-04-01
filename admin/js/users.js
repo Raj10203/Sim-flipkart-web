@@ -63,7 +63,6 @@ $(document).ready(function () {
                         text: 'Add User',
                         className: 'btn btn-light btn-datatable',
                         render: function (params) {
-                            // Add user functionality
                         }
                     }
                 ]

@@ -7,12 +7,6 @@ use Admin\Classes\Product;
 use Admin\Classes\Database;
 use Admin\Classes\Cart;
 
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(["status" => false, "message" => "not_logged_in"]);
-    exit;
-}
 $db = new Database;
 $cart = new Cart($db);
 $prod = new Product($db);
