@@ -1,4 +1,5 @@
 <?php
+
 namespace Admin\Classes\Traits;
 
 trait ItemOperations
@@ -12,7 +13,8 @@ trait ItemOperations
         return $result;
     }
 
-    public function getItemById ($tableName, $id) {
+    public function getItemById($tableName, $id)
+    {
         $query = "SELECT * FROM " . $tableName . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $id);

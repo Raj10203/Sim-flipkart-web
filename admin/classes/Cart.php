@@ -1,7 +1,9 @@
 <?php
+
 namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
+
 use Admin\Classes\Traits\ItemOperations;
 
 class Cart
@@ -49,7 +51,8 @@ class Cart
         }
     }
 
-    public function gettAllCartByUserId($userId){
+    public function gettAllCartByUserId($userId)
+    {
         $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . self::$table . " c JOIN products p on c.product_id = p.id  WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $userId);
@@ -65,8 +68,8 @@ class Cart
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ii", $change, $id);
         $result = $stmt->execute();
-        if($result) {
-            $cartDetail = $this->getItemById($this->getTableName(),$id);
+        if ($result) {
+            $cartDetail = $this->getItemById($this->getTableName(), $id);
             return $cartDetail;
         }
     }

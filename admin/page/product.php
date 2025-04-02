@@ -65,7 +65,7 @@ include('../authentication/authenticate_user.php');
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
 
-                        <div id="select-container" class=" d-flex" style="gap:10px" >
+                        <div id="select-container" class=" d-flex" style="gap:10px">
                             <div id="categoryDropdown" class="dropdown"></div>
                         </div>
                         <!-- PAGE CONTAINER-->

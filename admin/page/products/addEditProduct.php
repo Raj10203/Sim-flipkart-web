@@ -1,10 +1,13 @@
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
+
 use Admin\Classes\Database;
 use Admin\Classes\Product;
-
 
 $db = new Database;
 $prod = new Product($db);
@@ -58,4 +61,3 @@ try {
 }
 
 echo json_encode($response);
-?>

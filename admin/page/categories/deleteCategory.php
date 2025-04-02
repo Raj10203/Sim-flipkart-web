@@ -6,7 +6,6 @@ require_once('../../classes/Category.php');
 use Admin\Classes\Database;
 use Admin\Classes\Category;
 
-
 $db = new Database;
 $category = new Category($db);
 $response = [];
@@ -16,7 +15,7 @@ if (!isset($_POST['id'])) {
     die;
 }
 try {
-    $response['result'] = $category->deleteItem($category->getTableName(),$_POST['id']);
+    $response['result'] = $category->deleteItem($category->getTableName(), $_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

@@ -1,7 +1,9 @@
 <?php
+
 namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
+
 use Admin\Classes\Traits\ItemOperations;
 
 class Category
@@ -19,7 +21,7 @@ class Category
     {
         $query = "UPDATE " . self::$table . " SET name = ?, description = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssi", $name, $description, $id); 
+        $stmt->bind_param("ssi", $name, $description, $id);
         $result = $stmt->execute();
         return $result;
     }

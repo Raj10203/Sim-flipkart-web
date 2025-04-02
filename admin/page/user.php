@@ -46,7 +46,7 @@ include('../authentication/authenticate_user.php');
 </head>
 
 <body>
-<div class="page-wrapper">
+    <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <?php include_once('layout/headerMobile.php') ?>
 
@@ -87,7 +87,7 @@ include('../authentication/authenticate_user.php');
                     </button>
                 </div>
                 <div class="modal-body">
-                <form action="./product.html" id="productForm" data-type="add">
+                    <form action="./product.html" id="productForm" data-type="add">
                         <input type="hidden" id="productId" value="" data-val="" name="hiddenProductId">
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>

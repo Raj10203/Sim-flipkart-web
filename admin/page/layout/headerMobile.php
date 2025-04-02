@@ -47,7 +47,7 @@
             <ul class="list-unstyled navbar__list">
                 <li class="asideMember" data-li="dashboard">
                     <a href=" ./">
-                    <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                        <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
 
                 <li class="asideMember" data-li="products">

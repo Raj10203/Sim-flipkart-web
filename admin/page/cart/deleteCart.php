@@ -5,6 +5,7 @@ include_once('../../classes/Cart.php');
 
 use Admin\Classes\Database;
 use Admin\Classes\Cart;
+
 session_start();
 
 $db = new Database;
@@ -16,7 +17,7 @@ if (!isset($_POST['id'])) {
     exit;
 }
 try {
-    $response['result'] = $cart->deleteItem($cart->getTableName(),$_POST['id']);
+    $response['result'] = $cart->deleteItem($cart->getTableName(), $_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

@@ -257,20 +257,18 @@ $(document).ready(function () {
                 url: "../page/categories/getAllCategories.php",
                 dataType: "json",
                 success: function (response) {
-                    $(".select").each(function (index, element) {
-                        response.forEach(function (category) {
-                            $(".select").each(function (index, element) {
-                                $(element).append(`<option value="${category.id}">${category.name}</option>`);
-                            });
-                            let listItem = document.createElement('li');
-                            listItem.innerHTML = `
+                    response.forEach(function (category) {
+                        $(".select").each(function (index, element) {
+                            $(element).append(`<option value="${category.id}">${category.name}</option>`);
+                        });
+                        let listItem = document.createElement('li');
+                        listItem.innerHTML = `
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input category-checkbox" id="category-${category.id}" value="${category.name}">
                                     <label class="form-check-label" for="category-${category.id}">${category.name}</label>
                                 </div>
                             `;
-                            categoryList.appendChild(listItem);
-                        });
+                        categoryList.appendChild(listItem);
                     });
                     document.querySelectorAll('.category-checkbox').forEach(function (checkbox) {
                         checkbox.addEventListener('change', function () {
@@ -282,6 +280,9 @@ $(document).ready(function () {
                             let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
                             column.search(searchString, true, false).draw();
                         });
+                    });
+                    $('.form-check-label').click(function (e) { 
+                        e.stopPropagation();
                     });
                 }
             });
@@ -313,6 +314,10 @@ $(document).ready(function () {
                 alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
             }
         });
+        console.log(this);
+        this.reset();
+        $('#showImg').hide();
+
     });
 
     $('#editProductForm').submit(function (e) {
@@ -351,6 +356,7 @@ $(document).ready(function () {
                 alert("Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"));
             }
         });
+        this.reset();
     });
 
     $('#editCategoryForm').submit(function (e) {

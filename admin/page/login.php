@@ -68,8 +68,7 @@ if ($_SESSION['user_id']) {
                         <?php
                         if (isset($_SESSION['invalid-credentials'])) {
                             echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-credentials'] . '  </div>';
-                        }
-                        ;
+                        };
                         ?>
                         <div class="login-form">
                             <form action="/admin/page/verify/verify_login.php" method="post">
