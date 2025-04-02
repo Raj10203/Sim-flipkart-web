@@ -1,27 +1,27 @@
 <?php
 include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
+
 use Admin\Classes\Database;
 
 $db = new Database;
 $conn = $db->connect();
 
 $columns = array(
-    0 => 'id', 
-    1 => 'first_name',  
-    2 => 'last_name',  
-    3 => 'email',  
-    4 => 'created_at',  
+    0 => 'id',
+    1 => 'first_name',
+    2 => 'last_name',
+    3 => 'email',
+    4 => 'created_at',
 );
 
-
-$start = $_POST['start'];  
-$length = $_POST['length'];  
-$search_value = $_POST['search']['value'];  
+$start = $_POST['start'];
+$length = $_POST['length'];
+$search_value = $_POST['search']['value'];
 $order_column = $_POST['order'][0]['column'] ?? 0;
-$order_dir = $_POST['order'][0]['dir'] ?? 'asc';  
+$order_dir = $_POST['order'][0]['dir'] ?? 'asc';
 
-$sql_total = "SELECT COUNT(id) FROM users";  
+$sql_total = "SELECT COUNT(id) FROM users";
 $result_total = $conn->query($sql_total);
 $total_records = $result_total->fetch_row()[0];
 
@@ -46,11 +46,10 @@ while ($row = $result->fetch_assoc()) {
 $response = array(
     "draw" => $_POST['draw'],
     "recordsTotal" => $total_records,
-    "recordsFiltered" => $filtered_records,  
+    "recordsFiltered" => $filtered_records,
     "data" => $data,
 );
 
 echo json_encode($response);
 
 $conn->close();
-?>

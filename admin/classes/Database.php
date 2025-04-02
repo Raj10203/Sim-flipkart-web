@@ -1,7 +1,9 @@
 <?php
+
 namespace Admin\Classes;
 
 use mysqli;
+
 class Database
 {
     private $host = "localhost";

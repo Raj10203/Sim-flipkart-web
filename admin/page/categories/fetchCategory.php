@@ -3,9 +3,6 @@ include_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 use Admin\Classes\Database;
 use Admin\Classes\Category;
 
@@ -13,12 +10,7 @@ $db = new Database;
 $category = new Category($db);
 $conn = $category->getConnection();
 $tableName = $category->getTableName();
-
-$columns = [];
-$result_columns = $conn->query("SHOW COLUMNS FROM $tableName");
-while ($row = $result_columns->fetch_assoc()) {
-    $columns[] = $row['Field'];
-}
+$columns = ['id', 'name', 'description'];
 
 $start = $_POST['start'] ?? 0;
 $search_value = $_POST['search']['value'] ?? "";
@@ -36,26 +28,19 @@ $sql = "SELECT id, name, description FROM $tableName
         LIMIT $start, $length";
 
 $result = $conn->query($sql);
+$data = $result->fetch_all(MYSQLI_ASSOC);
 
 $sql_filter = "SELECT COUNT(id) FROM $tableName 
         WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%'
         ORDER BY " . $columns[$order_column] . " $order_dir ;";
-        
+
 $filtered_records = $conn->query($sql_filter)->fetch_row()[0];
 
-$data = array();
-while ($row = $result->fetch_assoc()) {
-    $row['DT_RowId'] = 'row_' . $row['id'];
-    $data[] = $row;
-}
-
 $response = array(
-    "draw" => $_POST['draw'],
-    "recordsTotal" => $total_records,
-    "recordsFiltered" => $filtered_records,
-    "data" => $data,
+        "draw" => $_POST['draw'],
+        "recordsTotal" => $total_records,
+        "recordsFiltered" => $filtered_records,
+        "data" => $data,
 );
-
 echo json_encode($response);
-
 $conn->close();

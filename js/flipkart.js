@@ -59,6 +59,7 @@ $(document).ready(function () {
                             </div>`;
 
                             $(`#cat-${product.category_id}`).append(productCard);
+
                         }
                     });
                 },
@@ -70,5 +71,29 @@ $(document).ready(function () {
         error: function (error) {
             console.error("Error fetching categories:", error);
         }
+    });
+    $(document).on('click', '.addCart', function () {
+        let productId = this.dataset.productId; // Correct way to get data-id
+
+        $.ajax({
+            type: "POST",
+            url: "admin/page/cart/addToCart.php",
+            data: {
+                'productId': productId
+            },
+            dataType: 'JSON',
+            success: function (response) {
+                if (response.message === "not_logged_in") {
+                    window.location.href = "admin/page/login.php"; // Redirect to login page
+                } else {
+                    Swal.fire({
+                        title: response['class'],
+                        text: response['message'],
+                        icon: response['class'],
+                        confirmButtonText: 'Ok'
+                    })
+                }
+            }
+        });
     });
 });

@@ -4,9 +4,6 @@ require_once('../../classes/Database.php');
 require_once('../../classes/User.php');
 
 session_start();
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 
 use Admin\Classes\User;
 use Admin\Classes\Database;
@@ -24,13 +21,14 @@ function test_input($data)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ? $_POST['email'] : "";
     $password = hash("sha256", $_POST['password']);
-    if ($user->login($email,$password)) {
+    $userDetail = $user->login($email, $password);
+    if ($userDetail['id']) {
         $_SESSION['email'] = $email;
-        $_SESSION['id'] = $user;
+        $_SESSION['user_id'] = $userDetail['id'];
         header('location: /');
     } else {
         unset($_SESSION['email']);
-        unset($_SESSION['id']);
+        unset($_SESSION['user_id']);
         $_SESSION['invalid-credentials'] = 'Incorrenct credentials';
         header('location: /admin/page/login.php');
     }

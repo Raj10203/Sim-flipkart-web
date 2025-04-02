@@ -1,23 +1,23 @@
 <?php
 include_once('../../authentication/backend_authenticate.php');
-require_once('../../classes/Database.php');
-require_once('../../classes/Product.php');
+include_once('../../classes/Database.php');
+include_once('../../classes/Cart.php');
 
 use Admin\Classes\Database;
-use Admin\Classes\Product;
+use Admin\Classes\Cart;
+
+session_start();
 
 $db = new Database;
-$prod = new Product($db);
+$cart = new Cart($db);
+
 $response = [];
 if (!isset($_POST['id'])) {
     echo json_encode(["error" => "Id is required"]);
-    die;
+    exit;
 }
 try {
-    $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
-    unlink("/var/www/html/flipkart/Sim-flipkart-web" . $oldProduct['image_path']);
-
-    $response['result'] = $prod->deleteItem($prod->getTableName(), $_POST['id']);
+    $response['result'] = $cart->deleteItem($cart->getTableName(), $_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

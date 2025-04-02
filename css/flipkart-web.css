@@ -1,3 +1,9 @@
+:root {
+    --flipkart-blue: #2874f0;
+    --flipkart-yellow: #ffe500;
+    --light-gray: #f1f3f6;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -62,13 +68,16 @@ section {
 }
 
 .login-li {
+    color: black;
     display: flex;
     width: max-content;
     align-items: center;
 }
+
 .header-li-custom li:hover {
     color: white;
 }
+
 .header-li-custom #login-down-arrow:hover {
     transform: rotate(180deg);
     transition: transform .5s ease;
@@ -362,6 +371,7 @@ footer {
     align-items: center;
     justify-content: space-between;
 }
+
 
 @media(max-width:1430px) {
     .p1-placeholder {

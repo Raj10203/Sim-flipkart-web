@@ -6,14 +6,10 @@ require_once('../../classes/Category.php');
 use Admin\Classes\Database;
 use Admin\Classes\Category;
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 $db = new Database;
 $category = new Category($db);
 
 $response = [];
-
 $categoryName = $_POST['categoryName'] ?? '';
 $categoryDiscription = $_POST['categoryDescription'] ?? '';
 try {
@@ -25,14 +21,12 @@ try {
         $response['message'] = "Successfully added category $categoryName";
     }
     $response['class'] = 'success';
-
 } catch (Exception $e) {
     $response['result'] = false;
     $response['error'] = $e->getMessage();
-    $response['message'] = $categoryName . " has not been ". isset($_POST['id']) ? " edited":" added";
+    $response['message'] = $categoryName . " has not been " . isset($_POST['id']) ? " edited" : " added";
     $response['class'] = 'danger';
 }
 
 
 echo json_encode($response);
-

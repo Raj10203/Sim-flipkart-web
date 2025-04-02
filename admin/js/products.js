@@ -4,7 +4,6 @@ $('.asideMember').each(function (index, element) {
     } else {
         $(element).removeClass('active');
     }
-
 });
 $(document).ready(function () {
 
@@ -19,19 +18,6 @@ $(document).ready(function () {
                 reader.readAsDataURL(file);
             }
         });
-    });
-
-    $.ajax({
-        type: "post",
-        url: "../page/categories/getAllCategories.php",
-        dataType: "json",
-        success: function (response) {
-            $(".select").each(function (index, element) {
-                response.forEach(function (category) {
-                    $(element).append(`<option value="${category.id}">${category.name}</option>`);
-                });
-            });
-        }
     });
 
     $(".imageInput").change(function (event) {
@@ -64,7 +50,7 @@ $(document).ready(function () {
                 }
             },
             {
-                targets: 6,
+                targets: 7,
                 data: 'id',
                 orderable: false,
                 render: function (data) {
@@ -99,7 +85,66 @@ $(document).ready(function () {
                         extend: 'collection',
                         text: 'Export',
                         className: 'btn btn-light btn-datatable',
-                        buttons: ['csv', 'excel', 'pdf']
+                        buttons: [
+                            {
+                                extend: 'excelHtml5',
+                                text: 'Excel',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6],
+                                    modifier: {
+                                        page: 'all'
+                                    },
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            if (column === 2) {
+                                                let imagePath = $(node).find('img').attr('src');
+                                                return "flipkart-web.com" + imagePath;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                text: 'CSV',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6],
+                                    modifier: {
+                                        page: 'all'
+                                    },
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            if (column === 2) {
+                                                let imagePath = $(node).find('img').attr('src');
+                                                return "flipkart-web.com" + imagePath;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                }
+                            }
+                            ,
+                            {
+                                extend: 'pdfHtml5',
+                                text: 'PDF',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6],
+                                    modifier: {
+                                        page: 'all'
+                                    },
+                                    format: {
+                                        body: function (data, row, column, node) {
+                                            if (column === 2) {
+                                                let imagePath = $(node).find('img').attr('src');
+                                                return "flipkart-web.com" + imagePath;
+                                            }
+                                            return data;
+                                        }
+                                    }
+                                }
+                            }
+                        ]
                     },
                     {
                         text: 'Add Product',
@@ -140,28 +185,14 @@ $(document).ready(function () {
             },
         },
         columns: [
-            {
-                data: "id",
-            },
-            {
-                data: "name",
-            },
-            {
-                data: "image_path",
-            },
-            {
-                data: "description",
-            },
-            {
-                data: "price",
-            },
-            {
-                data: "category_name",
-            },
-            {
-                data: "id",
-
-            },
+            { data: "id" },
+            { data: "name" },
+            { data: "image_path" },
+            { data: "description" },
+            { data: "price" },
+            { data: "discount" },
+            { data: "category_name" },
+            { data: "id" },
         ],
         drawCallback: function () {
             removeEventListenersByClassName('event');
@@ -180,6 +211,7 @@ $(document).ready(function () {
                             $('#previewImage').attr('src', response.image_path);
                             $('#editCategory').val(response.category_id);
                             $('#editPrice').val(response.price);
+                            $('#editDiscount').val(response.discount);
                             $('#editDescription').val(response.description);
                             $('#editModal').modal('show');
                         }
@@ -208,19 +240,55 @@ $(document).ready(function () {
             });
         },
         initComplete: function () {
-            this.api().columns([5]).every(function () {
-                let column = this;
+            let api = this.api();
+            let column = api.column(6);
+            let filterContainer = document.getElementById('categoryDropdown');
+            filterContainer.innerHTML = `
+                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Categories
+                </button>
+                <ul class="dropdown-menu dropdown-menu-lg" aria-labelledby="categoryDropdownButton" id="categoryList" style="max-height: 400px; overflow-y: auto; padding: 15px; width: 300px; min-width: 300px;">
+                </ul>
+            `;
 
-                let select = document.getElementById('selectCategory');
+            let categoryList = document.getElementById('categoryList');
+            $.ajax({
+                type: "post",
+                url: "../page/categories/getAllCategories.php",
+                dataType: "json",
+                success: function (response) {
+                    response.forEach(function (category) {
+                        $(".select").each(function (index, element) {
+                            $(element).append(`<option value="${category.id}">${category.name}</option>`);
+                        });
+                        let listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input category-checkbox" id="category-${category.id}" value="${category.name}">
+                                    <label class="form-check-label" for="category-${category.id}">${category.name}</label>
+                                </div>
+                            `;
+                        categoryList.appendChild(listItem);
+                    });
+                    document.querySelectorAll('.category-checkbox').forEach(function (checkbox) {
+                        checkbox.addEventListener('change', function () {
+                            let selectedCategories = [];
+                            document.querySelectorAll('.category-checkbox:checked').forEach(function (checkedBox) {
+                                selectedCategories.push(checkedBox.value);
+                            });
 
-                select.addEventListener('change', function () {
-                    column
-                        .search(select.value, { exact: true })
-                        .draw();
-                });
-
+                            let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
+                            column.search(searchString, true, false).draw();
+                        });
+                    });
+                    $('.form-check-label').click(function (e) { 
+                        e.stopPropagation();
+                    });
+                }
             });
         }
+
+
     });
 
     setInterval(function () {
@@ -232,7 +300,6 @@ $(document).ready(function () {
         let formData = new FormData(this);
         let files = $('#addImage')[0].files;
         formData.append('image', files[0]);
-
         $.ajax({
             type: "post",
             url: "./products/addEditProduct.php",
@@ -241,14 +308,16 @@ $(document).ready(function () {
             contentType: false,
             success: function (response) {
                 table.ajax.reload(null, false);
-                response = JSON.parse(response);
                 $('#addModal').modal('hide');
-                notify(response['message'], response['class']);
             },
             error: function (jqXHR) {
                 alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
             }
         });
+        console.log(this);
+        this.reset();
+        $('#showImg').hide();
+
     });
 
     $('#editProductForm').submit(function (e) {
@@ -280,7 +349,6 @@ $(document).ready(function () {
             contentType: false,
             success: function (response) {
                 table.ajax.reload(null, false);
-                response = JSON.parse(response);
                 $('#editModal').modal('hide');
                 notify(response['message'], response['class']);
             },
@@ -288,6 +356,7 @@ $(document).ready(function () {
                 alert("Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"));
             }
         });
+        this.reset();
     });
 
     $('#editCategoryForm').submit(function (e) {
