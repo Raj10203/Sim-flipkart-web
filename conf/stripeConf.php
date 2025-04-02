@@ -1,0 +1,4 @@
+<?php
+define('STRIPE_SECRET_KEY', 'sk_test_51R90D8QIKIosp2bHdi0WfyFpN4WqFmxSpJW9OQUOv1wxhCOZNa1FL5fq0C4Ix9Xw7NC0ZS3IWxaXhBUII0OpwsfE00WF4lLLO3');
+define('TAX_RATE_ID','txr_1R9LRqQIKIosp2bHnlclsDkL');
+define('DIWALI','promo_1R9NmbQIKIosp2bHKd794DLx');

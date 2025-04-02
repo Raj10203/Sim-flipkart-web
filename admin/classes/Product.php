@@ -2,8 +2,6 @@
 
 namespace Admin\Classes;
 
-require_once('../../classes/traits/ItemOperations.php');
-
 use Admin\Classes\Traits\ItemOperations;
 
 class Product

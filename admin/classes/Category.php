@@ -2,8 +2,6 @@
 
 namespace Admin\Classes;
 
-require_once('../../classes/traits/ItemOperations.php');
-
 use Admin\Classes\Traits\ItemOperations;
 
 class Category
@@ -35,7 +33,7 @@ class Category
         return $result;
     }
 
-    public function getTableName()
+    public static function getTableName()
     {
         return self::$table;
     }

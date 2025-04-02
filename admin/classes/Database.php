@@ -10,7 +10,7 @@ class Database
     private $user = "raj@simform";
     private $password = "Raj123";
     private $dbname = "flipkart_db";
-    public $conn;
+    protected $conn;
 
     public function connect()
     {

@@ -2,8 +2,6 @@
 
 namespace Admin\Classes;
 
-require_once('../../classes/traits/ItemOperations.php');
-
 use Admin\Classes\Traits\ItemOperations;
 
 class Cart
@@ -74,13 +72,8 @@ class Cart
         }
     }
 
-    public function getTableName()
+    public static function getTableName()
     {
         return self::$table;
-    }
-
-    public function getConnection()
-    {
-        return $this->conn;
     }
 }

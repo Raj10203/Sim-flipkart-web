@@ -1,3 +1,6 @@
+<?php 
+require_once './admin/authentication/authenticate_user.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -121,7 +124,9 @@
                         <div class="col-4 text-end">₹<span id="final-price"></span></div>
                     </div>
                     <div class="savings mt-2">You will save ₹<span id="total-savings">0</span> on this order</div>
-                    <button class="checkout-btn mt-3">PLACE ORDER</button>
+                    <form action="checkout.php" id="placeOrder" >
+                        <input type="submit" class="checkout-btn mt-3" value="PLACE ORDER"></input>
+                    </form>
                 </div>
             </div>
         </div>

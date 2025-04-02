@@ -1,5 +1,6 @@
 <?php
 include_once('../../authentication/backend_authenticate.php');
+require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
@@ -15,7 +16,7 @@ if (!isset($_POST['id'])) {
     die;
 }
 try {
-    $response['result'] = $category->deleteItem($category->getTableName(), $_POST['id']);
+    $response['result'] = $category->deleteItem($category->getTableName(), "id", $_POST['id']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {
