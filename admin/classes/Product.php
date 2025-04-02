@@ -43,7 +43,7 @@ class Product
         return $result;
     }
 
-    public function getTableName()
+    public static function getTableName()
     {
         return self::$table;
     }

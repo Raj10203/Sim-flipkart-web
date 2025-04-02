@@ -314,7 +314,6 @@ $(document).ready(function () {
                 alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
             }
         });
-        console.log(this);
         this.reset();
         $('#showImg').hide();
 

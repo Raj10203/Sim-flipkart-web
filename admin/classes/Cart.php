@@ -53,7 +53,7 @@ class Cart
 
     public function gettAllCartByUserId($userId)
     {
-        $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . self::$table . " c JOIN products p on c.product_id = p.id  WHERE user_id = ?";
+        $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . self::$table . " c JOIN " . Product::getTableName() . " p on c.product_id = p.id  WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $userId);
         $stmt->execute();
