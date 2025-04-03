@@ -43,11 +43,9 @@ if (!empty($image['name'])) {
 
 try {
     if (isset($_POST['id'])) {
-        //delete old image
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
-        unlink("/var/www/html/flipkart/Sim-flipkart-web" . $oldProduct['image_path']);
-
         $response['result'] = $prod->editProduct($_POST['id'], $name, $image, $category, $price, $disciption, $discount);
+        unlink($_SERVER['DOCUMENT_ROOT']. $oldProduct['image_path']);
         $response['message'] = "Successfully edited product $name";
     } else {
         $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $disciption, $discount);

@@ -16,9 +16,9 @@ if (!isset($_POST['id'])) {
 }
 try {
     $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
-    unlink("/var/www/html/flipkart/Sim-flipkart-web" . $oldProduct['image_path']);
-
+    
     $response['result'] = $prod->deleteItem($prod->getTableName(), "id", $_POST['id']);
+    unlink($_SERVER['DOCUMENT_ROOT'] . $oldProduct['image_path']);
     $response['message'] = "Successfully deleted category";
     $response['class'] = 'success';
 } catch (Exception $e) {

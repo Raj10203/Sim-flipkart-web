@@ -84,13 +84,17 @@ function showCartItems() {
 
             updateCartCount();
             if (count === 0) {
+                $('#cartItems').removeClass('col-lg-8').addClass('col-lg-12');
                 document.getElementById('empty-cart-message').classList.remove('d-none');
-                document.getElementById('price-summary').classList.add('d-none');
+                $('#placeOrder').hide();
+                // document.getElementById('price-summary').classList.add('d-none');
                 return;
             }
-
+            
+            $('#cartItems').removeClass('col-lg-12').addClass('col-lg-8');
             document.getElementById('empty-cart-message').classList.add('d-none');
-            document.getElementById('price-summary').classList.remove('d-none')
+            $('#placeOrder').show();
+            // document.getElementById('price-summary').classList.remove('d-none')
             cartsByUserId.forEach(item => {
                 let salePrice = parseFloat((item.price - (item.price * item.discount) / 100) * item.quantity).toFixed(2);
                 totalAmount = totalAmount + parseFloat(salePrice);

@@ -4,7 +4,7 @@ namespace Admin\Classes\Traits;
 
 trait ItemOperations
 {
-    public function deleteItem($tableName,$colunName , $value)
+    public function deleteItem($tableName, $colunName, $value)
     {
         $query = "DELETE FROM " . $tableName . " WHERE $colunName = ?";
         $stmt = $this->conn->prepare($query);

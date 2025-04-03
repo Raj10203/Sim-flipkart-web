@@ -44,6 +44,7 @@ section {
 
 .navbar-child2 {
     display: flex;
+    gap: 10px;
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
@@ -372,6 +373,9 @@ footer {
     justify-content: space-between;
 }
 
+.icons {
+    margin: 0 10px;
+}
 
 @media(max-width:1430px) {
     .p1-placeholder {

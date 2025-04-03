@@ -271,6 +271,10 @@ section {
     font-size: 14px;
 }
 
+.icons {
+    margin: 0 10px;
+}
+
 @media(max-width:1430px) {
     .p1-placeholder {
         width: 100%;
@@ -278,6 +282,8 @@ section {
         overflow-x: scroll;
     }
 }
+
+
 
 @media(max-width:992px) {
     .container-fluid {

@@ -28,4 +28,35 @@ class User
         }
         return false;
     }
+
+    public function addUser($firstName, $lastName, $email, $password)
+    {
+        
+        $query = "INSERT INTO " . self::$table . " (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        try {
+            $stmt->bind_param("ssss", $firstName, $lastName, $email, $password);
+            $stmt->execute();
+            $response = [
+                'status' => true,
+                'message' => 'Account created successfully'
+            ];
+        } catch (\Throwable $th) {
+            if ($stmt->errno === 1062) {
+                $response = [
+                    'status' => false,
+                    'message' => 'This email is already registered'
+                ];
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => 'An error occurred: ' . $stmt->error
+                ];
+            }
+        }
+        $stmt->close();
+
+        return $response;
+    }
 }

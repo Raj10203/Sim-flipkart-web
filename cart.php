@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once './admin/authentication/authenticate_user.php';
 ?>
 <!DOCTYPE html>
@@ -11,6 +11,7 @@ require_once './admin/authentication/authenticate_user.php';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/cart.css">
+    <!-- <link rel="stylesheet" href="./css/flipkart-web.css"> -->
 </head>
 
 <body>
@@ -52,29 +53,30 @@ require_once './admin/authentication/authenticate_user.php';
                                         0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                                 </svg>
                                 <div class="dropdown">
-                                    <a class="nav-link header-li-child dn" href="#">Login
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"
-                                            id="login-down-arrow">
-                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0
-                                                1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                        </svg>
+                                    <a data-bs-toggle="dropdown" aria-expanded="false" class="nav-link header-li-child dn" href="#">Profile
+
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/admin/page/login"
-                                                style="width: 100%;">Login</a></li>
-                                        <li><a class="dropdown-item" href="/admin/page/register">Register</a></li>
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/page/login"><i class="fa-solid fa-user icons"></i>Profile</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/page/register"><i class="fa-solid fa-box-open icons"></i>Orders</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/page/logout"><i class="fa-solid fa-right-from-bracket icons" ></i>Logout</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
                         </div>
                         <li class="nav-item login-li">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <i class="fa-solid fa-cart-shopping "></i>
                             <a class="nav-link active header-li-child dn" aria-current="page" href="#">Cart</a>
                         </li>
                         <li class="nav-item login-li">
                             <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/Store-9eeae2.svg"
-                                alt="Become a Seller" class="_1XmrCc header-li-child">
+                                alt="Become a Seller" class="_1XmrCc">
                             <a class="nav-link header-li-child dn" aria-disabled="true" href="#">Become a Seller</a>
                         </li>
                     </ul>
@@ -84,7 +86,8 @@ require_once './admin/authentication/authenticate_user.php';
     </nav>
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-8">
+
+            <div class="col-lg-8" id="cartItems">
                 <div class="cart-header">
                     <h5 class="mb-0">My Cart (<span id="cart-count"></span>)</h5>
                 </div>
@@ -104,7 +107,7 @@ require_once './admin/authentication/authenticate_user.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4" id="placeOrder">
                 <div class="price-summary" id="price-summary">
                     <h5 class="mb-3">PRICE DETAILS</h5>
                     <div class="row mb-2">
@@ -124,7 +127,7 @@ require_once './admin/authentication/authenticate_user.php';
                         <div class="col-4 text-end">₹<span id="final-price"></span></div>
                     </div>
                     <div class="savings mt-2">You will save ₹<span id="total-savings">0</span> on this order</div>
-                    <form action="checkout.php" id="placeOrder" >
+                    <form action="stripe/checkout.php" id="placeOrder">
                         <input type="submit" class="checkout-btn mt-3" value="PLACE ORDER"></input>
                     </form>
                 </div>
