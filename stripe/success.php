@@ -35,13 +35,13 @@ echo '<pre>';
 print_r($session);
 
 $cartDetails = $_SESSION['cartDetails'];
-$totalPrice = 0;
+$orderId = 0;
 if (count($cartDetails) > 0) {
-    $orderId  = $ord->addOrder($paymentid);
+    $orderId  = $ord->addOrder($paymentid, $session->metadata->total_products, $session->amount_subtotal);
     foreach ($cartDetails as $item) {
         $finalPrice = $item['price'] - $item['price'] * $item['discount'] / 100;
         $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $finalPrice);
     }
-    $cart->deleteItem($cart->getTableName(), 'user_id', $_SESSION['user_id']);
+echo $cart->deleteItem($cart->getTableName(), 'user_id', $_SESSION['user_id']);
 }
-echo  $orderId;
+header("location: /payment-success?order_id=$orderId");

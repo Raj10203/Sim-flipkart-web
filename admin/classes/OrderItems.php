@@ -25,6 +25,17 @@ class OrderItems
         return $orderId;
     }
 
+    public function getItemsByOrderId($orderID)
+    {
+        $query = "SELECT * FROM " . self::$table . " oi JOIN " . Product::getTableName() . " p on oi.product_id = p.id  WHERE oi.order_id = ?";;
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $orderID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $items = $result->fetch_all(MYSQLI_ASSOC);
+        return $items;
+    }
+
     public static function getTableName()
     {
         return self::$table;

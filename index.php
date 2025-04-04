@@ -82,7 +82,7 @@
                         </div>
                         <li class="nav-item login-li">
                             <i class="fa-solid fa-cart-shopping "></i>
-                            <a class="nav-link active header-li-child dn" aria-current="page" href="#">Cart</a>
+                            <a class="nav-link active header-li-child dn" aria-current="page" href="cart.php">Cart</a>
                         </li>
                         <li class="nav-item login-li">
                             <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/Store-9eeae2.svg"

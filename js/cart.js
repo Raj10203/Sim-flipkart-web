@@ -29,9 +29,7 @@ function updateQuantity(id, change) {
             change: change
         },
         success: function (response) {
-            console.log(response);
-            
-            response = JSON.parse(response);
+            response = JSON.parse(response);            
             newQuantity = response.quantity;
             if (newQuantity > 0) {
                 showCartItems();
@@ -81,7 +79,7 @@ function showCartItems() {
             let container = document.getElementById('cart-items-container');
             container.innerHTML = '';
             count = cartsByUserId.length;
-
+            
             updateCartCount();
             if (count === 0) {
                 $('#cartItems').removeClass('col-lg-8').addClass('col-lg-12');

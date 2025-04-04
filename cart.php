@@ -15,7 +15,7 @@ require_once './admin/authentication/authenticate_user.php';
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg ">
+<nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <div class="perent-head">
                 <div class="child-head child-head1">
@@ -53,7 +53,15 @@ require_once './admin/authentication/authenticate_user.php';
                                         0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                                 </svg>
                                 <div class="dropdown">
-                                    <a data-bs-toggle="dropdown" aria-expanded="false" class="nav-link header-li-child dn" href="#">Profile
+                                    <a data-bs-toggle="dropdown" aria-expanded="false" class="nav-link header-li-child dn" href="#">
+                                        <?php
+                                        session_start();
+                                        if (isset($_SESSION['user_name'])) {
+                                            echo $_SESSION['user_name'];
+                                        } else {
+                                            echo 'login';
+                                        }
+                                        ?>
 
                                     </a>
                                     <ul class="dropdown-menu">
@@ -61,10 +69,10 @@ require_once './admin/authentication/authenticate_user.php';
                                             <a class="dropdown-item" href="/admin/page/login"><i class="fa-solid fa-user icons"></i>Profile</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="/admin/page/register"><i class="fa-solid fa-box-open icons"></i>Orders</a>
+                                            <a class="dropdown-item" href="orders"><i class="fa-solid fa-box-open icons"></i>Orders</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="/admin/page/logout"><i class="fa-solid fa-right-from-bracket icons" ></i>Logout</a>
+                                            <a class="dropdown-item" href="/admin/page/logout"><i class="fa-solid fa-right-from-bracket icons"></i>Logout</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,7 +80,7 @@ require_once './admin/authentication/authenticate_user.php';
                         </div>
                         <li class="nav-item login-li">
                             <i class="fa-solid fa-cart-shopping "></i>
-                            <a class="nav-link active header-li-child dn" aria-current="page" href="#">Cart</a>
+                            <a class="nav-link active header-li-child dn" aria-current="page" href="cart.php">Cart</a>
                         </li>
                         <li class="nav-item login-li">
                             <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/Store-9eeae2.svg"
@@ -102,7 +110,7 @@ require_once './admin/authentication/authenticate_user.php';
                             alt="Empty Cart">
                         <h4>Your cart is empty!</h4>
                         <p>Add items to it now.</p>
-                        <a href="index.html" class="btn" style="background-color: var(--flipkart-blue); color: white;">Shop
+                        <a href="/" class="btn" style="background-color: var(--flipkart-blue); color: white;">Shop
                             Now</a>
                     </div>
                 </div>
@@ -122,7 +130,7 @@ require_once './admin/authentication/authenticate_user.php';
                         <div class="col-8">Delivery Charges</div>
                         <div class="col-4 text-end text-success">FREE</div>
                     </div>
-                    <div class="row total-row">
+                     <div class="row total-row">
                         <div class="col-8">Total Amount</div>
                         <div class="col-4 text-end">₹<span id="final-price"></span></div>
                     </div>
