@@ -1,0 +1,670 @@
+{
+    "timestamp": "2025-04-07 06:39:57",
+    "event_type": "checkout.session.completed",
+    "event_data": {
+        "id": "cs_test_a195ffD3IxJaW1zQvS6jllIAGKGh3libIDzA6no1kZEX4611FQRuMdVBT0",
+        "object": "checkout.session",
+        "adaptive_pricing": {
+            "enabled": true
+        },
+        "after_expiration": null,
+        "allow_promotion_codes": null,
+        "amount_subtotal": 57178,
+        "amount_total": 67470,
+        "automatic_tax": {
+            "enabled": false,
+            "liability": null,
+            "status": null
+        },
+        "billing_address_collection": null,
+        "cancel_url": "http:\/\/flipkart-web.com\/stripe\/cart?provider_session_id={CHECKOUT_SESSION_ID}",
+        "client_reference_id": null,
+        "client_secret": null,
+        "collected_information": null,
+        "consent": null,
+        "consent_collection": null,
+        "created": 1744007969,
+        "currency": "inr",
+        "currency_conversion": null,
+        "custom_fields": [],
+        "custom_text": {
+            "after_submit": null,
+            "shipping_address": null,
+            "submit": null,
+            "terms_of_service_acceptance": null
+        },
+        "customer": null,
+        "customer_creation": "if_required",
+        "customer_details": {
+            "address": {
+                "city": null,
+                "country": "IN",
+                "line1": null,
+                "line2": null,
+                "postal_code": null,
+                "state": null
+            },
+            "email": "admin@example.com",
+            "name": "456",
+            "phone": null,
+            "tax_exempt": "none",
+            "tax_ids": []
+        },
+        "customer_email": null,
+        "discounts": [],
+        "expires_at": 1744094369,
+        "invoice": null,
+        "invoice_creation": {
+            "enabled": false,
+            "invoice_data": {
+                "account_tax_ids": null,
+                "custom_fields": null,
+                "description": null,
+                "footer": null,
+                "issuer": null,
+                "metadata": [],
+                "rendering_options": null
+            }
+        },
+        "livemode": false,
+        "locale": null,
+        "metadata": {
+            "user_id": "1",
+            "total-products": "1"
+        },
+        "mode": "payment",
+        "payment_intent": "pi_3RB9LOQIKIosp2bH0Qc7uY5Q",
+        "payment_link": null,
+        "payment_method_collection": "if_required",
+        "payment_method_configuration_details": {
+            "id": "pmc_1R90DfQIKIosp2bHXUNKA1W4",
+            "parent": null
+        },
+        "payment_method_options": {
+            "card": {
+                "request_three_d_secure": "automatic"
+            }
+        },
+        "payment_method_types": [
+            "card",
+            "link"
+        ],
+        "payment_status": "paid",
+        "permissions": null,
+        "phone_number_collection": {
+            "enabled": false
+        },
+        "recovered_from": null,
+        "saved_payment_method_options": null,
+        "setup_intent": null,
+        "shipping_address_collection": null,
+        "shipping_cost": null,
+        "shipping_details": null,
+        "shipping_options": [],
+        "status": "complete",
+        "submit_type": null,
+        "subscription": null,
+        "success_url": "http:\/\/flipkart-web.com\/stripe\/success?provider_session_id={CHECKOUT_SESSION_ID}",
+        "total_details": {
+            "amount_discount": 0,
+            "amount_shipping": 0,
+            "amount_tax": 10292
+        },
+        "ui_mode": "hosted",
+        "url": null,
+        "wallet_options": null
+    },
+    "cartDetails": [
+        {
+            "id": 56,
+            "quantity": 1,
+            "productId": 7,
+            "name": "Asus ROG Strix G15",
+            "price": "43000.00",
+            "image_path": "\/admin\/uploads\/product-images\/Screenshot from 2025-03-12 23-16-321743841132.png",
+            "discount": "23.00"
+        }
+    ],
+    "inputsForOrder": [
+        "pi_3RB9LOQIKIosp2bH0Qc7uY5Q",
+        "1",
+        null,
+        57178
+    ]
+}
+{
+    "timestamp": "2025-04-07 06:42:03",
+    "event_type": "checkout.session.completed",
+    "event_data": {
+        "id": "cs_test_a1HMpRxYsR1BUd6mbQP8nNZ13VJaniGP7fUXD4bsa3gGE6q9et92MQaXHZ",
+        "object": "checkout.session",
+        "adaptive_pricing": {
+            "enabled": true
+        },
+        "after_expiration": null,
+        "allow_promotion_codes": null,
+        "amount_subtotal": 57178,
+        "amount_total": 67470,
+        "automatic_tax": {
+            "enabled": false,
+            "liability": null,
+            "status": null
+        },
+        "billing_address_collection": null,
+        "cancel_url": "http:\/\/flipkart-web.com\/stripe\/cart?provider_session_id={CHECKOUT_SESSION_ID}",
+        "client_reference_id": null,
+        "client_secret": null,
+        "collected_information": null,
+        "consent": null,
+        "consent_collection": null,
+        "created": 1744008109,
+        "currency": "inr",
+        "currency_conversion": null,
+        "custom_fields": [],
+        "custom_text": {
+            "after_submit": null,
+            "shipping_address": null,
+            "submit": null,
+            "terms_of_service_acceptance": null
+        },
+        "customer": null,
+        "customer_creation": "if_required",
+        "customer_details": {
+            "address": {
+                "city": null,
+                "country": "IN",
+                "line1": null,
+                "line2": null,
+                "postal_code": null,
+                "state": null
+            },
+            "email": "admin@example.com",
+            "name": "456",
+            "phone": null,
+            "tax_exempt": "none",
+            "tax_ids": []
+        },
+        "customer_email": null,
+        "discounts": [],
+        "expires_at": 1744094509,
+        "invoice": null,
+        "invoice_creation": {
+            "enabled": false,
+            "invoice_data": {
+                "account_tax_ids": null,
+                "custom_fields": null,
+                "description": null,
+                "footer": null,
+                "issuer": null,
+                "metadata": [],
+                "rendering_options": null
+            }
+        },
+        "livemode": false,
+        "locale": null,
+        "metadata": {
+            "user_id": "1",
+            "total_products": "1"
+        },
+        "mode": "payment",
+        "payment_intent": "pi_3RB9NeQIKIosp2bH0R4Isg46",
+        "payment_link": null,
+        "payment_method_collection": "if_required",
+        "payment_method_configuration_details": {
+            "id": "pmc_1R90DfQIKIosp2bHXUNKA1W4",
+            "parent": null
+        },
+        "payment_method_options": {
+            "card": {
+                "request_three_d_secure": "automatic"
+            }
+        },
+        "payment_method_types": [
+            "card",
+            "link"
+        ],
+        "payment_status": "paid",
+        "permissions": null,
+        "phone_number_collection": {
+            "enabled": false
+        },
+        "recovered_from": null,
+        "saved_payment_method_options": null,
+        "setup_intent": null,
+        "shipping_address_collection": null,
+        "shipping_cost": null,
+        "shipping_details": null,
+        "shipping_options": [],
+        "status": "complete",
+        "submit_type": null,
+        "subscription": null,
+        "success_url": "http:\/\/flipkart-web.com\/stripe\/success?provider_session_id={CHECKOUT_SESSION_ID}",
+        "total_details": {
+            "amount_discount": 0,
+            "amount_shipping": 0,
+            "amount_tax": 10292
+        },
+        "ui_mode": "hosted",
+        "url": null,
+        "wallet_options": null
+    },
+    "cartDetails": [
+        {
+            "id": 56,
+            "quantity": 1,
+            "productId": 7,
+            "name": "Asus ROG Strix G15",
+            "price": "43000.00",
+            "image_path": "\/admin\/uploads\/product-images\/Screenshot from 2025-03-12 23-16-321743841132.png",
+            "discount": "23.00"
+        }
+    ],
+    "inputsForOrder": [
+        "pi_3RB9NeQIKIosp2bH0R4Isg46",
+        "1",
+        "1",
+        57178
+    ]
+}
+{
+    "timestamp": "2025-04-07 06:59:30",
+    "event_type": "checkout.session.completed",
+    "event_data": {
+        "id": "cs_test_a13ED2749jtUwhaLjOplVi4jKULY9arfmjiVSQ7ooPEjn6nH9lmNc5wbAi",
+        "object": "checkout.session",
+        "adaptive_pricing": {
+            "enabled": true
+        },
+        "after_expiration": null,
+        "allow_promotion_codes": null,
+        "amount_subtotal": 57178,
+        "amount_total": 67470,
+        "automatic_tax": {
+            "enabled": false,
+            "liability": null,
+            "status": null
+        },
+        "billing_address_collection": null,
+        "cancel_url": "http:\/\/flipkart-web.com\/stripe\/cart?provider_session_id={CHECKOUT_SESSION_ID}",
+        "client_reference_id": null,
+        "client_secret": null,
+        "collected_information": null,
+        "consent": null,
+        "consent_collection": null,
+        "created": 1744009153,
+        "currency": "inr",
+        "currency_conversion": null,
+        "custom_fields": [],
+        "custom_text": {
+            "after_submit": null,
+            "shipping_address": null,
+            "submit": null,
+            "terms_of_service_acceptance": null
+        },
+        "customer": null,
+        "customer_creation": "if_required",
+        "customer_details": {
+            "address": {
+                "city": null,
+                "country": "IN",
+                "line1": null,
+                "line2": null,
+                "postal_code": null,
+                "state": null
+            },
+            "email": "admin@example.com",
+            "name": "456",
+            "phone": null,
+            "tax_exempt": "none",
+            "tax_ids": []
+        },
+        "customer_email": null,
+        "discounts": [],
+        "expires_at": 1744095553,
+        "invoice": null,
+        "invoice_creation": {
+            "enabled": false,
+            "invoice_data": {
+                "account_tax_ids": null,
+                "custom_fields": null,
+                "description": null,
+                "footer": null,
+                "issuer": null,
+                "metadata": [],
+                "rendering_options": null
+            }
+        },
+        "livemode": false,
+        "locale": null,
+        "metadata": {
+            "user_id": "1",
+            "total_products": "1"
+        },
+        "mode": "payment",
+        "payment_intent": "pi_3RB9eWQIKIosp2bH1lzIbbBJ",
+        "payment_link": null,
+        "payment_method_collection": "if_required",
+        "payment_method_configuration_details": {
+            "id": "pmc_1R90DfQIKIosp2bHXUNKA1W4",
+            "parent": null
+        },
+        "payment_method_options": {
+            "card": {
+                "request_three_d_secure": "automatic"
+            }
+        },
+        "payment_method_types": [
+            "card",
+            "link"
+        ],
+        "payment_status": "paid",
+        "permissions": null,
+        "phone_number_collection": {
+            "enabled": false
+        },
+        "recovered_from": null,
+        "saved_payment_method_options": null,
+        "setup_intent": null,
+        "shipping_address_collection": null,
+        "shipping_cost": null,
+        "shipping_details": null,
+        "shipping_options": [],
+        "status": "complete",
+        "submit_type": null,
+        "subscription": null,
+        "success_url": "http:\/\/flipkart-web.com\/stripe\/success?provider_session_id={CHECKOUT_SESSION_ID}",
+        "total_details": {
+            "amount_discount": 0,
+            "amount_shipping": 0,
+            "amount_tax": 10292
+        },
+        "ui_mode": "hosted",
+        "url": null,
+        "wallet_options": null
+    },
+    "cartDetails": [
+        {
+            "id": 56,
+            "quantity": 1,
+            "productId": 7,
+            "name": "Asus ROG Strix G15",
+            "price": "43000.00",
+            "image_path": "\/admin\/uploads\/product-images\/Screenshot from 2025-03-12 23-16-321743841132.png",
+            "discount": "23.00"
+        }
+    ],
+    "inputsForOrder": [
+        "pi_3RB9eWQIKIosp2bH1lzIbbBJ",
+        "1",
+        "1",
+        57178
+    ]
+}
+{
+    "timestamp": "2025-04-07 07:33:20",
+    "event_type": "checkout.session.completed",
+    "event_data": {
+        "id": "cs_test_a1vCFIwOwCFYMRX2zqd01JS6dSutNKHDm6c1z1gSepbSiTHdu2Q5wmERnO",
+        "object": "checkout.session",
+        "adaptive_pricing": {
+            "enabled": true
+        },
+        "after_expiration": null,
+        "allow_promotion_codes": null,
+        "amount_subtotal": 2200000,
+        "amount_total": 2596000,
+        "automatic_tax": {
+            "enabled": false,
+            "liability": null,
+            "status": null
+        },
+        "billing_address_collection": null,
+        "cancel_url": "http:\/\/flipkart-web.com\/payment-success",
+        "client_reference_id": null,
+        "client_secret": null,
+        "collected_information": null,
+        "consent": null,
+        "consent_collection": null,
+        "created": 1744011183,
+        "currency": "inr",
+        "currency_conversion": null,
+        "custom_fields": [],
+        "custom_text": {
+            "after_submit": null,
+            "shipping_address": null,
+            "submit": null,
+            "terms_of_service_acceptance": null
+        },
+        "customer": null,
+        "customer_creation": "if_required",
+        "customer_details": {
+            "address": {
+                "city": null,
+                "country": "IN",
+                "line1": null,
+                "line2": null,
+                "postal_code": null,
+                "state": null
+            },
+            "email": "admin@example.com",
+            "name": "456",
+            "phone": null,
+            "tax_exempt": "none",
+            "tax_ids": []
+        },
+        "customer_email": null,
+        "discounts": [],
+        "expires_at": 1744097583,
+        "invoice": null,
+        "invoice_creation": {
+            "enabled": false,
+            "invoice_data": {
+                "account_tax_ids": null,
+                "custom_fields": null,
+                "description": null,
+                "footer": null,
+                "issuer": null,
+                "metadata": [],
+                "rendering_options": null
+            }
+        },
+        "livemode": false,
+        "locale": null,
+        "metadata": {
+            "total_products": "1",
+            "user_id": "1"
+        },
+        "mode": "payment",
+        "payment_intent": "pi_3RBABGQIKIosp2bH0OSILtdl",
+        "payment_link": null,
+        "payment_method_collection": "if_required",
+        "payment_method_configuration_details": {
+            "id": "pmc_1R90DfQIKIosp2bHXUNKA1W4",
+            "parent": null
+        },
+        "payment_method_options": {
+            "card": {
+                "request_three_d_secure": "automatic"
+            }
+        },
+        "payment_method_types": [
+            "card",
+            "link"
+        ],
+        "payment_status": "paid",
+        "permissions": null,
+        "phone_number_collection": {
+            "enabled": false
+        },
+        "recovered_from": null,
+        "saved_payment_method_options": null,
+        "setup_intent": null,
+        "shipping_address_collection": null,
+        "shipping_cost": null,
+        "shipping_details": null,
+        "shipping_options": [],
+        "status": "complete",
+        "submit_type": null,
+        "subscription": null,
+        "success_url": "http:\/\/flipkart-web.com\/payment-success",
+        "total_details": {
+            "amount_discount": 0,
+            "amount_shipping": 0,
+            "amount_tax": 396000
+        },
+        "ui_mode": "hosted",
+        "url": null,
+        "wallet_options": null
+    },
+    "cartDetails": [
+        {
+            "id": 56,
+            "quantity": 1,
+            "productId": 7,
+            "name": "Asus ROG Strix G15",
+            "price": "43000.00",
+            "image_path": "\/admin\/uploads\/product-images\/Screenshot from 2025-03-12 23-16-321743841132.png",
+            "discount": "23.00"
+        }
+    ],
+    "inputsForOrder": [
+        "pi_3RBABGQIKIosp2bH0OSILtdl",
+        "1",
+        "1",
+        2200000
+    ]
+}
+{
+    "timestamp": "2025-04-07 07:40:24",
+    "event_type": "checkout.session.completed",
+    "event_data": {
+        "id": "cs_test_a1loh9XXtRrIUN8LhOYTxGHMFmuqEHJA5CyPvMcIVwVxnai5fN35gIFl1c",
+        "object": "checkout.session",
+        "adaptive_pricing": {
+            "enabled": true
+        },
+        "after_expiration": null,
+        "allow_promotion_codes": null,
+        "amount_subtotal": 3311000,
+        "amount_total": 3906980,
+        "automatic_tax": {
+            "enabled": false,
+            "liability": null,
+            "status": null
+        },
+        "billing_address_collection": null,
+        "cancel_url": "http:\/\/flipkart-web.com\/payment-success",
+        "client_reference_id": null,
+        "client_secret": null,
+        "collected_information": null,
+        "consent": null,
+        "consent_collection": null,
+        "created": 1744011608,
+        "currency": "inr",
+        "currency_conversion": null,
+        "custom_fields": [],
+        "custom_text": {
+            "after_submit": null,
+            "shipping_address": null,
+            "submit": null,
+            "terms_of_service_acceptance": null
+        },
+        "customer": null,
+        "customer_creation": "if_required",
+        "customer_details": {
+            "address": {
+                "city": null,
+                "country": "IN",
+                "line1": null,
+                "line2": null,
+                "postal_code": null,
+                "state": null
+            },
+            "email": "admin@example.com",
+            "name": "456",
+            "phone": null,
+            "tax_exempt": "none",
+            "tax_ids": []
+        },
+        "customer_email": null,
+        "discounts": [],
+        "expires_at": 1744098008,
+        "invoice": null,
+        "invoice_creation": {
+            "enabled": false,
+            "invoice_data": {
+                "account_tax_ids": null,
+                "custom_fields": null,
+                "description": null,
+                "footer": null,
+                "issuer": null,
+                "metadata": [],
+                "rendering_options": null
+            }
+        },
+        "livemode": false,
+        "locale": null,
+        "metadata": {
+            "user_id": "1",
+            "total_products": "1"
+        },
+        "mode": "payment",
+        "payment_intent": "pi_3RBAI7QIKIosp2bH05IP3cjZ",
+        "payment_link": null,
+        "payment_method_collection": "if_required",
+        "payment_method_configuration_details": {
+            "id": "pmc_1R90DfQIKIosp2bHXUNKA1W4",
+            "parent": null
+        },
+        "payment_method_options": {
+            "card": {
+                "request_three_d_secure": "automatic"
+            }
+        },
+        "payment_method_types": [
+            "card",
+            "link"
+        ],
+        "payment_status": "paid",
+        "permissions": null,
+        "phone_number_collection": {
+            "enabled": false
+        },
+        "recovered_from": null,
+        "saved_payment_method_options": null,
+        "setup_intent": null,
+        "shipping_address_collection": null,
+        "shipping_cost": null,
+        "shipping_details": null,
+        "shipping_options": [],
+        "status": "complete",
+        "submit_type": null,
+        "subscription": null,
+        "success_url": "http:\/\/flipkart-web.com\/payment-success",
+        "total_details": {
+            "amount_discount": 0,
+            "amount_shipping": 0,
+            "amount_tax": 595980
+        },
+        "ui_mode": "hosted",
+        "url": null,
+        "wallet_options": null
+    },
+    "cartDetails": [
+        {
+            "id": 56,
+            "quantity": 1,
+            "productId": 7,
+            "name": "Asus ROG Strix G15",
+            "price": "43000.00",
+            "image_path": "\/admin\/uploads\/product-images\/Screenshot from 2025-03-12 23-16-321743841132.png",
+            "discount": "23.00"
+        }
+    ],
+    "inputsForOrder": [
+        "pi_3RBAI7QIKIosp2bH05IP3cjZ",
+        "1",
+        "1",
+        3311000
+    ]
+}

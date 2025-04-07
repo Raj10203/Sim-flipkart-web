@@ -15,11 +15,11 @@ class Order
         $this->conn = $db?->connect();
     }
 
-    public function addOrder($paymentId, $total_products, $total_amount)
+    public function addOrder($paymentId, $user_id, $total_products, $total_amount)
     {
         $query = "INSERT INTO " . self::$table . " (user_id, status, total_products, total_price, payment_id) VALUES (?, 'paid', ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iiis", $_SESSION['user_id'], $total_products, $total_amount, $paymentId);
+        $stmt->bind_param("iiis", $user_id, $total_products, $total_amount, $paymentId);
         $stmt->execute();
         $orderId = $stmt->insert_id;
         return $orderId;

@@ -56,7 +56,7 @@ if (count($cartDetails) > 0) {
     </div>';
 }
     }
-echo $cart->deleteItem($cart->getTableName(), 'user_id', $_SESSION['user_id']);
+// echo $cart->deleteItem($cart->getTableName(), 'user_id', $_SESSION['user_id']);
 
 
 $mail = new PHPMailer(true);

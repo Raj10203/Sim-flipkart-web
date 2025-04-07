@@ -1,0 +1,5 @@
+{
+    "timestamp": "2025-04-07 06:39:57",
+    "error_message": "Column 'total_products' cannot be null",
+    "trace": "#0 \/var\/www\/projects\/Sim-flipkart-web\/admin\/classes\/Order.php(23): mysqli_stmt->execute()\n#1 \/var\/www\/projects\/Sim-flipkart-web\/success-webhoock.php(75): Admin\\Classes\\Order->addOrder()\n#2 {main}"
+}

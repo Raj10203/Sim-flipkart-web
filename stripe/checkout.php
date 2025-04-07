@@ -36,8 +36,7 @@ foreach ($cartDetails as $item) {
 $checkoutSession = $stripe->checkout->sessions->create([
     'line_items' => $lineItems,
     'mode' => 'payment',
-    'success_url' => 'http://flipkart-web.com/stripe/success?provider_session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url' => 'http://flipkart-web.com/stripe/cart?provider_session_id={CHECKOUT_SESSION_ID}',
+    'success_url' => 'http://flipkart-web.com/payment-success',
     'metadata' => [
         'user_id' => $_SESSION['user_id'],
         'total_products' => count($cartDetails)
