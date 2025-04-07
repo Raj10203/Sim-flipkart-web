@@ -4,17 +4,11 @@ namespace Admin\Classes;
 
 use Admin\Classes\Traits\ItemOperations;
 
-class Order
+class Order extends Database
 {
     use ItemOperations;
-    protected $conn;
     protected static $table = 'orders';
-
-    public function __construct(Database $db)
-    {
-        $this->conn = $db?->connect();
-    }
-
+    
     public function addOrder($paymentId, $user_id, $total_products, $total_amount)
     {
         $query = "INSERT INTO " . self::$table . " (user_id, status, total_products, total_price, payment_id) VALUES (?, 'paid', ?, ?, ?)";
@@ -38,10 +32,5 @@ class Order
     public static function getTableName()
     {
         return self::$table;
-    }
-
-    public function getConnection()
-    {
-        return $this->conn;
     }
 }

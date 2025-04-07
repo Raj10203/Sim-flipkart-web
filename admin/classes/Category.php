@@ -4,16 +4,10 @@ namespace Admin\Classes;
 
 use Admin\Classes\Traits\ItemOperations;
 
-class Category
+class Category extends Database
 {
     use ItemOperations;
-    protected $conn;
     protected static $table = 'categories';
-
-    public function __construct(Database $db)
-    {
-        $this->conn = $db?->connect();
-    }
 
     public function editCategory($id, $name, $description)
     {
@@ -36,10 +30,5 @@ class Category
     public static function getTableName()
     {
         return self::$table;
-    }
-
-    public function getConnection()
-    {
-        return $this->conn;
     }
 }

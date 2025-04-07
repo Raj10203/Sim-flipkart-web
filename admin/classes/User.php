@@ -4,15 +4,9 @@ namespace Admin\Classes;
 
 require_once('../../classes/traits/ItemOperations.php');
 
-class User
+class User extends Database
 {
-    protected $conn;
     private static $table = "users";
-
-    public function __construct(Database $db)
-    {
-        $this->conn = $db->connect();
-    }
 
     public function login($email, $password)
     {
@@ -33,7 +27,7 @@ class User
     {
         $query = "INSERT INTO " . self::$table . " (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-
+        $response['status'] = false;
         try {
             $stmt->bind_param("ssss", $firstName, $lastName, $email, $password);
             $stmt->execute();
@@ -42,17 +36,7 @@ class User
                 'message' => 'Account created successfully'
             ];
         } catch (\Throwable $th) {
-            if ($stmt->errno === 1062) {
-                $response = [
-                    'status' => false,
-                    'message' => 'This email is already registered'
-                ];
-            } else {
-                $response = [
-                    'status' => false,
-                    'message' => 'An error occurred: ' . $stmt->error
-                ];
-            }
+            $response['message'] =  $stmt->errno === 1062 ? 'This email is already registered' : 'An error occurred: ';
         }
         $stmt->close();
         return $response;

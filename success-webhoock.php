@@ -1,5 +1,4 @@
 <?php
-use Admin\Classes\Database;
 use Admin\Classes\Order;
 use Admin\Classes\OrderItems;
 use Admin\Classes\Cart;
@@ -44,11 +43,9 @@ if ($event->type == 'checkout.session.completed') {
         ];
         $file = 'webhook_data.json';
 
-        $db = new Database;
-        $ord = new Order($db);
-        $oi = new OrderItems($db);
-        $cart = new Cart($db);
-
+        $ord = new Order();
+        $oi = new OrderItems();
+        $cart = new Cart();
         $eventData = $data['event_data'];
         $paymentid = $eventData->payment_intent;
         $userId = $eventData->metadata->user_id;
@@ -92,7 +89,6 @@ if ($event->type == 'checkout.session.completed') {
         $errorFile = 'webhook_errors.log';
         file_put_contents($errorFile, json_encode($errorData, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
     }
-
     http_response_code(200); // Must respond to Stripe with 200
 } else {
     http_response_code(400);

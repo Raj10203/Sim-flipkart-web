@@ -4,16 +4,10 @@ namespace Admin\Classes;
 
 use Admin\Classes\Traits\ItemOperations;
 
-class Product
+class Product extends Database
 {
     use ItemOperations;
-    protected $conn;
     protected static $table = 'products';
-
-    public function __construct(Database $db)
-    {
-        $this->conn = $db?->connect();
-    }
 
     public function addProduct($name, $image, $category, $price, $description, $discount)
     {
@@ -44,10 +38,5 @@ class Product
     public static function getTableName()
     {
         return self::$table;
-    }
-
-    public function getConnection()
-    {
-        return $this->conn;
     }
 }

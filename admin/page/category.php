@@ -99,12 +99,12 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="categoryName" class="form-label">Category Name</label>
                             <input type="text" class="form-control" id="categoryName" name="categoryName"
-                                placeholder="Category Name" required maxlength="30" />
+                                placeholder="Category Name"  maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="categoryDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="categoryDescription" placeholder="Description ..."
-                                name="categoryDescription" maxlength="200" required></textarea>
+                                name="categoryDescription" maxlength="200" ></textarea>
                         </div>
                         <input type="submit" class="btn event btn-primary" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />

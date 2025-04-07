@@ -1,18 +1,14 @@
 <?php
 
+use Admin\Classes\Product;
+
 require_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 
-use Admin\Classes\Database;
-use Admin\Classes\Product;
-
-$db = new Database;
-$prod = new Product($db);
-
+$prod = new Product();
 $response = [];
-
 $name = $_POST['productName'] ?? '';
 $image = $_FILES['image'] ?? [];
 $category = $_POST['category'] ?? '';

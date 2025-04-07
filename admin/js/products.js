@@ -6,6 +6,7 @@ $('.asideMember').each(function (index, element) {
     }
 });
 $(document).ready(function () {
+   
 
     $(".imageInput").each(function (index, element) {
         element.addEventListener("change", function (e) {
@@ -281,7 +282,7 @@ $(document).ready(function () {
                             column.search(searchString, true, false).draw();
                         });
                     });
-                    $('.form-check-label').click(function (e) { 
+                    $('.form-check-label').click(function (e) {
                         e.stopPropagation();
                     });
                 }
@@ -292,30 +293,56 @@ $(document).ready(function () {
     setInterval(function () {
         table.ajax.reload(null, false);
     }, 30000);
-
+    $('#addProductForm').validate({ 
+        rules: {
+            productName: {
+                required: true,
+            },
+            image: {
+                required: true,
+            },
+            category: {
+                required: true,
+            },
+            price: {
+                required: true,
+            },
+            discount: {
+                required: true,
+                min: 0,
+                max: 100
+            },
+            description: {
+                required: true,
+            }
+        },
+        submitHandler: function(form) {
+            let formData = new FormData(form);
+            let files = $('#addImage')[0].files;
+            formData.append('image', files[0]);
+            $.ajax({
+                type: "post",
+                url: "./products/addEditProduct.php",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    table.ajax.reload(null, false);
+                    $('#addModal').modal('hide');
+                },
+                error: function (jqXHR) {
+                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
+                }
+            });
+            this.reset();
+            $('#showImg').hide();
+        }
+    });
     $('#addProductForm').submit(function (e) {
         e.preventDefault();
-        let formData = new FormData(this);
-        let files = $('#addImage')[0].files;
-        formData.append('image', files[0]);
-        $.ajax({
-            type: "post",
-            url: "./products/addEditProduct.php",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                table.ajax.reload(null, false);
-                $('#addModal').modal('hide');
-            },
-            error: function (jqXHR) {
-                alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
-            }
-        });
-        this.reset();
-        $('#showImg').hide();
+       
     });
-
+    
     $('#editProductForm').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
@@ -325,7 +352,7 @@ $(document).ready(function () {
         let price = $('#editPrice').val();
         let description = $('#editDescription').val();
         let files = $('#editImage')[0].files;
-        
+
         formData.append('id', id);
         formData.append('addProductName', name);
         formData.append('addCategory', category);
@@ -398,4 +425,5 @@ $(document).ready(function () {
             element.parentNode.replaceChild(newElement, element);
         });
     }
+
 });

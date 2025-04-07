@@ -1,17 +1,14 @@
 <?php
+
+use Admin\Classes\User;
+
 require_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/User.php');
-
 session_start();
 
-use Admin\Classes\User;
-use Admin\Classes\Database;
-
-$db = new Database;
-$user = new User($db);
-
+$user = new User();
 $email = $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ?: "";
 $password = hash("sha256", $_POST['password']);
 $userDetail = $user->login($email, $password);

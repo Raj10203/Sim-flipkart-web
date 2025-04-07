@@ -1,12 +1,11 @@
 <?php
+
+use Admin\Classes\Category;
+
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
-use Admin\Classes\Database;
-use Admin\Classes\Category;
-
-$db = new Database;
-$cat = new Category($db);
+$cat = new Category();
 $id = $_POST['id'];
 echo json_encode($cat->getItemById($cat->getTableName(), $id));

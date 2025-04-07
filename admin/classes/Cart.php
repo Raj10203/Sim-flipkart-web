@@ -4,15 +4,10 @@ namespace Admin\Classes;
 
 use Admin\Classes\Traits\ItemOperations;
 
-class Cart
+class Cart extends Database
 {
     use ItemOperations;
-    protected $conn;
     protected static $table = 'cart';
-    public function __construct(Database $db)
-    {
-        $this->conn = $db?->connect();
-    }
 
     public function addToCart($userId, $productId)
     {
