@@ -2,13 +2,17 @@
 
 namespace Admin\Classes;
 
+use Admin\Classes\Traits\ItemOperations;
+
 require_once('../../classes/traits/ItemOperations.php');
 
 class User extends Database
 {
-    private static $table = "users";
+    use ItemOperations;
 
-    public function login($email, $password)
+    protected static $table = 'users';
+
+    public function login(string $email, string $password)
     {
         $query = "SELECT * FROM " . self::$table . " WHERE email = ?";
         $stmt = $this->conn->prepare($query);
@@ -23,7 +27,7 @@ class User extends Database
         return false;
     }
 
-    public function addUser($firstName, $lastName, $email, $password)
+    public function addUser(string $firstName, string $lastName, string $email, string $password)
     {
         $query = "INSERT INTO " . self::$table . " (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);

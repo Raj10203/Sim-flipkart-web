@@ -7,9 +7,10 @@ use Admin\Classes\Traits\ItemOperations;
 class OrderItems extends Database
 {
     use ItemOperations;
+
     protected static $table = 'order_items';
 
-    public function insertOrderItem($orderId, $productId, $quantity, $finalPrice)
+    public function insertOrderItem(int $orderId, int $productId, int $quantity, float $finalPrice)
     {
         $query = "INSERT INTO " . self::$table . " (order_id, product_id, quantity, final_price) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
@@ -19,7 +20,7 @@ class OrderItems extends Database
         return $orderId;
     }
 
-    public function getItemsByOrderId($orderID)
+    public function getItemsByOrderId(int $orderID)
     {
         $query = "SELECT * FROM " . self::$table . " oi JOIN " . Product::getTableName() . " p on oi.product_id = p.id  WHERE oi.order_id = ?";;
         $stmt = $this->conn->prepare($query);
@@ -28,10 +29,5 @@ class OrderItems extends Database
         $result = $stmt->get_result();
         $items = $result->fetch_all(MYSQLI_ASSOC);
         return $items;
-    }
-
-    public static function getTableName()
-    {
-        return self::$table;
     }
 }

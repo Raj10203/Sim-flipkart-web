@@ -32,4 +32,9 @@ trait ItemOperations
         $items = $result->fetch_all(MYSQLI_ASSOC);
         return $items;
     }
+
+    public static function getTableName()
+    {   
+        return static::$table;
+    }
 }

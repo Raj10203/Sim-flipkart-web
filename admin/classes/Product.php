@@ -9,16 +9,16 @@ class Product extends Database
     use ItemOperations;
     protected static $table = 'products';
 
-    public function addProduct($name, $image, $category, $price, $description, $discount)
+    public function addProduct(string $name, string $image_path, int $category, float $price, string $description, float $discount)
     {
         $query = "INSERT INTO " . self::$table . " (name, image_path, category_id, price, description, discount) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssidsd", $name, $image, $category, $price, $description, $discount);
+        $stmt->bind_param("ssidsd", $name, $image_path, $category, $price, $description, $discount);
         $result =  $stmt->execute();
         return $result;
     }
 
-    public function editProduct($id, $name, $image, $category, $price, $description, $discount)
+    public function editProduct(int $id, string $name, array $image, int $category, float $price, string $description, float $discount)
     {
         if (!empty($image['name'])) {
             $query = "UPDATE " . self::$table . " SET name = ?, image_path = ?, category_id = ?, price = ?, description = ?, discount = ? WHERE id = ?";
@@ -33,10 +33,5 @@ class Product extends Database
         $stmt->execute();
         $result = $stmt->affected_rows > 0;
         return $result;
-    }
-
-    public static function getTableName()
-    {
-        return self::$table;
     }
 }

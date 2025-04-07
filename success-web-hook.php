@@ -17,7 +17,7 @@ $dotenv->load();
 \Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
 $event = null;
-$endpoint_secret = 'whsec_5PxfM4GOceW4l3U85XLt6JefLcXg1rnG';
+$endpoint_secret = $_ENV['WEBHOOKKEY'];
 $input = @file_get_contents("php://input");
 
 try {

@@ -9,7 +9,7 @@ class Cart extends Database
     use ItemOperations;
     protected static $table = 'cart';
 
-    public function addToCart($userId, $productId)
+    public function addToCart(int $userId, int $productId)
     {
         $query = "SELECT id FROM " . self::$table . " WHERE user_id = ? AND product_id = ?";
         $stmt = $this->conn->prepare($query);
@@ -44,7 +44,7 @@ class Cart extends Database
         }
     }
 
-    public function gettAllCartByUserId($userId)
+    public function gettAllCartByUserId(int $userId)
     {
         $query = "SELECT c.id as id, c.quantity as quantity, p.id as productId, p.name, p.price, p.image_path, p.discount FROM " . self::$table . " c JOIN " . Product::getTableName() . " p on c.product_id = p.id  WHERE user_id = ?";
         $stmt = $this->conn->prepare($query);
@@ -55,7 +55,7 @@ class Cart extends Database
         return $cartsByUserId;
     }
 
-    public function changeQuanityById($id, $change)
+    public function changeQuanityById(int $id, int $change)
     {
         $query = "UPDATE " . self::$table . " c SET c.quantity = c.quantity + ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
@@ -65,10 +65,5 @@ class Cart extends Database
             $cartDetail = $this->getItemById($this->getTableName(), $id);
             return $cartDetail;
         }
-    }
-
-    public static function getTableName()
-    {
-        return self::$table;
     }
 }
