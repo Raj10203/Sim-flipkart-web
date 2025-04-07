@@ -79,6 +79,7 @@ if ($event->type == 'checkout.session.completed') {
                      </div>
                  </div>';
             }
+            $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
         file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
 
