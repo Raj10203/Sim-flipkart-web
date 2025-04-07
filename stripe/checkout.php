@@ -11,7 +11,6 @@ $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
 $cartDetails = $_SESSION['cartDetails'];
 
 $lineItems = [];
-
 foreach ($cartDetails as $item) {
     $salePrice = $item['price'] - $item['price'] * $item['discount'] / 100;
     $lineItems[] = [
@@ -36,10 +35,11 @@ foreach ($cartDetails as $item) {
 $checkoutSession = $stripe->checkout->sessions->create([
     'line_items' => $lineItems,
     'mode' => 'payment',
-    'success_url' => 'http://flipkart-web.com/payment-success',
+    'success_url' => 'http://flipkart-web.com/stripe/success?provider_session_id={CHECKOUT_SESSION_ID}',
+    'cancel_url' => 'http://flipkart-web.com/stripe/cart?provider_session_id={CHECKOUT_SESSION_ID}',
     'metadata' => [
         'user_id' => $_SESSION['user_id'],
-        'total_products' => count($cartDetails)
+        'total_products' => count($cartDetails),
     ],
 ]);
 

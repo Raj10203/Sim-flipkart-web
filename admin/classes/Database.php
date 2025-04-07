@@ -27,7 +27,7 @@ class Database
     }
     public function connect()
     {
-        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->dbname);
+        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->dbname, $_ENV['DATABASE_PORT']);
         if ($this->conn->connect_error) {
             die("Connection failed: " . $this->conn->connect_error);
         }
