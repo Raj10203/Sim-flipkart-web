@@ -287,8 +287,6 @@ $(document).ready(function () {
                 }
             });
         }
-
-
     });
 
     setInterval(function () {
@@ -316,26 +314,24 @@ $(document).ready(function () {
         });
         this.reset();
         $('#showImg').hide();
-
     });
 
     $('#editProductForm').submit(function (e) {
         e.preventDefault();
         let formData = new FormData(this);
         let id = $('#editProductId').val();
-        formData.append('id', id);
-
         let name = $('#editProductName').val();
         let category = $('#editCategory').val();
         let price = $('#editPrice').val();
         let description = $('#editDescription').val();
-
+        let files = $('#editImage')[0].files;
+        
+        formData.append('id', id);
         formData.append('addProductName', name);
         formData.append('addCategory', category);
         formData.append('addPrice', price);
         formData.append('addDescription', description);
 
-        let files = $('#editImage')[0].files;
         if (files.length > 0) {
             formData.append('addImage', files[0]);
         }

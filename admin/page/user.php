@@ -48,11 +48,11 @@ include('../authentication/authenticate_user.php');
 <body>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
-        <?php include_once('layout/headerMobile.php') ?>
+        <?php require_once('layout/headerMobile.php') ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
-            <?php include_once('./layout/headerDesktop.php'); ?>
+            <?php require_once('./layout/headerDesktop.php'); ?>
             <!-- HEADER DESKTOP-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -127,7 +127,7 @@ include('../authentication/authenticate_user.php');
     </div>
 
 
-    <?php include_once('./layout/scripts.php') ?>
+    <?php require_once('./layout/scripts.php') ?>
 
     <script src="/admin/js/users.js"></script>
 </body>

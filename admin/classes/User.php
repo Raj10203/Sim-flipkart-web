@@ -31,7 +31,6 @@ class User
 
     public function addUser($firstName, $lastName, $email, $password)
     {
-        
         $query = "INSERT INTO " . self::$table . " (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
@@ -56,7 +55,6 @@ class User
             }
         }
         $stmt->close();
-
         return $response;
     }
 }

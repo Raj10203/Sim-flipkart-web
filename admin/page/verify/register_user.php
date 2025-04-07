@@ -1,6 +1,6 @@
 <?php
 
-include_once('../../authentication/backend_authenticate.php');
+require_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/User.php');

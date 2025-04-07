@@ -79,12 +79,12 @@ if (isset($_SESSION['user_id'])) {
                                     <label>Confirm Password</label>
                                     <input class="au-input au-input--full" type="text" name="confirmPassword" placeholder="Confirm Password">
                                 </div>
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
+                                <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">register</button>
                             </form>
                             <div class="register-link">
                                 <p>
                                     Already have account?
-                                    <a href="#">Sign In</a>
+                                    <a href="login.php">Sign In</a>
                                 </p>
                             </div>
                         </div>
@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
         </div>
 
     </div>
-    <?php include_once('./layout/scripts.php') ?>
+    <?php require_once('./layout/scripts.php') ?>
     <script src="/admin/js/register.js"></script>
 
 

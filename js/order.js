@@ -41,7 +41,6 @@ $(document).ready(function () {
                     </div>
                 `;
                 });
-
                 container.html(html);
                 container.hide().slideDown();
             },
@@ -63,13 +62,10 @@ function showCartItems() {
             count = response.length;
             if (count == 0) {
                 console.log(count);
-                
-                document.getElementById('empty-cart-message').classList.remove('d-none');
-                // document.getElementById('price-summary').classList.add('d-none');
+                $('#empty-cart-message').removeClass('d-none');
                 return;
             }
             response.forEach(order => {
-               
                 let itemElement = document.createElement('div');
                 itemElement.innerHTML = `
                 <div class="col-md-12">
@@ -92,10 +88,7 @@ function showCartItems() {
                     </div>
                     <div class="col-12 order-items-container mt-3 " style="display: none;   "></div>
                     </div>
-                </div>
-                    
-
-                `;
+                </div>`;
                 container.appendChild(itemElement);
             });
         }

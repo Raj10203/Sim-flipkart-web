@@ -54,11 +54,11 @@ include('../authentication/authenticate_user.php');
 <body>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
-        <?php include_once('layout/headerMobile.php') ?>
+        <?php require_once('layout/headerMobile.php') ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
-            <?php include_once('./layout/headerDesktop.php'); ?>
+            <?php require_once('./layout/headerDesktop.php'); ?>
             <!-- HEADER MOBILE-->
 
             <div class="main-content">
@@ -189,7 +189,7 @@ include('../authentication/authenticate_user.php');
         </div>
     </div>
 
-    <?php include_once('./layout/scripts.php') ?>
+    <?php require_once('./layout/scripts.php') ?>
     <script src="/admin/js/products.js"></script>
 </body>
 

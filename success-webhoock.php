@@ -20,6 +20,7 @@ $dotenv->load();
 $event = null;
 $endpoint_secret = 'whsec_5PxfM4GOceW4l3U85XLt6JefLcXg1rnG';
 $input = @file_get_contents("php://input");
+
 try {
     $event = \Stripe\Webhook::constructEvent(
         $input,
@@ -42,33 +43,45 @@ if ($event->type == 'checkout.session.completed') {
             'event_data' => $event->data->object
         ];
         $file = 'webhook_data.json';
+
         $db = new Database;
         $ord = new Order($db);
         $oi = new OrderItems($db);
         $cart = new Cart($db);
+
         $eventData = $data['event_data'];
         $paymentid = $eventData->payment_intent;
-        $cartDetails = $cart->gettAllCartByUserId(4);
+        $userId = $eventData->metadata->user_id;
+        $cartDetails = $cart->gettAllCartByUserId($userId);
+
+        $emailItems = ''; 
         $data['cartDetails'] = $cartDetails;
-        $fileHandle = fopen($file, 'a');
 
         if (count($cartDetails) > 0) {
-            $data['inputsForOrder'] = [$paymentid, $eventData->metadata->user_id, $eventData->metadata->total_products, $eventData->amount_subtotal];
-            $orderId = $ord->addOrder($paymentid, $eventData->metadata->user_id, $eventData->metadata->total_products, $eventData->amount_subtotal);
+            $orderId = $ord->addOrder(
+                $paymentid,
+                $userId,
+                $eventData->metadata->total_products,
+                $eventData->amount_subtotal
+            );
             $data['orderId'] = $orderId;
+
             foreach ($cartDetails as $item) {
                 $finalPrice = $item['price'] - $item['price'] * $item['discount'] / 100;
                 $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $finalPrice);
+
                 $emailItems .= '<div class="item">
-                     <img src="' . $item['image_path'] . '" alt="{{name}}">
+                     <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
                      <div class="item-details">
-                     <h4>' . $item['name'] . '</h4>
-                     <p>Quantity: ' . $item['quantity'] . '</p>
-                     <p>Price:  ₹' . $item['price'] . '</p>
+                         <h4>' . htmlspecialchars($item['name']) . '</h4>
+                         <p>Quantity: ' . $item['quantity'] . '</p>
+                         <p>Price: ₹' . number_format($item['price'], 2) . '</p>
                      </div>
                  </div>';
             }
         }
+        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
+
     } catch (Exception $e) {
         $errorData = [
             'timestamp' => date('Y-m-d H:i:s'),
@@ -77,10 +90,9 @@ if ($event->type == 'checkout.session.completed') {
         ];
         $errorFile = 'webhook_errors.log';
         file_put_contents($errorFile, json_encode($errorData, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
-
-        echo 'An error occurred while processing the webhook.';
     }
-    http_response_code(200);
+
+    http_response_code(200); // Must respond to Stripe with 200
 } else {
     http_response_code(400);
     exit();

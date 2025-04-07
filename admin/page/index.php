@@ -41,11 +41,11 @@ include('../authentication/authenticate_user.php');
 <body>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
-        <?php include_once('layout/headerMobile.php') ?>
+        <?php require_once('layout/headerMobile.php') ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
-            <?php include_once('./layout/headerDesktop.php'); ?>
+            <?php require_once('./layout/headerDesktop.php'); ?>
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
