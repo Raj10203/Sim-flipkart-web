@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $userName = $_SESSION['user_name'] ?? 'Login';
 ?>
 <nav class="navbar navbar-expand-lg">
@@ -45,25 +47,25 @@ $userName = $_SESSION['user_name'] ?? 'Login';
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        <a class="dropdown-item" href="/admin/page/login"><i class="fa-solid fa-user icons"></i><?= $userName ?></a></a>
+                                        <a class="dropdown-item" href="/login"><i class="fa-solid fa-user icons"></i><?= $userName ?></a></a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="orders"><i class="fa-solid fa-box-open icons"></i>Orders</a>
+                                        <a class="dropdown-item" href="/orders"><i class="fa-solid fa-box-open icons"></i>Orders</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="orders"><i class="fa-solid fa-heart icons"></i>Wishlist</a>
+                                        <a class="dropdown-item" href="/orders"><i class="fa-solid fa-heart icons"></i>Wishlist</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="/admin/page/logout"><i class="fa-solid fa-right-from-bracket icons"></i>Logout</a>
+                                        <a class="dropdown-item" href="logout"><i class="fa-solid fa-right-from-bracket icons"></i>Logout</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                     </div>
                     <li class="nav-item login-li">
-                        <a class="nav-link active d-flex align-items-center pe-2" aria-current="page" href="cart.php">
+                        <a class="nav-link active d-flex align-items-center pe-2" aria-current="page" href="/cart">
                             <i class="fa-solid fa-cart-shopping icons"></i>
-                            <span class="dn" >Cart</span>
+                            <span class="dn">Cart</span>
                         </a>
                     </li>
                     <li class="nav-item login-li">

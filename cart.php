@@ -1,5 +1,5 @@
 <?php
-require_once './admin/authentication/authenticate_user.php';
+require_once 'authentication/authenticate_user.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,22 +10,19 @@ require_once './admin/authentication/authenticate_user.php';
     <title>Flipkart Cart</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/cart.css">
-    <!-- <link rel="stylesheet" href="./css/flipkart-web.css"> -->
+    <link rel="stylesheet" href="./assets/css/cart.css">
 </head>
 
 <body>
-    <?php require_once 'layout/header.php' ?>
+    <?php require_once 'includes/header.php' ?>
     <div class="container mt-3">
         <div class="row">
-
-            <div class="col-lg-8" id="cartItems">
+            <div class="col-xl-8" id="cartItems">
                 <div class="cart-header">
                     <h5 class="mb-0">My Cart (<span id="cart-count"></span>)</h5>
                 </div>
 
                 <div id="cart-items-container">
-                    <!-- Cart items will be added here dynamically -->
                 </div>
 
                 <div class="cart-item d-none" id="empty-cart-message">
@@ -39,7 +36,7 @@ require_once './admin/authentication/authenticate_user.php';
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" id="placeOrder">
+            <div class="col-xl-4" id="placeOrder">
                 <div class="price-summary" id="price-summary">
                     <h5 class="mb-3">PRICE DETAILS</h5>
                     <div class="row mb-2">
@@ -68,7 +65,7 @@ require_once './admin/authentication/authenticate_user.php';
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/cart.js"></script>
+    <script src="./assets/js/cart.js"></script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@ $(document).ready(function () {
 function removeItem(id) {
     $.ajax({
         type: "post",
-        url: "admin/page/cart/deleteCart.php",
+        url: "admin/cart/deleteCart.php",
         data: {
             id: id
         },
@@ -23,7 +23,7 @@ function updateQuantity(id, change) {
     let newQuantity;
     $.ajax({
         type: "post",
-        url: "admin/page/cart/updateQuantityOfCart.php",
+        url: "admin/cart/updateQuantityOfCart.php",
         data: {
             id: id,
             change: change
@@ -72,7 +72,7 @@ function showCartItems() {
 
     $.ajax({
         type: "post",
-        url: "admin/page/cart/getCartByUserId.php",
+        url: "admin/cart/getCartByUserId.php",
         success: function (response) {
             response = JSON.parse(response);
             cartsByUserId = response;
@@ -82,13 +82,13 @@ function showCartItems() {
 
             updateCartCount();
             if (count === 0) {
-                $('#cartItems').removeClass('col-lg-8').addClass('col-lg-12');
+                $('#cartItems').removeClass('col-xl-8').addClass('col-xl-12');
                 $('#empty-cart-message').removeClass('d-none');
                 $('#placeOrder').hide();
                 return;
             }
 
-            $('#cartItems').removeClass('col-lg-12').addClass('col-lg-8');
+            $('#cartItems').removeClass('col-xl-12').addClass('col-xl-8');
             $('#empty-cart-message').addClass('d-none');
             $('#placeOrder').show();
             cartsByUserId.forEach(item => {

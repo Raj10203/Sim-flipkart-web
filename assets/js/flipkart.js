@@ -1,12 +1,12 @@
 $(document).ready(function () {
     const footer = $('#footer');
     $.ajax({
-        url: 'admin/page/categories/getAllCategories.php',
+        url: 'admin/categories/getAllCategories.php',
         method: 'GET',
         dataType: 'json',
         success: function (categories) {
             $.ajax({
-                url: 'admin/page/products/getAllProducts.php',
+                url: 'admin/products/getAllProducts.php',
                 method: 'GET',
                 dataType: 'json',
                 success: function (products) {
@@ -73,18 +73,18 @@ $(document).ready(function () {
         }
     });
     $(document).on('click', '.addCart', function () {
-        let productId = this.dataset.productId; // Correct way to get data-id
+        let productId = this.dataset.productId;
 
         $.ajax({
             type: "POST",
-            url: "admin/page/cart/addToCart.php",
+            url: "admin/cart/addToCart.php",
             data: {
                 'productId': productId
             },
             dataType: 'JSON',
             success: function (response) {
                 if (response.message === "not_logged_in") {
-                    window.location.href = "admin/page/login.php"; // Redirect to login page
+                    window.location.href = "/login.php"; // Redirect to login page
                 } else {
                     Swal.fire({
                         title: response['class'],

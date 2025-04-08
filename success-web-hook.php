@@ -1,15 +1,18 @@
 <?php
-use Admin\Classes\Order;
-use Admin\Classes\OrderItems;
-use Admin\Classes\Cart;
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+use Classes\Order;
+use Classes\OrderItems;
+use Classes\Cart;
 
 require_once('vendor/autoload.php');
-require_once('admin/classes/traits/ItemOperations.php');
-require_once('admin/classes/Database.php');
-require_once('admin/classes/Order.php');
-require_once('admin/classes/Product.php');
-require_once('admin/classes/Cart.php');
-require_once('admin/classes/OrderItems.php');
+require_once('classes/traits/ItemOperations.php');
+require_once('classes/Database.php');
+require_once('classes/Order.php');
+require_once('classes/Product.php');
+require_once('classes/Cart.php');
+require_once('classes/OrderItems.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
