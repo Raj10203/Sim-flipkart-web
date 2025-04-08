@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header('location: /');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,31 +52,39 @@
                                 <img src="/admin/images/icon/logo.png" alt="CoolAdmin">
                             </a>
                         </div>
+                        <?php
+                        if (isset($_SESSION['invalid-input'])) {
+                            echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-input'] . '  </div>';
+                        };
+                        ?>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form action="verify/register_user.php" method="post" id="registerForm">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input class="au-input au-input--full" type="text" name="firstName" placeholder="Email">
+                                    <input class="au-input au-input--full" type="text" name="firstName" id="firstName" placeholder="First Name">
                                 </div>
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input class="au-input au-input--full" type="text" name="lastName" placeholder="Email">
+                                    <input class="au-input au-input--full" type="text" name="lastName" id="lastName" placeholder="Last Name">
                                 </div>
                                 <div class="form-group">
                                     <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                    <input class="au-input au-input--full" type="email" name="email" id="email" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                    <input class="au-input au-input--full" type="text" id="password" name="password" placeholder="Password">
                                 </div>
-
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <input class="au-input au-input--full" type="text" name="confirmPassword" placeholder="Confirm Password">
+                                </div>
+                                <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">register</button>
                             </form>
                             <div class="register-link">
                                 <p>
                                     Already have account?
-                                    <a href="#">Sign In</a>
+                                    <a href="login.php">Sign In</a>
                                 </p>
                             </div>
                         </div>
@@ -80,7 +94,8 @@
         </div>
 
     </div>
-    <?php include_once('./layout/scripts.php') ?>
+    <?php require_once('./layout/scripts.php') ?>
+    <script src="/admin/js/register.js"></script>
 
 
 </body>

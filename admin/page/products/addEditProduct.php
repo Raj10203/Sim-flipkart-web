@@ -1,19 +1,14 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-include_once('../../authentication/backend_authenticate.php');
+
+use Admin\Classes\Product;
+
+require_once('../../authentication/backend_authenticate.php');
+require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 
-use Admin\Classes\Database;
-use Admin\Classes\Product;
-
-$db = new Database;
-$prod = new Product($db);
-
+$prod = new Product();
 $response = [];
-
 $name = $_POST['productName'] ?? '';
 $image = $_FILES['image'] ?? [];
 $category = $_POST['category'] ?? '';
@@ -42,11 +37,9 @@ if (!empty($image['name'])) {
 
 try {
     if (isset($_POST['id'])) {
-        //delete old image
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
-        unlink("/var/www/html/flipkart/Sim-flipkart-web" . $oldProduct['image_path']);
-
         $response['result'] = $prod->editProduct($_POST['id'], $name, $image, $category, $price, $disciption, $discount);
+        unlink($_SERVER['DOCUMENT_ROOT']. $oldProduct['image_path']);
         $response['message'] = "Successfully edited product $name";
     } else {
         $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $disciption, $discount);

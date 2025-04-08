@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['user_id']) {
+if (isset($_SESSION['user_id'])) {
     header('location: /');
 }
 ?>
@@ -66,25 +66,25 @@ if ($_SESSION['user_id']) {
                             </a>
                         </div>
                         <?php
-                        if (isset($_SESSION['invalid-credentials'])) {
-                            echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-credentials'] . '  </div>';
+                        if (isset($_SESSION['invalid-input'])) {
+                            echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-input'] . '  </div>';
                         };
                         ?>
                         <div class="login-form">
-                            <form action="/admin/page/verify/verify_login.php" method="post">
+                            <form action="/admin/page/verify/verify_login.php" method="post" id="loginForm" >
                                 <div class="form-group">
                                     <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email"
+                                    <input class="au-input au-input--full" type="text" name="email" id="email"
                                         placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password"
+                                    <input class="au-input au-input--full" type="password" name="password" id="password"
                                         placeholder="Password">
                                 </div>
                                 <div class="login-checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember">Remember Me
+                                        <input type="checkbox" name="remember" id="remember">Remember Me
                                     </label>
                                     <label>
                                         <a href="#">Forgotten Password?</a>
@@ -108,6 +108,7 @@ if ($_SESSION['user_id']) {
 
     <!-- Jquery JS-->
     <script src="/admin/vendor/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
     <!-- Bootstrap JS-->
     <script src="/admin/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="/admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -129,6 +130,8 @@ if ($_SESSION['user_id']) {
 
     <!-- Main JS-->
     <script src="/admin/js/main.js"></script>
+    <script src="/admin/js/login.js"></script>
+
 
 </body>
 

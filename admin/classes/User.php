@@ -2,19 +2,17 @@
 
 namespace Admin\Classes;
 
+use Admin\Classes\Traits\ItemOperations;
+
 require_once('../../classes/traits/ItemOperations.php');
 
-class User
+class User extends Database
 {
-    protected $conn;
-    private static $table = "users";
+    use ItemOperations;
 
-    public function __construct(Database $db)
-    {
-        $this->conn = $db->connect();
-    }
+    protected static $table = 'users';
 
-    public function login($email, $password)
+    public function login(string $email, string $password)
     {
         $query = "SELECT * FROM " . self::$table . " WHERE email = ?";
         $stmt = $this->conn->prepare($query);
@@ -27,5 +25,24 @@ class User
             return $user;
         }
         return false;
+    }
+
+    public function addUser(string $firstName, string $lastName, string $email, string $password)
+    {
+        $query = "INSERT INTO " . self::$table . " (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $response['status'] = false;
+        try {
+            $stmt->bind_param("ssss", $firstName, $lastName, $email, $password);
+            $stmt->execute();
+            $response = [
+                'status' => true,
+                'message' => 'Account created successfully'
+            ];
+        } catch (\Throwable $th) {
+            $response['message'] =  $stmt->errno === 1062 ? 'This email is already registered' : 'An error occurred: ';
+        }
+        $stmt->close();
+        return $response;
     }
 }

@@ -4,11 +4,11 @@ namespace Admin\Classes\Traits;
 
 trait ItemOperations
 {
-    public function deleteItem($tableName, $id)
+    public function deleteItem($tableName, $colunName, $value)
     {
-        $query = "DELETE FROM " . $tableName . " WHERE id = ?";
+        $query = "DELETE FROM " . $tableName . " WHERE $colunName = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $value);
         $result =  $stmt->execute();
         return $result;
     }
@@ -31,5 +31,10 @@ trait ItemOperations
         $result = $stmt->get_result();
         $items = $result->fetch_all(MYSQLI_ASSOC);
         return $items;
+    }
+
+    public static function getTableName()
+    {   
+        return static::$table;
     }
 }

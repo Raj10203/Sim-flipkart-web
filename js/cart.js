@@ -1,6 +1,7 @@
 let count = 0;
 let totalPrice = 0;
 let totalAmount = 0;
+let cartsByUserId;
 $(document).ready(function () {
     showCartItems();
 });
@@ -28,7 +29,7 @@ function updateQuantity(id, change) {
             change: change
         },
         success: function (response) {
-            response = JSON.parse(response);
+            response = JSON.parse(response);            
             newQuantity = response.quantity;
             if (newQuantity > 0) {
                 showCartItems();
@@ -69,34 +70,33 @@ function showCartItems() {
     totalPrice = 0;
     totalAmount = 0;
     
-    let cartsByUserId;
     $.ajax({
         type: "post",
         url: "admin/page/cart/getCartByUserId.php",
         success: function (response) {
             response = JSON.parse(response);
-            if (response.message === 'not_logged_in') {
-                window.location.href = "admin/page/login.php";
-            }
             cartsByUserId = response;
             let container = document.getElementById('cart-items-container');
             container.innerHTML = '';
             count = cartsByUserId.length;
-
+            
             updateCartCount();
             if (count === 0) {
+                $('#cartItems').removeClass('col-lg-8').addClass('col-lg-12');
                 document.getElementById('empty-cart-message').classList.remove('d-none');
-                document.getElementById('price-summary').classList.add('d-none');
+                $('#placeOrder').hide();
+                // document.getElementById('price-summary').classList.add('d-none');
                 return;
             }
-
+            
+            $('#cartItems').removeClass('col-lg-12').addClass('col-lg-8');
             document.getElementById('empty-cart-message').classList.add('d-none');
-            document.getElementById('price-summary').classList.remove('d-none')
+            $('#placeOrder').show();
+            // document.getElementById('price-summary').classList.remove('d-none')
             cartsByUserId.forEach(item => {
                 let salePrice = parseFloat((item.price - (item.price * item.discount) / 100) * item.quantity).toFixed(2);
                 totalAmount = totalAmount + parseFloat(salePrice);
                 totalPrice = totalPrice + parseFloat(item.price * item.quantity);                
-
                 let itemElement = document.createElement('div');
                 itemElement.className = 'cart-item';
                 itemElement.innerHTML = `

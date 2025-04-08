@@ -150,22 +150,36 @@ $(document).ready(function () {
         table.ajax.reload(null, false);
     }, 30000);
 
+
+    $('#addCategoryForm').validate({ 
+        rules: {
+            categoryName: {
+                required: true,
+            },
+            categoryDescription: {
+                required: true,
+            },
+        },
+        submitHandler: function(form) {
+            let formData = new FormData(form);
+            $.ajax({
+                type: "post",
+                url: "./categories/addEditCategory.php",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    table.ajax.reload(null, false);
+                    response = JSON.parse(response);
+                    $('#addModal').modal('hide');
+                    notify(response['message'], response['class']);
+                }
+            });
+        }
+    });
+
     $('#addCategoryForm').submit(function (e) {
         e.preventDefault();
-        let formData = new FormData(this);
-        $.ajax({
-            type: "post",
-            url: "./categories/addEditCategory.php",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                table.ajax.reload(null, false);
-                response = JSON.parse(response);
-                $('#addModal').modal('hide');
-                notify(response['message'], response['class']);
-            }
-        });
     });
 
     $('#editCategoryForm').submit(function (e) {

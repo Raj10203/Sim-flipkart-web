@@ -54,11 +54,11 @@ include('../authentication/authenticate_user.php');
 <body>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
-        <?php include_once('layout/headerMobile.php') ?>
+        <?php require_once('layout/headerMobile.php') ?>
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
-            <?php include_once('./layout/headerDesktop.php'); ?>
+            <?php require_once('./layout/headerDesktop.php'); ?>
             <!-- HEADER MOBILE-->
 
             <div class="main-content">
@@ -103,12 +103,12 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="addProductName" placeholder="Product Name"
-                                name="productName" required maxlength="30" />
+                                name="productName"  maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="addImage" class="form-label">Image</label>
                             <img src="" class="tableImage d-none" alt="your image" id="showImg">
-                            <input type="file" accept="image/png" class="form-control imageInput" id="addImage" required
+                            <input type="file" accept="image/png" class="form-control imageInput" id="addImage" 
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
@@ -118,7 +118,7 @@ include('../authentication/authenticate_user.php');
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price" 
                                 step=".01" name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
@@ -129,7 +129,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="addDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
-                                name="description" maxlength="100" required></textarea>
+                                name="description" maxlength="100" ></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />
@@ -189,7 +189,7 @@ include('../authentication/authenticate_user.php');
         </div>
     </div>
 
-    <?php include_once('./layout/scripts.php') ?>
+    <?php require_once('./layout/scripts.php') ?>
     <script src="/admin/js/products.js"></script>
 </body>
 

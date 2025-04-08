@@ -1,13 +1,13 @@
 <?php
-include_once('../../authentication/backend_authenticate.php');
+
+use Admin\Classes\Category;
+
+require_once('../../authentication/backend_authenticate.php');
+require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
-use Admin\Classes\Database;
-use Admin\Classes\Category;
-
-$db = new Database;
-$category = new Category($db);
+$category = new Category();
 $conn = $category->getConnection();
 $tableName = $category->getTableName();
 $columns = ['id', 'name', 'description'];

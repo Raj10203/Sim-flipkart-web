@@ -55,12 +55,12 @@ include('../authentication/authenticate_user.php');
 
 <body>
     <div class="page-wrapper">
-        <?php include_once('./layout/headerMobile.php'); ?>
+        <?php require_once('./layout/headerMobile.php'); ?>
         <!-- END MENU SIDEBAR-->
 
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <?php include_once('./layout/headerDesktop.php'); ?>
+            <?php require_once('./layout/headerDesktop.php'); ?>
 
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -99,12 +99,12 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="categoryName" class="form-label">Category Name</label>
                             <input type="text" class="form-control" id="categoryName" name="categoryName"
-                                placeholder="Category Name" required maxlength="30" />
+                                placeholder="Category Name"  maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="categoryDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="categoryDescription" placeholder="Description ..."
-                                name="categoryDescription" maxlength="200" required></textarea>
+                                name="categoryDescription" maxlength="200" ></textarea>
                         </div>
                         <input type="submit" class="btn event btn-primary" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />
@@ -145,7 +145,7 @@ include('../authentication/authenticate_user.php');
         </div>
     </div>
     <!-- jQuery (Required for most plugins) -->
-    <?php include_once('./layout/scripts.php') ?>
+    <?php require_once('./layout/scripts.php') ?>
     <script src="/admin/js/categories.js"></script>
 </body>
 

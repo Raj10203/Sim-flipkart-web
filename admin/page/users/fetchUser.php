@@ -1,12 +1,14 @@
 <?php
-include_once('../../authentication/backend_authenticate.php');
+
+use Admin\Classes\User;
+
+require_once('../../authentication/backend_authenticate.php');
+require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
+require_once('../../classes/User.php');
 
-use Admin\Classes\Database;
-
-$db = new Database;
-$conn = $db->connect();
-
+$usr = new User();
+$conn = $usr->getConnection();
 $columns = array(
     0 => 'id',
     1 => 'first_name',

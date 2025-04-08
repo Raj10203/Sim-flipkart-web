@@ -3,6 +3,7 @@
     --flipkart-yellow: #ffe500;
     --light-gray: #f1f3f6;
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -72,9 +73,11 @@ section {
     width: max-content;
     align-items: center;
 }
+
 .header-li-custom li:hover {
     color: white;
 }
+
 .header-li-custom #login-down-arrow:hover {
     transform: rotate(180deg);
     transition: transform .5s ease;
@@ -151,7 +154,7 @@ section {
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .cart-item {
@@ -159,7 +162,7 @@ section {
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .cart-item img {
@@ -230,7 +233,7 @@ section {
     background-color: white;
     padding: 15px;
     border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .checkout-btn {
@@ -268,6 +271,10 @@ section {
     font-size: 14px;
 }
 
+.icons {
+    margin: 0 10px;
+}
+
 @media(max-width:1430px) {
     .p1-placeholder {
         width: 100%;
@@ -275,6 +282,8 @@ section {
         overflow-x: scroll;
     }
 }
+
+
 
 @media(max-width:992px) {
     .container-fluid {

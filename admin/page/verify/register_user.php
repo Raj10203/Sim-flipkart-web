@@ -9,15 +9,15 @@ require_once('../../classes/User.php');
 session_start();
 
 $user = new User();
+$firstName = $_POST['firstName'];
+$lastName = $_POST['lastName'];
 $email = $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) ?: "";
 $password = hash("sha256", $_POST['password']);
-$userDetail = $user->login($email, $password);
-if (isset($userDetail['id'])) {
-    $_SESSION['email'] = $email;
-    $_SESSION['user_id'] = $userDetail['id'];
-    $_SESSION['user_name'] = $userDetail['first_name'];
-    header('location: /');
+$response = $user->addUser($firstName, $lastName, $email, $password);
+if(!$response['status']) {
+    $_SESSION['invalid-input'] = $response['message'];
+    header('location: /admin/page/register');
 } else {
-    $_SESSION['invalid-input'] = 'Incorrenct credentials';
-    header('location: /admin/page/login.php');
+    unset($_SESSION['invalid-input']);
+    header('location: /admin/page/login');
 }

@@ -12,8 +12,6 @@
     <link href="/admin/css/theme.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="./css/flipkart-web.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
-
-
 </head>
 
 <body>
@@ -56,29 +54,39 @@
                                         0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                                 </svg>
                                 <div class="dropdown">
-                                    <a class="nav-link header-li-child dn" href="#">Login
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"
-                                            id="login-down-arrow">
-                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0
-                                                1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                        </svg>
+                                    <a data-bs-toggle="dropdown" aria-expanded="false" class="nav-link header-li-child dn" href="#">
+                                        <?php
+                                        session_start();
+                                        if (isset($_SESSION['user_name'])) {
+                                            echo $_SESSION['user_name'];
+                                        } else {
+                                            echo 'login';
+                                        }
+                                        ?>
+
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/admin/page/login"
-                                                style="width: 100%;">Login</a></li>
-                                        <li><a class="dropdown-item" href="/admin/page/register">Register</a></li>
+
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/page/login"><i class="fa-solid fa-user icons"></i>Profile</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="orders"><i class="fa-solid fa-box-open icons"></i>Orders</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/admin/page/logout"><i class="fa-solid fa-right-from-bracket icons"></i>Logout</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
                         </div>
                         <li class="nav-item login-li">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <a class="nav-link active header-li-child dn" aria-current="page" href="cart">Cart</a>
+                            <i class="fa-solid fa-cart-shopping "></i>
+                            <a class="nav-link active header-li-child dn" aria-current="page" href="cart.php">Cart</a>
                         </li>
                         <li class="nav-item login-li">
                             <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/Store-9eeae2.svg"
-                                alt="Become a Seller" class="_1XmrCc header-li-child">
+                                alt="Become a Seller" class="_1XmrCc">
                             <a class="nav-link header-li-child dn" aria-disabled="true" href="#">Become a Seller</a>
                         </li>
                     </ul>
@@ -527,7 +535,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
+    </script>
     <script src="./js/flipkart.js"></script>
 </body>
 
