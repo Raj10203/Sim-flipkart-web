@@ -22,27 +22,28 @@ class User extends Database
         $user = $result->fetch_assoc();
 
         if ($email && ($password === $user['password'])) {
-            return $user;
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['first_name'];
+            return true;
         }
         return false;
     }
 
     public function addUser(string $firstName, string $lastName, string $email, string $password)
     {
+        session_start();
         $query = "INSERT INTO " . self::$table . " (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $response['status'] = false;
         try {
             $stmt->bind_param("ssss", $firstName, $lastName, $email, $password);
             $stmt->execute();
-            $response = [
-                'status' => true,
-                'message' => 'Account created successfully'
-            ];
+            return true;
         } catch (\Throwable $th) {
-            $response['message'] =  $stmt->errno === 1062 ? 'This email is already registered' : 'An error occurred: ';
+            $_SESSION['invalid_input'] = [
+                'messaage' =>  $stmt->errno === 1062 ? 'This email is already registered' : 'An error occurred: '
+            ];
         }
         $stmt->close();
-        return $response;
+        return false;
     }
 }

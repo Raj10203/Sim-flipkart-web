@@ -39,7 +39,9 @@ try {
     if (isset($_POST['id'])) {
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
         $response['result'] = $prod->editProduct($_POST['id'], $name, $image, $category, $price, $disciption, $discount);
-        unlink($_SERVER['DOCUMENT_ROOT']. $oldProduct['image_path']);
+        if(!empty($image['name'])) {
+            unlink($_SERVER['DOCUMENT_ROOT']. $oldProduct['image_path']);
+        }
         $response['message'] = "Successfully edited product $name";
     } else {
         $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $disciption, $discount);

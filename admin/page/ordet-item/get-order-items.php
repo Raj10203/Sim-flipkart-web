@@ -10,7 +10,6 @@ require_once('../../classes/OrderItems.php');
 require_once('../../classes/Product.php');
 session_start();
 
-$prod = new Product();
 $oi = new OrderItems();
 $orders = $oi->getItemsByOrderId($_POST['orderID']);
 echo json_encode($orders);

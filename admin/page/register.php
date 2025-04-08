@@ -60,26 +60,45 @@ if (isset($_SESSION['user_id'])) {
                         <div class="login-form">
                             <form action="verify/register_user.php" method="post" id="registerForm">
                                 <div class="form-group">
-                                    <label>First Name</label>
+                                    <label for="firstName">First Name</label>
                                     <input class="au-input au-input--full" type="text" name="firstName" id="firstName" placeholder="First Name">
+                                    <span class="error d-block">
+                                        <?= $_SESSION['invalid_input']['firstName'] ?? '' ?>
+                                    </span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Last Name</label>
+                                    <label for="lastName">Last Name</label>
                                     <input class="au-input au-input--full" type="text" name="lastName" id="lastName" placeholder="Last Name">
+                                    <span class="error d-block">
+                                        <?= $_SESSION['invalid_input']['lastName'] ?? '' ?>
+                                    </span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" id="email" placeholder="Email">
+                                    <label for="register-email">Email Address</label>
+                                    <input class="au-input au-input--full" type="email" name="email" id="register-email" placeholder="Email">
+                                    <span class="error d-block">
+                                        <?= $_SESSION['invalid_input']['email'] ?? '' ?>
+                                    </span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <input class="au-input au-input--full" type="text" id="password" name="password" placeholder="Password">
+                                    <label for="register-password">Password</label>
+                                    <input class="au-input au-input--full" type="password" id="register-password" name="password" placeholder="Password">
+                                    <span class="error d-block">
+                                        <?= $_SESSION['invalid_input']['password'] ?? '' ?>
+                                    </span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input class="au-input au-input--full" type="text" name="confirmPassword" placeholder="Confirm Password">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input class="au-input au-input--full" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+                                    <span class="error d-block">
+                                        <?= isset($_SESSION['invalid_input']['confirmPassword']) ? htmlspecialchars($_SESSION['invalid_input']['confirmPassword']) : '' ?>
+                                    </span>
                                 </div>
-                                <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">register</button>
+                                <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">Register</button>
                             </form>
                             <div class="register-link">
                                 <p>

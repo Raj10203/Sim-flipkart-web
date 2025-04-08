@@ -1,8 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 session_start();
 if (isset($_SESSION['user_id'])) {
     header('location: /');
 }
+$error = $_SESSION['invalid_input'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +58,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body>
+    <noscript>Please enable js</noscript>
     <div class="page-wrapper">
         <div class="page-content--bge5">
             <div class="container">
@@ -66,21 +70,24 @@ if (isset($_SESSION['user_id'])) {
                             </a>
                         </div>
                         <?php
-                        if (isset($_SESSION['invalid-input'])) {
-                            echo ' <div class="alert alert-danger" role="alert">' . $_SESSION['invalid-input'] . '  </div>';
+                        if (isset($error['credentials'])) {
+                            echo ' <div class="alert alert-danger" role="alert">' . $error['credentials'] . '  </div>';
                         };
                         ?>
                         <div class="login-form">
-                            <form action="/admin/page/verify/verify_login.php" method="post" id="loginForm" >
+                            <form action="/admin/page/verify/verify_login.php" method="post" id="loginForm">
                                 <div class="form-group">
-                                    <label>Email Address</label>
+                                    <label for="email">Email Address</label>
                                     <input class="au-input au-input--full" type="text" name="email" id="email"
                                         placeholder="Email">
+                                    <span class="error d-block"><?= $error['email'] ?? "" ?> </span>
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
                                     <input class="au-input au-input--full" type="password" name="password" id="password"
                                         placeholder="Password">
+                                    <span class="error d-block"><?= $error['password'] ?? ""  ?></span>
+
                                 </div>
                                 <div class="login-checkbox">
                                     <label>

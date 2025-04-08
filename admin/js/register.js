@@ -4,7 +4,7 @@ $(document).ready(function () {
         return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/i.test(value);
     }, "Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number.");
 
-    $('#registerForm').validate({ // initialize the plugin
+    $('#registerForm').validate({ 
         rules: {
             firstName: {
                 required: true

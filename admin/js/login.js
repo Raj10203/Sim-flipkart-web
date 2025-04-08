@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#loginForm').validate({ // initialize the plugin
+    $('#loginForm').validate({ 
         rules: {
             email: {
                 required: true,
