@@ -11,7 +11,6 @@ session_start();
 $user = new User();
 $email =  trim($_POST['email']) ?? '';
 $password = $_POST['password'];
-$valid = true;
 
 $error = [];
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

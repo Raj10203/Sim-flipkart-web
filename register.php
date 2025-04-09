@@ -94,9 +94,7 @@ if (isset($_SESSION['user_id'])) {
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm Password</label>
                                     <input class="au-input au-input--full" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
-                                    <span class="error d-block">
-                                        <?= isset($_SESSION['invalid_input']['confirmPassword']) ? htmlspecialchars($_SESSION['invalid_input']['confirmPassword']) : '' ?>
-                                    </span>
+                                    <span class="error d-block"><?= $_SESSION['invalid_input']['confirmPassword'] ?? '' ?></span>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--blue m-b-20" type="submit">Register</button>
                             </form>
@@ -111,13 +109,9 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
         </div>
-
     </div>
     <?php require_once('./includes/scripts.php') ?>
     <script src="/admin/assets/js/register.js"></script>
-
-
 </body>
 
 </html>
-<!-- end document-->

@@ -2,6 +2,7 @@
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
+
 use Classes\Order;
 use Classes\OrderItems;
 use Classes\Cart;
@@ -49,21 +50,25 @@ if ($event->type == 'checkout.session.completed') {
         $ord = new Order();
         $oi = new OrderItems();
         $cart = new Cart();
+
         $eventData = $data['event_data'];
+        $sessionId = $eventData->id;
         $paymentid = $eventData->payment_intent;
         $userId = $eventData->metadata->user_id;
         $cartDetails = $cart->gettAllCartByUserId($userId);
 
-        $emailItems = ''; 
+        $emailItems = '';
         $data['cartDetails'] = $cartDetails;
-
+        $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
+        $session = $stripe->checkout->sessions->retrieve($sessionId);
+        $lineTesms = $stripe->checkout->sessions->allLineItems(
+            $sessionId,
+            []
+        );
+        $data['session'] = $session;
+        $data['lineItems'] = $lineTesms;
         if (count($cartDetails) > 0) {
-            $orderId = $ord->addOrder(
-                $paymentid,
-                $userId,
-                $eventData->metadata->total_products,
-                $eventData->amount_subtotal
-            );
+            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_subtotal);
             $data['orderId'] = $orderId;
 
             foreach ($cartDetails as $item) {
@@ -82,7 +87,6 @@ if ($event->type == 'checkout.session.completed') {
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
         file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
-
     } catch (Exception $e) {
         $errorData = [
             'timestamp' => date('Y-m-d H:i:s'),

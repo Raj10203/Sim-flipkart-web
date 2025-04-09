@@ -1,5 +1,5 @@
 <?php
-require_once 'admin/authentication/authenticate_user.php'
+require_once 'authentication/authenticate_user.php'
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,7 @@ require_once 'admin/authentication/authenticate_user.php'
     <title>Flipkart Cart</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/cart.css">
+    <link rel="stylesheet" href="./assets/css/cart.css">
     <style>
         .order-summary {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -24,7 +24,7 @@ require_once 'admin/authentication/authenticate_user.php'
 </head>
 
 <body>
-    <?php require_once 'layout/header.php' ?>
+    <?php require_once 'includes/header.php' ?>
     <div class="container mt-3">
         <div class="row">
             <div class="col-lg-12" id="cartItems">
@@ -49,7 +49,7 @@ require_once 'admin/authentication/authenticate_user.php'
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="js/order.js"></script>
+    <script src="assets/js/order.js"></script>
 </body>
 
 </html>
