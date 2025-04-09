@@ -1,9 +1,8 @@
 <?php
 require_once('../vendor/autoload.php');
 session_start();
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "../..");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
-echo $_ENV['STRIPE_SECRET_KEY'];
 $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
 $cartDetails = $_SESSION['cartDetails'];
 
@@ -28,7 +27,6 @@ foreach ($cartDetails as $item) {
         'tax_rates' => [$_ENV["TAX_RATE_ID"]]
     ];
 }
-
 $checkoutSession = $stripe->checkout->sessions->create([
     'line_items' => $lineItems,
     'mode' => 'payment',
