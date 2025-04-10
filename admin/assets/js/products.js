@@ -243,15 +243,6 @@ $(document).ready(function () {
         initComplete: function () {
             let api = this.api();
             let column = api.column(6);
-            let filterContainer = document.getElementById('categoryDropdown');
-            filterContainer.innerHTML = `
-                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Categories
-                </button>
-                <ul class="dropdown-menu dropdown-menu-lg" aria-labelledby="categoryDropdownButton" id="categoryList" style="max-height: 400px; overflow-y: auto; padding: 15px; width: 300px; min-width: 300px;">
-                </ul>
-            `;
-
             let categoryList = document.getElementById('categoryList');
             $.ajax({
                 type: "post",
@@ -264,7 +255,7 @@ $(document).ready(function () {
                         });
                         let listItem = document.createElement('li');
                         listItem.innerHTML = `
-                                <div class="form-check">
+                                <div class="form-check btn-light">
                                     <input type="checkbox" class="form-check-input category-checkbox" id="category-${category.id}" value="${category.name}">
                                     <label class="form-check-label" for="category-${category.id}">${category.name}</label>
                                 </div>
@@ -336,7 +327,6 @@ $(document).ready(function () {
                         for (let key in error) {
                             response['message'] += "<br>" + error[key];
                             console.log(key + error[key]);
-
                         }
                     }
                     notify(response['message'], response['class']);
@@ -353,7 +343,6 @@ $(document).ready(function () {
     });
     $('#addProductForm').submit(function (e) {
         e.preventDefault();
-
     });
 
     $('#editProductForm').validate({

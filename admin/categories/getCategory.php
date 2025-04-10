@@ -7,5 +7,11 @@ require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
 $cat = new Category();
-$id = $_POST['id'];
-echo json_encode($cat->getItemById($cat->getTableName(), $id));
+if (!isset($_POST['id'])) {
+    echo json_encode([
+        "error" => "Id is required",
+        "message" => 'id is required to delete category'
+    ]);
+    die;
+}
+echo json_encode($cat->getItemById($cat->getTableName(), $_POST['id']));

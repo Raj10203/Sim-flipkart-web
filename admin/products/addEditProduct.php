@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
 use Classes\Product;
 
 require_once('../../authentication/backend_authenticate.php');
@@ -9,12 +11,12 @@ require_once('../../classes/Product.php');
 
 $prod = new Product();
 $response = [];
-$name = $_POST['productName'];
-$image = $_FILES['image'];
-$category = $_POST['category'];
-$price = $_POST['price'];
-$disciption = $_POST['description'];
-$discount = $_POST['discount'];
+$name = $_POST['productName'] ?? null;
+$image = $_FILES['image'] ?? null;
+$category = $_POST['category'] ?? null;
+$price = $_POST['price'] ?? null;
+$disciption = $_POST['description'] ?? null;
+$discount = $_POST['discount'] ?? null;
 
 
 $errors = [];
@@ -46,8 +48,8 @@ if (!empty($image['name'])) {
         $errors['image'] = 'Only JPG, JPEG, PNG, GIF, or WEBP files are allowed.';
     }
 
-    if ($image['size'] > 500 * 1024) { // 2MB limit
-        $errors['image'] = 'Image size should not exceed 2MB.';
+    if ($image['size'] > 500 * 1024 ) { // 2MB limit
+        $errors['image'] = 'Image size should not exceed 500KB.';
     }
 }
 
@@ -81,7 +83,7 @@ if (!empty($image['name'])) {
 }
 
 try {
-    if (isset($_POST['productId'])) {
+    if (!empty($_POST['productId'])) {
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['productId']);
         $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $disciption, $discount);
         if (!empty($image['name'])) {

@@ -66,7 +66,13 @@ include('../authentication/authenticate_user.php');
                         <div class="notifications">
                         </div>
                         <div id="select-container" class=" d-flex" style="gap:10px">
-                            <div id="categoryDropdown" class="dropdown"></div>
+                            <div id="categoryDropdown" class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Categories
+                                </button>
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList" >
+                                </ul>
+                            </div>
                         </div>
                         <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
@@ -108,7 +114,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="addImage" class="form-label">Image</label>
                             <img src="" class="tableImage d-none" alt="your image" id="showImg">
-                            <input type="file" accept="image/png" class="form-control imageInput" id="addImage"
+                            <input type="file" accept="image/image class="form-control imageInput" id="addImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
