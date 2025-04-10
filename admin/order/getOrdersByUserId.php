@@ -10,7 +10,7 @@ session_start();
 
 $ord = new Order();
 
-if (!isset($_POST['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     echo json_encode([
         "error" => "user_id is required",
         "message" => 'user_id is required to get orders.'
