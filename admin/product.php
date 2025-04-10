@@ -114,7 +114,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="addImage" class="form-label">Image</label>
                             <img src="" class="tableImage d-none" alt="your image" id="showImg">
-                            <input type="file" accept="image/image class="form-control imageInput" id="addImage"
+                            <input type="file" accept="image/*" class="form-control imageInput" id="addImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
@@ -164,7 +164,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
-                            <input type="file" accept="image/png" class="form-control imageInput" id="editImage"
+                            <input type="file"  accept="image/*" class="form-control imageInput" id="editImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>

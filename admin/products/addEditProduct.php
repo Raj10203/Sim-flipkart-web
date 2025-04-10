@@ -16,7 +16,6 @@ $price = $_POST['price'] ?? null;
 $disciption = $_POST['description'] ?? null;
 $discount = $_POST['discount'] ?? null;
 
-
 $errors = [];
 
 if (empty($name)) {
