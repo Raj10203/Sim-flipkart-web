@@ -271,8 +271,7 @@ section {
 .notifications {
     position: absolute;
     right: 0;
-    width: 50%;
-    max-width: 450px;
+    width: 100%;
     z-index: 20;
     top: -40px;
 }

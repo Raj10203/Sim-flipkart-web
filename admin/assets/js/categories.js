@@ -150,7 +150,6 @@ $(document).ready(function () {
         table.ajax.reload(null, false);
     }, 30000);
 
-
     $('#addCategoryForm').validate({ 
         rules: {
             categoryName: {
@@ -169,10 +168,16 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    table.ajax.reload(null, false);
                     response = JSON.parse(response);
-                    $('#addModal').modal('hide');
+                    let error = response['errors'];
+                    if (error) {
+                        for (let key in error) {
+                            response['message'] += "<br>" + error[key];
+                        }
+                    }
                     notify(response['message'], response['class']);
+                    table.ajax.reload(null, false);
+                    $('#addModal').modal('hide');
                 }
             });
         }
@@ -182,27 +187,47 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    $('#editCategoryForm').validate({ 
+        rules: {
+            categoryName: {
+                required: true,
+            },
+            categoryDescription: {
+                required: true,
+            },
+        },
+        submitHandler: function(form) {
+            let id = $('#categoryId').val();
+            let name = $('#editCategoryName').val();
+            let description = $('#editCategoryDescription').val();
+    
+            $.ajax({
+                type: "post",
+                url: "./categories/addEditCategory.php",
+                data: {
+                    id: id,
+                    categoryName: name,
+                    categoryDescription: description
+                },
+                success: function (response) {
+                    response = JSON.parse(response);
+                    let error = response['errors'];
+                    if (error) {
+                        for (let key in error) {
+                            response['message'] += "<br>" + error[key];
+                        }
+                    }
+                    notify(response['message'], response['class']);
+                    table.ajax.reload(null, false);
+                    $('#editModal').modal('hide');
+                }
+            });
+        }
+    });
+
     $('#editCategoryForm').submit(function (e) {
         e.preventDefault();
-        let id = $('#categoryId').val();
-        let name = $('#editCategoryName').val();
-        let description = $('#editCategoryDescription').val();
-
-        $.ajax({
-            type: "post",
-            url: "./categories/addEditCategory.php",
-            data: {
-                id: id,
-                categoryName: name,
-                categoryDescription: description
-            },
-            success: function (response) {
-                table.ajax.reload(null, false);
-                response = JSON.parse(response);
-                $('#editModal').modal('hide');
-                notify(response['message'], response['class']);
-            }
-        });
+       
     });
 
     function notify(message, type) {

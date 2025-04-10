@@ -29,8 +29,6 @@ class Product extends Database
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("sidsdi", $name, $category, $price, $description, $discount, $id);
         }
-        $stmt->execute();
-        $result = $stmt->affected_rows > 0;
-        return $result;
+        return $stmt->execute();;
     }
 }

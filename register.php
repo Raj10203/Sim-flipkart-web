@@ -3,6 +3,7 @@ session_start();
 if (isset($_SESSION['user_id'])) {
     header('location: /');
 }
+session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +50,7 @@ if (isset($_SESSION['user_id'])) {
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="/admin/images/icon/logo.png" alt="CoolAdmin">
+                                <img src="/admin/assets/images/icon/logo.png" alt="CoolAdmin">
                             </a>
                         </div>
                         <?php
@@ -110,7 +111,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-    <?php require_once('./includes/scripts.php') ?>
+    <?php require_once './admin/includes/scripts.php' ?>
     <script src="/admin/assets/js/register.js"></script>
 </body>
 

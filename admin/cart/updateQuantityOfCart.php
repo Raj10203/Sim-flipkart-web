@@ -11,4 +11,7 @@ session_start();
 $cart = new Cart();
 $cartId = $_POST["id"];
 $change = $_POST["change"];
+if (!isset($_POST['id'])) {
+    echo json_encode(["status" => false, "message" => "cart id required"]);
+}
 echo json_encode($cart->changeQuanityById($cartId, $change));

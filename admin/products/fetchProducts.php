@@ -9,7 +9,7 @@ require_once('../../classes/Product.php');
 
 $prod = new Product();
 $conn = $prod->getConnection();
-$columns = ["p.id", "p.name", "p.image_path", "p.description", "p.price", "p.discount", "c.name", "p.category_id"];
+// $columns = ["p.id", "p.name", "p.image_path", "p.description", "p.price", "p.discount", "c.name", "p.category_id"];
 
 $searchValue = isset($_POST['search']['value']) ? mysqli_real_escape_string($conn, $_POST['search']['value']) : '';
 $start = $_POST['start'] ?? 0;

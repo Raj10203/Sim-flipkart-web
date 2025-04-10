@@ -1,10 +1,10 @@
 $(document).ready(function () {
 
     $.validator.addMethod("PASSWORD", function (value, element) {
-        return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/i.test(value);
-    }, "Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number.");
+        return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/i.test(value);
+    }, "Passwords are 8-64 characters with uppercase letters, lowercase letters and at least one number.");
 
-    $('#registerForm').validate({ 
+    $('#registerForm').validate({
         rules: {
             firstName: {
                 required: true
@@ -21,7 +21,7 @@ $(document).ready(function () {
             confirmPassword: {
                 required: true,
                 minlength: 5,
-                equalTo: "#password"
+                equalTo: "#register-password"
             }
         },
         messages: {
@@ -29,6 +29,9 @@ $(document).ready(function () {
                 required: "Email is required",
                 email: " Please enter valid email"
             },
+        },
+        submitHandler: function (form) {
+            form.submit();
         }
     });
 });

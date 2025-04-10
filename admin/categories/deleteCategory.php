@@ -11,7 +11,10 @@ $category = new Category();
 $response = [];
 if (!isset($_POST['id'])) {
     http_response_code(400);
-    echo json_encode(["error" => "Id is required"]);
+    echo json_encode([
+        "error" => "Id is required",
+        "message" => 'id is required to delete category'
+    ]);
     die;
 }
 try {
