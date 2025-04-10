@@ -1,0 +1,127 @@
+$('.asideMember').each(function (index, element) {
+    if (element.dataset.li == 'orders') {
+        $(element).addClass('active');
+    } else {
+        $(element).removeClass('active');
+    }
+});
+$(document).ready(function () {
+    const statuses = ['paid', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    let table = $("#myTable").DataTable({
+        responsive: true,
+        scrollY: '70vh',
+        scrollCollapse: true,
+        scrollX: true,
+        columnDefs: [
+            {
+                className: "dt-center",
+                targets: "_all"
+            },
+        ],
+        search: {
+            return: true,
+        },
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-light btn-datatable',
+                    },
+                    {
+                        extend: "colvis",
+                        columns: ":not(.noVis)",
+                        popoverTitle: "Column visibility selector",
+                        className: 'btn btn-light btn-datatable',
+                    },
+                    {
+                        extend: 'collection',
+                        text: 'Export',
+                        className: 'btn btn-light btn-datatable',
+                        buttons: ['csv', 'excel', 'pdf']
+                    },
+                ]
+            },
+            topEnd: {
+                buttons: [
+                    {
+                        text: "<span>Refresh </span>",
+                        className: 'btn btn-light btn-datatable',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.reload(null, false);
+                        }
+                    }
+                ],
+                search: {
+                    placeholder: 'Search'
+                },
+            },
+            bottomEnd: {
+                paging: {
+                    buttons: 5,
+                },
+            },
+        },
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "./orders/fetchOrders.php",
+            type: "POST",
+        },
+        columns: [
+            { data: "id" },
+            { data: "first_name" },
+            { data: "status" },
+            { data: "total_products" },
+            { data: "total_price" },
+            { data: "payment_id" },
+        ],
+        initComplete: function () {
+            let api = this.api();
+            let statusColumn = api.column(2);
+            let statusList = $('#statusList');
+
+            statuses.forEach(function (status) {
+                let listItem = $('<li class="status-checkbox-li btn-light" ></li>');
+                listItem.html(`
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input status-checkbox" id="status-${status}" value="${status}">
+                        <label class="form-check-label w-100" for="status-${status}">${status}</label>
+                    </div>
+                `);;
+                statusList.append(listItem);
+            });
+            $(document).on('change', '.status-checkbox-li', function () {
+                let selectedStatuses = [];
+                $('.status-checkbox:checked').each(function () {
+                    selectedStatuses.push($(this).val());
+                });
+
+                let searchString = selectedStatuses.length ? selectedStatuses.join('|') : '';
+                statusColumn.search(searchString, true, false).draw();
+            });
+            $('.form-check-label').click(function (e) {
+                e.stopPropagation();
+            });
+        }
+    });
+    $('#myTable_processing').removeClass('card');
+    // setInterval(function () {
+    //     table.ajax.reload(null, false);
+    // }, 30000);
+
+    function notify(message, type) {
+        let notification = $(`<div></div>`).html(message + `
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
+        $('.notifications').append(notification);
+        setTimeout(() => {
+            notification.fadeOut(500, function () {
+                $(this).remove();
+            });
+        }, 5000);
+    }
+
+});

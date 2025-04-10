@@ -101,7 +101,7 @@ include('../authentication/authenticate_user.php');
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add Category</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Product</h5>
                 </div>
                 <div class="modal-body">
                     <form action="#" id="addProductForm" enctype="multipart/form-data">
@@ -151,7 +151,7 @@ include('../authentication/authenticate_user.php');
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+                    <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
                 </div>
                 <div class="modal-body">
                     <form action="./product.html" id="editProductForm" enctype="multipart/form-data" action="#">

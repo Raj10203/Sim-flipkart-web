@@ -53,7 +53,7 @@ $(document).ready(function () {
 function showCartItems() {
     $.ajax({
         type: "post",
-        url: "admin/order/getOrdersByUserId.php",
+        url: "admin/orders/getOrdersByUserId.php",
         success: function (response) {
             response = JSON.parse(response);
             $('#cart-count').text(response.length);

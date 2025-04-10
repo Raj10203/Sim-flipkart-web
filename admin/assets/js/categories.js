@@ -146,6 +146,7 @@ $(document).ready(function () {
             });
         }
     });
+    $('#myTable_processing').removeClass('card');
     setInterval(function () {
         table.ajax.reload(null, false);
     }, 30000);

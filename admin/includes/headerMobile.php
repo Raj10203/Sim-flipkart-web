@@ -32,6 +32,10 @@
                     <a href="user">
                         <i class="fas fa-user"></i>Users</a>
                 </li>
+                <li class="asideMember" data-li="orders">
+                    <a href="order">
+                    <i class="fa-solid fa-box-open icons"></i></i>Orders</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -61,6 +65,10 @@
                 <li class="asideMember" data-li="users">
                     <a href="user">
                         <i class="fas fa-user"></i>Users</a>
+                </li>
+                <li class="asideMember" data-li="orders">
+                    <a href="order">
+                    <i class="fa-solid fa-box-open icons"></i>Orders</a>
                 </li>
             </ul>
         </nav>

@@ -285,10 +285,6 @@ li:has( .form-check-label) {
    
 }
 
-li:has( .form-check-label):hover {
-    background-color: rgb(223, 223, 223);
-}
-
 .light-dropdown {
     max-height: 400px;
     overflow-y: auto;
