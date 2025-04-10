@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 
 use Classes\Product;
 
@@ -84,9 +81,9 @@ if (!empty($image['name'])) {
 }
 
 try {
-    if (isset($_POST['id'])) {
-        $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
-        $response['result'] = $prod->editProduct($_POST['id'], $name, $image, $category, $price, $disciption, $discount);
+    if (isset($_POST['productId'])) {
+        $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['productId']);
+        $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $disciption, $discount);
         if (!empty($image['name'])) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $oldProduct['image_path']);
         }

@@ -379,22 +379,8 @@ $(document).ready(function () {
         },
         submitHandler: function (form) {
             let formData = new FormData(form);
-            let id = $('#editProductId').val();
-            let name = $('#editProductName').val();
-            let category = $('#editCategory').val();
-            let price = $('#editPrice').val();
-            let description = $('#editDescription').val();
             let files = $('#editImage')[0].files;
-
-            formData.append('id', id);
-            formData.append('addProductName', name);
-            formData.append('addCategory', category);
-            formData.append('addPrice', price);
-            formData.append('addDescription', description);
-
-            if (files.length > 0) {
-                formData.append('addImage', files[0]);
-            }
+            formData.append('image', files[0]);
             $.ajax({
                 type: "post",
                 url: "./products/addEditProduct.php",
@@ -417,10 +403,11 @@ $(document).ready(function () {
                     $('#editModal').modal('hide');
                 },
                 error: function (jqXHR) {
-                    alert("Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"));
+                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
                 }
             });
             form.reset();
+            $('#showImg').hide();
         }
     });
 

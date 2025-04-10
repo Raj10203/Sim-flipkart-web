@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
 use Classes\Category;
 
 require_once('../../authentication/backend_authenticate.php');
@@ -9,6 +11,7 @@ require_once('../../classes/Category.php');
 
 $category = new Category();
 $response = [];
+$categoryId = $_POST['categoryId'];
 $categoryName = trim($_POST['categoryName']);
 $categoryDescription = trim($_POST['categoryDescription']);
 
@@ -36,14 +39,14 @@ if (!empty($errors)) {
 }
 
 try {
-    if (isset($_POST['id'])) {
+    if (isset($_POST['categoryId'])) {
         $response = [
-            'result' => $category->editCategory($_POST['id'], $categoryName, $categoryDiscription),
+            'result' => $category->editCategory($_POST['categoryId'], $categoryName, $categoryDescription),
             'message' => "Successfully edited category $categoryName"
         ];
     } else {
         $response = [
-            'result' => $category->addCategory($categoryName, $categoryDiscription),
+            'result' => $category->addCategory($categoryName, $categoryDescription),
             'message' => "Successfully added category $categoryName"
         ];
     }
