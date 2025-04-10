@@ -16,7 +16,6 @@ include('../authentication/authenticate_user.php');
     <!-- SweetAlert2 Dark Theme -->
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 
-    <!-- Meta Tags (Required) -->
     <!-- Add your meta tags here for responsiveness, SEO, and performance -->
 
     <!-- Custom Font Faces -->
@@ -64,9 +63,16 @@ include('../authentication/authenticate_user.php');
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-
+                        <div class="notifications">
+                        </div>
                         <div id="select-container" class=" d-flex" style="gap:10px">
-                            <div id="categoryDropdown" class="dropdown"></div>
+                            <div id="categoryDropdown" class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Categories
+                                </button>
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList" >
+                                </ul>
+                            </div>
                         </div>
                         <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
@@ -103,12 +109,12 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="addProductName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="addProductName" placeholder="Product Name"
-                                name="productName"  maxlength="30" />
+                                name="productName" maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="addImage" class="form-label">Image</label>
                             <img src="" class="tableImage d-none" alt="your image" id="showImg">
-                            <input type="file" accept="image/png" class="form-control imageInput" id="addImage" 
+                            <input type="file" accept="image/*" class="form-control imageInput" id="addImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
@@ -118,7 +124,7 @@ include('../authentication/authenticate_user.php');
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" 
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price"
                                 step=".01" name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
@@ -129,7 +135,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="addDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
-                                name="description" maxlength="100" ></textarea>
+                                name="description" maxlength="100"></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
                             name="formSubmit" />
@@ -148,17 +154,17 @@ include('../authentication/authenticate_user.php');
                     <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="./product.html" id="editProductForm" enctype="multipart/form-data">
+                    <form action="./product.html" id="editProductForm" enctype="multipart/form-data" action="#">
                         <input type="hidden" id="editProductId" value="" data-val="" name="productId">
                         <div class="mb-3">
                             <label for="editProductName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="editProductName" placeholder="Product Name"
-                                name="productName" required maxlength="30" />
+                                name="productName" maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
-                            <input type="file" accept="image/png" class="form-control imageInput" id="editImage"
+                            <input type="file"  accept="image/*" class="form-control imageInput" id="editImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
@@ -169,7 +175,7 @@ include('../authentication/authenticate_user.php');
                         </div>
                         <div class="mb-3">
                             <label for="editPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="editPrice" placeholder="Price" required
+                            <input type="number" class="form-control" id="editPrice" placeholder="Price"
                                 step=".01" name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
@@ -180,7 +186,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="editDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="editDescription" name="description" rows="3"
-                                placeholder="Description ..." maxlength="100" required></textarea>
+                                placeholder="Description ..." maxlength="100"></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary event" id="editFormSubmit" name="formSubmit" />
                     </form>

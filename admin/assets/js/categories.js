@@ -150,8 +150,11 @@ $(document).ready(function () {
         table.ajax.reload(null, false);
     }, 30000);
 
+    $('#editCategoryForm').submit(function (e) {
+        e.preventDefault();
+    });
 
-    $('#addCategoryForm').validate({ 
+    $('#addCategoryForm').validate({
         rules: {
             categoryName: {
                 required: true,
@@ -160,7 +163,7 @@ $(document).ready(function () {
                 required: true,
             },
         },
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             let formData = new FormData(form);
             $.ajax({
                 type: "post",
@@ -169,12 +172,19 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    table.ajax.reload(null, false);
                     response = JSON.parse(response);
-                    $('#addModal').modal('hide');
+                    let error = response['errors'];
+                    if (error) {
+                        for (let key in error) {
+                            response['message'] += "<br>" + error[key];
+                        }
+                    }
                     notify(response['message'], response['class']);
+                    table.ajax.reload(null, false);
                 }
             });
+            $('#addModal').modal('hide');
+            form.reset();
         }
     });
 
@@ -182,35 +192,48 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    $('#editCategoryForm').submit(function (e) {
-        e.preventDefault();
-        let id = $('#categoryId').val();
-        let name = $('#editCategoryName').val();
-        let description = $('#editCategoryDescription').val();
-
-        $.ajax({
-            type: "post",
-            url: "./categories/addEditCategory.php",
-            data: {
-                id: id,
-                categoryName: name,
-                categoryDescription: description
+    $('#editCategoryForm').validate({
+        rules: {
+            categoryName: {
+                required: true,
             },
-            success: function (response) {
-                table.ajax.reload(null, false);
-                response = JSON.parse(response);
-                $('#editModal').modal('hide');
-                notify(response['message'], response['class']);
-            }
-        });
+            categoryDescription: {
+                required: true,
+            },
+        },
+        submitHandler: function (form) {
+           let formData = new FormData(form);
+            $.ajax({
+                type: "post",
+                url: "./categories/addEditCategory.php",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    response = JSON.parse(response);
+                    let error = response['errors'];
+                    if (error) {
+                        for (let key in error) {
+                            response['message'] += "<br>" + error[key];
+                        }
+                    }
+                    notify(response['message'], response['class']);
+                    table.ajax.reload(null, false);
+                }
+            });
+            $('#editModal').modal('hide');
+            form.reset();
+        }
     });
+
+
 
     function notify(message, type) {
         let notification = $(`<div></div>`).html(message + `
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show');
+        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show mb-1');
         $('.notifications').append(notification);
         setTimeout(() => {
             notification.fadeOut(500, function () {

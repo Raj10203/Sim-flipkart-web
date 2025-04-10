@@ -15,5 +15,9 @@ if (!isset($_SESSION['user_id'])) {
 $cart = new Cart();
 $userId = $_SESSION['user_id'];
 $productId = (int) $_POST['productId'];
+if (!isset($productId)) {
+    echo json_encode(["status" => false, "message" => "product id required"]);
+    exit;
+}
 $response = $cart->addToCart($userId, $productId);
 echo json_encode($response);

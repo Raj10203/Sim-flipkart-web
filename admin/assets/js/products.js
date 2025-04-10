@@ -6,7 +6,7 @@ $('.asideMember').each(function (index, element) {
     }
 });
 $(document).ready(function () {
-   
+
 
     $(".imageInput").each(function (index, element) {
         element.addEventListener("change", function (e) {
@@ -243,15 +243,6 @@ $(document).ready(function () {
         initComplete: function () {
             let api = this.api();
             let column = api.column(6);
-            let filterContainer = document.getElementById('categoryDropdown');
-            filterContainer.innerHTML = `
-                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Categories
-                </button>
-                <ul class="dropdown-menu dropdown-menu-lg" aria-labelledby="categoryDropdownButton" id="categoryList" style="max-height: 400px; overflow-y: auto; padding: 15px; width: 300px; min-width: 300px;">
-                </ul>
-            `;
-
             let categoryList = document.getElementById('categoryList');
             $.ajax({
                 type: "post",
@@ -264,7 +255,7 @@ $(document).ready(function () {
                         });
                         let listItem = document.createElement('li');
                         listItem.innerHTML = `
-                                <div class="form-check">
+                                <div class="form-check btn-light">
                                     <input type="checkbox" class="form-check-input category-checkbox" id="category-${category.id}" value="${category.name}">
                                     <label class="form-check-label" for="category-${category.id}">${category.name}</label>
                                 </div>
@@ -289,11 +280,12 @@ $(document).ready(function () {
             });
         }
     });
-
+    $('#myTable_processing').removeClass('card');
     setInterval(function () {
         table.ajax.reload(null, false);
     }, 30000);
-    $('#addProductForm').validate({ 
+
+    $('#addProductForm').validate({
         rules: {
             productName: {
                 required: true,
@@ -305,6 +297,7 @@ $(document).ready(function () {
                 required: true,
             },
             price: {
+                min: 50,
                 required: true,
             },
             discount: {
@@ -316,7 +309,7 @@ $(document).ready(function () {
                 required: true,
             }
         },
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             let formData = new FormData(form);
             let files = $('#addImage')[0].files;
             formData.append('image', files[0]);
@@ -327,6 +320,16 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    response = JSON.parse(response);
+                    console.log(response);
+                    let error = response['errors'];
+                    if (error) {
+                        for (let key in error) {
+                            response['message'] += "<br>" + error[key];
+                            console.log(key + error[key]);
+                        }
+                    }
+                    notify(response['message'], response['class']);
                     table.ajax.reload(null, false);
                     $('#addModal').modal('hide');
                 },
@@ -334,74 +337,71 @@ $(document).ready(function () {
                     alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
                 }
             });
-            this.reset();
+            form.reset();
             $('#showImg').hide();
         }
     });
     $('#addProductForm').submit(function (e) {
         e.preventDefault();
-       
     });
-    
+
+    $('#editProductForm').validate({
+        rules: {
+            productName: {
+                required: true,
+            },
+            category: {
+                required: true,
+            },
+            price: {
+                min: 50,
+                required: true,
+            },
+            discount: {
+                required: true,
+                min: 0,
+                max: 100
+            },
+            description: {
+                required: true,
+            }
+        },
+        submitHandler: function (form) {
+            let formData = new FormData(form);
+            let files = $('#editImage')[0].files;
+            formData.append('image', files[0]);
+            $.ajax({
+                type: "post",
+                url: "./products/addEditProduct.php",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    response = JSON.parse(response);
+                    console.log(response);
+                    let error = response['errors'];
+                    if (error) {
+                        for (let key in error) {
+                            response['message'] += "<br>" + error[key];
+                            console.log(key + error[key]);
+
+                        }
+                    }
+                    notify(response['message'], response['class']);
+                    table.ajax.reload(null, false);
+                    $('#editModal').modal('hide');
+                },
+                error: function (jqXHR) {
+                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
+                }
+            });
+            form.reset();
+            $('#showImg').hide();
+        }
+    });
+
     $('#editProductForm').submit(function (e) {
         e.preventDefault();
-        let formData = new FormData(this);
-        let id = $('#editProductId').val();
-        let name = $('#editProductName').val();
-        let category = $('#editCategory').val();
-        let price = $('#editPrice').val();
-        let description = $('#editDescription').val();
-        let files = $('#editImage')[0].files;
-
-        formData.append('id', id);
-        formData.append('addProductName', name);
-        formData.append('addCategory', category);
-        formData.append('addPrice', price);
-        formData.append('addDescription', description);
-
-        if (files.length > 0) {
-            formData.append('addImage', files[0]);
-        }
-
-        $.ajax({
-            type: "post",
-            url: "./products/addEditProduct.php",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                table.ajax.reload(null, false);
-                $('#editModal').modal('hide');
-                notify(response['message'], response['class']);
-            },
-            error: function (jqXHR) {
-                alert("Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"));
-            }
-        });
-        this.reset();
-    });
-
-    $('#editCategoryForm').submit(function (e) {
-        e.preventDefault();
-        let id = $('#categoryId').val();
-        let name = $('#editCategoryName').val();
-        let description = $('#editCategoryDescription').val();
-
-        $.ajax({
-            type: "post",
-            url: "../products/addEditCategory.php",
-            data: {
-                id: id,
-                categoryName: name,
-                categoryDescription: description
-            },
-            success: function (response) {
-                table.ajax.reload(null, false);
-                response = JSON.parse(response);
-                $('#editModal').modal('hide');
-                notify(response['message'], response['class']);
-            }
-        });
     });
 
     function notify(message, type) {
@@ -409,7 +409,7 @@ $(document).ready(function () {
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show');
+        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
         $('.notifications').append(notification);
         setTimeout(() => {
             notification.fadeOut(500, function () {

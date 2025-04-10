@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+
 use Classes\Product;
 
 require_once('../../authentication/backend_authenticate.php');
@@ -11,12 +9,57 @@ require_once('../../classes/Product.php');
 
 $prod = new Product();
 $response = [];
-$name = $_POST['productName'] ?? '';
-$image = $_FILES['image'] ?? [];
-$category = $_POST['category'] ?? '';
-$price = $_POST['price'] ?? '';
-$disciption = $_POST['description'] ?? '';
-$discount = $_POST['discount'] ?? 0;
+$name = $_POST['productName'] ?? null;
+$image = $_FILES['image'] ?? null;
+$category = $_POST['category'] ?? null;
+$price = $_POST['price'] ?? null;
+$description = $_POST['description'] ?? null;
+$discount = $_POST['discount'] ?? null;
+
+$errors = [];
+
+if (empty($name)) {
+    $errors['name'] = 'Product name is required.';
+}
+
+if (empty($category)) {
+    $errors['category'] = 'Category is required.';
+}
+
+if (!filter_var($price, FILTER_VALIDATE_FLOAT) || $price < 0) {
+    $errors['price'] = 'Please enter a valid positive price.';
+}
+
+if (!filter_var($discount, FILTER_VALIDATE_FLOAT) || $discount < 0 || $discount > 100) {
+    $errors['discount'] = 'Discount must be a float between 0.00 and 100.00';
+}
+
+if (empty($description)) {
+    $errors['description'] = 'Description is required.';
+}
+
+if (!empty($image['name'])) {
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $ext = strtolower(pathinfo($image["name"], PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $allowedTypes)) {
+        $errors['image'] = 'Only JPG, JPEG, PNG, GIF, or WEBP files are allowed.';
+    }
+
+    if ($image['size'] > 500 * 1024 ) { // 2MB limit
+        $errors['image'] = 'Image size should not exceed 500KB.';
+    }
+}
+
+if (!empty($errors)) {
+    echo json_encode([
+        'result' => false,
+        'errors' => $errors,
+        'class' => 'danger',
+        'message' => 'Validation failed. Please check your input.'
+    ]);
+    exit;
+}
 
 $imagePath = '';
 if (!empty($image['name'])) {
@@ -38,15 +81,15 @@ if (!empty($image['name'])) {
 }
 
 try {
-    if (isset($_POST['id'])) {
-        $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
-        $response['result'] = $prod->editProduct($_POST['id'], $name, $image, $category, $price, $disciption, $discount);
-        if(!empty($image['name'])) {
-            unlink($_SERVER['DOCUMENT_ROOT']. $oldProduct['image_path']);
+    if (!empty($_POST['productId'])) {
+        $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['productId']);
+        $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $description, $discount);
+        if (!empty($image['name'])) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $oldProduct['image_path']);
         }
         $response['message'] = "Successfully edited product $name";
     } else {
-        $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $disciption, $discount);
+        $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $description, $discount);
         $response['message'] = "Successfully added product $name";
     }
     $response['class'] = 'success';

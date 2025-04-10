@@ -122,7 +122,6 @@ include('../authentication/authenticate_user.php');
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
-
                 </div>
                 <div class="modal-body">
                     <form action="#" id="editCategoryForm" method="post">
@@ -130,12 +129,12 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="editCategoryName" class="form-label">Category Name</label>
                             <input type="text" class="form-control" id="editCategoryName" name="categoryName"
-                                placeholder="Category Name" required maxlength="30" />
+                                placeholder="Category Name maxlength="30" />
                         </div>
                         <div class="mb-3">
                             <label for="editCategoryDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="editCategoryDescription" placeholder="Description ..."
-                                name="categoryDescription" maxlength="200" required></textarea>
+                                name="categoryDescription" maxlength="200"></textarea>
                         </div>
                         <input type="submit" class="btn event btn-primary" id="editFormSubmit" data-type="add-submit"
                             name="editFormSubmit" />

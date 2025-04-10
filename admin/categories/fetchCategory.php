@@ -26,14 +26,12 @@ $sql = "SELECT id, name, description FROM $tableName
         WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%' 
         ORDER BY " . $columns[$order_column] . " $order_dir 
         LIMIT $start, $length";
-
 $result = $conn->query($sql);
 $data = $result->fetch_all(MYSQLI_ASSOC);
 
 $sql_filter = "SELECT COUNT(id) FROM $tableName 
         WHERE name LIKE '%$search_value%' OR description LIKE '%$search_value%'
         ORDER BY " . $columns[$order_column] . " $order_dir ;";
-
 $filtered_records = $conn->query($sql_filter)->fetch_row()[0];
 
 $response = array(
