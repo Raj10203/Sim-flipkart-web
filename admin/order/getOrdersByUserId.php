@@ -9,6 +9,7 @@ require_once('../../classes/Order.php');
 session_start();
 
 $ord = new Order();
+
 if (!isset($_POST['user_id'])) {
     echo json_encode([
         "error" => "user_id is required",

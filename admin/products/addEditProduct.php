@@ -13,7 +13,7 @@ $name = $_POST['productName'] ?? null;
 $image = $_FILES['image'] ?? null;
 $category = $_POST['category'] ?? null;
 $price = $_POST['price'] ?? null;
-$disciption = $_POST['description'] ?? null;
+$description = $_POST['description'] ?? null;
 $discount = $_POST['discount'] ?? null;
 
 $errors = [];
@@ -33,7 +33,8 @@ if (!filter_var($price, FILTER_VALIDATE_FLOAT) || $price < 0) {
 if (!filter_var($discount, FILTER_VALIDATE_FLOAT) || $discount < 0 || $discount > 100) {
     $errors['discount'] = 'Discount must be a float between 0.00 and 100.00';
 }
-if (empty($disciption)) {
+
+if (empty($description)) {
     $errors['description'] = 'Description is required.';
 }
 
@@ -82,13 +83,13 @@ if (!empty($image['name'])) {
 try {
     if (!empty($_POST['productId'])) {
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['productId']);
-        $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $disciption, $discount);
+        $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $description, $discount);
         if (!empty($image['name'])) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $oldProduct['image_path']);
         }
         $response['message'] = "Successfully edited product $name";
     } else {
-        $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $disciption, $discount);
+        $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $description, $discount);
         $response['message'] = "Successfully added product $name";
     }
     $response['class'] = 'success';

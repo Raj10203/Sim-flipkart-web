@@ -11,6 +11,7 @@ require_once('../../classes/Product.php');
 session_start();
 
 $oi = new OrderItems();
+
 if (!isset($_POST['orderID'])) {
     echo json_encode([
         "error" => "orderID is required",

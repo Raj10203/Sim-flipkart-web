@@ -8,6 +8,7 @@ require_once('../../classes/Product.php');
 
 $product = new Product();
 $id = $_POST['id'];
+
 if (!isset($_POST['id'])) {
     echo json_encode([
         "error" => "Id is required",

@@ -7,6 +7,7 @@ require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
 $cat = new Category();
+
 if (!isset($_POST['id'])) {
     echo json_encode([
         "error" => "Id is required",

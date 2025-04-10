@@ -9,6 +9,7 @@ require_once('../../classes/Product.php');
 
 $prod = new Product();
 $response = [];
+
 if (!isset($_POST['id'])) {
     echo json_encode([
         "message" => "Id is required",
@@ -16,6 +17,7 @@ if (!isset($_POST['id'])) {
     ]);
     die;
 }
+
 try {
     $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
     $response = [
