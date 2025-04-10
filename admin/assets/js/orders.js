@@ -17,6 +17,10 @@ $(document).ready(function () {
                 className: "dt-center",
                 targets: "_all"
             },
+            {
+                targets: 2,
+                width: '160px'
+            }
         ],
         search: {
             return: true,
@@ -71,18 +75,59 @@ $(document).ready(function () {
         columns: [
             { data: "id" },
             { data: "first_name" },
-            { data: "status" },
+            {
+                data: 'status',
+                render: function (data, type, row) {
+                    let options = statuses.map(status => {
+                        let selected = status === data ? 'selected' : '';
+                        return `<option value="${status}" ${selected}>${status}</option>`;
+                    }).join('');
+
+                    return `
+                        <select class="order-status-select form-control" data-order-id="${row.id}">
+                            ${options}
+                        </select>
+                    `;
+                }
+            },
             { data: "total_products" },
             { data: "total_price" },
             { data: "payment_id" },
         ],
+        drawCallback: function () {
+            $('.order-status-select').select2({
+                minimumResultsForSearch: Infinity,
+                width: 'resolve'
+            });
+            $(document).off('change', '.order-status-select').on('change', '.order-status-select', function () {
+                const orderid = $(this).data('order-id'); // or data-id, based on your setup
+                const status = $(this).val();
+                $.ajax({
+                    url: '/admin/orders/updateStatusByOrderId',
+                    method: 'POST',
+                    data: {
+                        orderid: orderid,
+                        status: status
+                    },
+                    success: function (response) {
+                        
+                        response = JSON.parse(response);
+                        console.log(response);
+                        notify(response['message'], response['class'])
+                    },
+                    error: function () {
+                        alert('Failed to update status');
+                    }
+                });
+            });
+        },
         initComplete: function () {
             let api = this.api();
             let statusColumn = api.column(2);
             let statusList = $('#statusList');
 
             statuses.forEach(function (status) {
-                let listItem = $('<li class="status-checkbox-li btn-light" ></li>');
+                let listItem = $('<li class="status-checkbox-li btn-light"></li>');
                 listItem.html(`
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input status-checkbox" id="status-${status}" value="${status}">
@@ -100,28 +145,27 @@ $(document).ready(function () {
                 let searchString = selectedStatuses.length ? selectedStatuses.join('|') : '';
                 statusColumn.search(searchString, true, false).draw();
             });
-            $('.form-check-label').click(function (e) {
+            $('.status-checkbox-li').click(function (e) {
                 e.stopPropagation();
             });
         }
     });
     $('#myTable_processing').removeClass('card');
-    // setInterval(function () {
-    //     table.ajax.reload(null, false);
-    // }, 30000);
-
-    function notify(message, type) {
-        let notification = $(`<div></div>`).html(message + `
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
-        $('.notifications').append(notification);
-        setTimeout(() => {
-            notification.fadeOut(500, function () {
-                $(this).remove();
-            });
-        }, 5000);
-    }
-
+    setInterval(function () {
+        table.ajax.reload(null, false);
+    }, 30000);
 });
+
+function notify(message, type) {
+    let notification = $(`<div></div>`).html(message + `
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
+    $('.notifications').append(notification);
+    setTimeout(() => {
+        notification.fadeOut(500, function () {
+            $(this).remove();
+        });
+    }, 5000);
+}

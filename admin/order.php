@@ -40,14 +40,26 @@ include('../authentication/authenticate_user.php');
     <link href="/admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- DataTables Extensions -->
-    <link href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap5.min.css" rel="stylesheet"
-        integrity="sha384-DJhypeLg79qWALC844KORuTtaJcH45J+36wNgzj4d1Kv1vt2PtRuV2eVmdkVmf/U" crossorigin="anonymous" />
-
-    <link href="https://cdn.datatables.net/select/3.0.0/css/select.bootstrap5.min.css" rel="stylesheet"
-        integrity="sha384-TlxQ7BelG5MWHP/TbW8dDV3/3kwuo6rinsUsoQdbLGPvurwx/DA2Z49RVLIOxVrG" crossorigin="anonymous" />
+    <link href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+        integrity="sha384-cdPG7VtMFMSrl8C78/9pqo6MDb1Dy2vrkNuCWDnFHZ9pjbDJRBEt4ibCRI4KQZDi" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.bootstrap4.min.css" rel="stylesheet"
+        integrity="sha384-YHUnVhPYErA/IH3gGmVQyB2twaYx/xm4Nw+wQE2xZoB+VBmRPPt9Paqc4/eShUAF" crossorigin="anonymous">
 
     <!-- Main Theme CSS -->
     <link href="/admin/assets/css/theme.css" rel="stylesheet" media="all">
+    <style>
+        .select2-container--default {
+            text-align: center;
+
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #f8f9fa !important;
+            color: #212529 !important;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -67,10 +79,10 @@ include('../authentication/authenticate_user.php');
                         </div>
                         <div id="select-container" class=" d-flex" style="gap:10px">
                             <div id="categoryDropdown" class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="statusListDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Select Categories
                                 </button>
-                                <ul class="dropdown-menu light-dropdown" aria-labelledby="statusListDropdownButton" id="statusList" >
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="statusListDropdownButton" id="statusList">
                                 </ul>
                             </div>
                         </div>
@@ -94,6 +106,7 @@ include('../authentication/authenticate_user.php');
     </div>
 
     <?php require_once('./includes/scripts.php') ?>
+
     <script src="/admin/assets/js/orders.js"></script>
 </body>
 

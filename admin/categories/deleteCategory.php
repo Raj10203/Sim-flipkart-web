@@ -19,12 +19,16 @@ if (!isset($_POST['id'])) {
 }
 
 try {
-    $response['result'] = $category->deleteItem($category->getTableName(), "id", $_POST['id']);
-    $response['message'] = "Successfully deleted category";
-    $response['class'] = 'success';
+    $response = [
+        'result' => $category->deleteItem($category->getTableName(), "id", $_POST['id']),
+        'message' => "Successfully deleted category",
+        'class' => 'success'
+    ];
 } catch (Exception $e) {
-    $response['error'] = $e->getMessage();
-    $response['message'] = " Error occured while deleting";
-    $response['class'] = 'danger';
+    $response = [
+        'error' => $e->getMessage(),
+        'message' => " Error occured while deleting",
+        'class' => 'danger'
+    ];
 }
 echo json_encode($response);
