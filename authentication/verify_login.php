@@ -9,11 +9,13 @@ require_once('../classes/User.php');
 session_start();
 
 $user = new User();
-$email =  trim($_POST['email']) ?? '';
-$password = $_POST['password'];
+$email =  trim($_POST['email'] ?? null);
+$password = trim($_POST['password'] ?? null);
 
 $error = [];
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (empty($email)) {
+    $error['password'] = "Email is required.";
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $error['email'] = "Please enter a valid email address.";
 }
 
