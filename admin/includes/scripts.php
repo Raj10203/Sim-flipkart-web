@@ -16,7 +16,7 @@
 <script src="/admin/vendor/circle-progress/circle-progress.min.js"></script> <!-- Circle Progress -->
 <script src="/admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script> <!-- Scrollbar Styling -->
 <script src="/admin/vendor/chartjs/Chart.bundle.min.js"></script> <!-- Chart.js for charts -->
-<script src="/admin/assets/js/notift.js"></script>
+<script src="/admin/assets/js/notify.js"></script>
 <!-- Main JavaScript -->
 <script src="/admin/assets/js/main.js"></script>
 
