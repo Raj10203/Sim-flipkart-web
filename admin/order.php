@@ -1,12 +1,4 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-include('../authentication/authenticate_user.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
-$dotenv->load();
-?>
+<?php include '../authentication/authenticate_user.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,14 +48,26 @@ $dotenv->load();
     <style>
         .select2-container--default {
             text-align: center;
-
         }
 
         .select2-container--default .select2-results__option--highlighted {
-            background-color: #f8f9fa !important;
-            color: #212529 !important;
-            border: 1px solid #dee2e6;
+            background-color:rgb(66, 114, 215) !important;
+            color:rgb(255, 255, 255) !important;
+            border: 1px solidrgb(2, 2, 2);
             border-radius: 0.25rem;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 45px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            justify-content: center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
@@ -84,7 +88,7 @@ $dotenv->load();
                         <div class="notifications">
                         </div>
                         <div id="select-container" class="d-flex">
-                            <div id="categoryDropdown" class="dropdown me-2">
+                            <div id="categoryDropdown" class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Select Categories
                                 </button>
@@ -112,7 +116,6 @@ $dotenv->load();
     </div>
 
     <?php require_once('./includes/scripts.php') ?>
-
     <script src="/admin/assets/js/orders.js"></script>
 </body>
 

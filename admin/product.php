@@ -1,5 +1,9 @@
 <?php
-include('../authentication/authenticate_user.php');
+require_once '../authentication/authenticate_user.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,10 +71,10 @@ include('../authentication/authenticate_user.php');
                         </div>
                         <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" dataz   -toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" dataz -toggle="dropdown" aria-expanded="false">
                                     Select Categories
                                 </button>
-                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList" >
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList">
                                 </ul>
                             </div>
                         </div>
@@ -164,7 +168,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
-                            <input type="file"  accept="image/*" class="form-control imageInput" id="editImage"
+                            <input type="file" accept="image/*" class="form-control imageInput" id="editImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>

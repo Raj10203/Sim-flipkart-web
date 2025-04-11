@@ -97,7 +97,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return "httpflipkart-web.com" + imagePath;
+                                                return imagePath ? '=HYPERLINK("https://' + window.location.origin + imagePath + '", "Image")' : '';
                                             }
                                             return data;
                                         }
@@ -116,7 +116,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return "flipkart-web.com" + imagePath;
+                                                return window.location.origin + imagePath;
                                             }
                                             return data;
                                         }
@@ -136,7 +136,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return "http://13.201.228.54/" + imagePath;
+                                                return window.location.origin + imagePath;
                                             }
                                             return data;
                                         }
