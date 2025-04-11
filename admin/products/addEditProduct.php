@@ -46,7 +46,7 @@ if (!empty($image['name'])) {
         $errors['image'] = 'Only JPG, JPEG, PNG, GIF, or WEBP files are allowed.';
     }
 
-    if ($image['size'] > 500 * 1024 ) { // 2MB limit
+    if ($image['size'] > 500 * 1024) { // 500 KB limit
         $errors['image'] = 'Image size should not exceed 500KB.';
     }
 }
@@ -89,15 +89,19 @@ try {
         }
         $response['message'] = "Successfully edited product $name";
     } else {
-        $response['result'] = $prod->addProduct($name, $imagePath, $category, $price, $description, $discount);
-        $response['message'] = "Successfully added product $name";
+        $response = [
+            'result' => $prod->addProduct($name, $imagePath, $category, $price, $description, $discount),
+            'message' => "Successfully added product $name"
+        ];
     }
     $response['class'] = 'success';
 } catch (Exception $e) {
-    $response['result'] = false;
-    $response['error'] = $e->getMessage();
-    $response['message'] = $name . " has not been " . (isset($_POST['id']) ? " edited" : " added");
-    $response['class'] = 'danger';
+    $response = [
+        'result' => false,
+        'error' => $e->getMessage(),
+        'message' => $name . " has not been " . (isset($_POST['id']) ? " edited" : " added"),
+        'class' => 'danger'
+    ];
 }
 
 echo json_encode($response);

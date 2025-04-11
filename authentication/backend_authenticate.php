@@ -1,4 +1,4 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('location: /login.php');
+    header('location: /login');
 }

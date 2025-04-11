@@ -1,5 +1,9 @@
 <?php
-include('../authentication/authenticate_user.php');
+require_once '../authentication/authenticate_user.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,12 +69,12 @@ include('../authentication/authenticate_user.php');
                     <div class="container-fluid">
                         <div class="notifications">
                         </div>
-                        <div id="select-container" class=" d-flex" style="gap:10px">
+                        <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-toggle="dropdown" aria-expanded="false">
                                     Select Categories
                                 </button>
-                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList" >
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList">
                                 </ul>
                             </div>
                         </div>
@@ -101,7 +105,7 @@ include('../authentication/authenticate_user.php');
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add Category</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Product</h5>
                 </div>
                 <div class="modal-body">
                     <form action="#" id="addProductForm" enctype="multipart/form-data">
@@ -151,7 +155,7 @@ include('../authentication/authenticate_user.php');
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+                    <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
                 </div>
                 <div class="modal-body">
                     <form action="./product.html" id="editProductForm" enctype="multipart/form-data" action="#">
@@ -164,7 +168,7 @@ include('../authentication/authenticate_user.php');
                         <div class="mb-3">
                             <label for="editImage" class="form-label">Image</label>
                             <img src="" class="tableImage" alt="your image" id="previewImage">
-                            <input type="file"  accept="image/*" class="form-control imageInput" id="editImage"
+                            <input type="file" accept="image/*" class="form-control imageInput" id="editImage"
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>

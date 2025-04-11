@@ -42,14 +42,14 @@ if (empty($confirmPassword)) {
 
 if (!empty($error)) {
     $_SESSION['invalid_input'] = $error;
-    header('Location: /register.php');
+    header('Location: /register');
     exit;
 }
 
 $hashedPassword = hash("sha256", $password);
 if ($user->addUser($firstName, $lastName, $email, $hashedPassword)) {
     unset($_SESSION['invalid_input']);
-    header('Location: /login.php');
+    header('Location: /login');
 } else {
-    header('Location: /register.php');
+    header('Location: /register');
 }

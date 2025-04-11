@@ -25,7 +25,7 @@ if (empty($password)) {
 
 if ($error) {
     $_SESSION['invalid_input'] = $error;
-    header('Location: /login.php');
+    header('Location: /login');
     exit;
 }
 
@@ -36,5 +36,5 @@ if ($authentication) {
 }
 
 $_SESSION['invalid_input'] = ['credentials' => 'Incorrect credentials'];
-header('Location: /login.php');
+header('Location: /login');
 exit;

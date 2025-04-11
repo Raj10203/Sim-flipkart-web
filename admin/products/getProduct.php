@@ -7,7 +7,7 @@ require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 
 $product = new Product();
-$id = $_POST['id'];
+$id = $_POST['id'] ?? null;
 
 if (!isset($_POST['id'])) {
     echo json_encode([

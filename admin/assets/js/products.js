@@ -6,8 +6,6 @@ $('.asideMember').each(function (index, element) {
     }
 });
 $(document).ready(function () {
-
-
     $(".imageInput").each(function (index, element) {
         element.addEventListener("change", function (e) {
             let file = e.target.files[0];
@@ -99,7 +97,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return "flipkart-web.com" + imagePath;
+                                                return window.location.origin + imagePath;
                                             }
                                             return data;
                                         }
@@ -118,7 +116,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return "flipkart-web.com" + imagePath;
+                                                return window.location.origin + imagePath;
                                             }
                                             return data;
                                         }
@@ -138,7 +136,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return "flipkart-web.com" + imagePath;
+                                                return window.location.origin + imagePath;
                                             }
                                             return data;
                                         }
@@ -181,9 +179,6 @@ $(document).ready(function () {
         ajax: {
             url: "./products/fetchProducts.php",
             type: "POST",
-            data: function (d) {
-                d.customParam = "value";
-            },
         },
         columns: [
             { data: "id" },
@@ -243,7 +238,7 @@ $(document).ready(function () {
         initComplete: function () {
             let api = this.api();
             let column = api.column(6);
-            let categoryList = document.getElementById('categoryList');
+            let categoryList = $('#categoryList');
             $.ajax({
                 type: "post",
                 url: "/admin/categories/getAllCategories",
@@ -253,27 +248,24 @@ $(document).ready(function () {
                         $(".select").each(function (index, element) {
                             $(element).append(`<option value="${category.id}">${category.name}</option>`);
                         });
-                        let listItem = document.createElement('li');
-                        listItem.innerHTML = `
-                                <div class="form-check btn-light">
+                        let listItem = $('<li class="category-checkbox-li btn-light"></li>');
+                        listItem.html(`
+                                <div class="form-check">
                                     <input type="checkbox" class="form-check-input category-checkbox" id="category-${category.id}" value="${category.name}">
-                                    <label class="form-check-label" for="category-${category.id}">${category.name}</label>
+                                    <label class="form-check-label w-100" for="category-${category.id}">${category.name}</label>
                                 </div>
-                            `;
-                        categoryList.appendChild(listItem);
+                            `);
+                        categoryList.append(listItem);
                     });
-                    document.querySelectorAll('.category-checkbox').forEach(function (checkbox) {
-                        checkbox.addEventListener('change', function () {
-                            let selectedCategories = [];
-                            document.querySelectorAll('.category-checkbox:checked').forEach(function (checkedBox) {
-                                selectedCategories.push(checkedBox.value);
-                            });
-
-                            let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
-                            column.search(searchString, true, false).draw();
+                    $('.category-checkbox').on('change', function () {
+                        let selectedCategories = [];
+                        $('.category-checkbox:checked').each(function () {
+                            selectedCategories.push($(this).val());
                         });
+                        let searchString = selectedCategories.length ? selectedCategories.join('|') : '';
+                        column.search(searchString, true, false).draw();
                     });
-                    $('.form-check-label').click(function (e) {
+                    $('.category-checkbox-li').click(function (e) {
                         e.stopPropagation();
                     });
                 }
@@ -281,9 +273,6 @@ $(document).ready(function () {
         }
     });
     $('#myTable_processing').removeClass('card');
-    setInterval(function () {
-        table.ajax.reload(null, false);
-    }, 30000);
 
     $('#addProductForm').validate({
         rules: {
@@ -321,12 +310,10 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    console.log(response);
                     let error = response['errors'];
                     if (error) {
                         for (let key in error) {
                             response['message'] += "<br>" + error[key];
-                            console.log(key + error[key]);
                         }
                     }
                     notify(response['message'], response['class']);
@@ -341,6 +328,7 @@ $(document).ready(function () {
             $('#showImg').hide();
         }
     });
+
     $('#addProductForm').submit(function (e) {
         e.preventDefault();
     });
@@ -378,13 +366,10 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    console.log(response);
                     let error = response['errors'];
                     if (error) {
                         for (let key in error) {
                             response['message'] += "<br>" + error[key];
-                            console.log(key + error[key]);
-
                         }
                     }
                     notify(response['message'], response['class']);
@@ -403,27 +388,4 @@ $(document).ready(function () {
     $('#editProductForm').submit(function (e) {
         e.preventDefault();
     });
-
-    function notify(message, type) {
-        let notification = $(`<div></div>`).html(message + `
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
-        $('.notifications').append(notification);
-        setTimeout(() => {
-            notification.fadeOut(500, function () {
-                $(this).remove();
-            });
-        }, 5000);
-    }
-
-    function removeEventListenersByClassName(className) {
-        const elements = document.querySelectorAll(`.${className}`);
-        elements.forEach(element => {
-            const newElement = element.cloneNode(true);
-            element.parentNode.replaceChild(newElement, element);
-        });
-    }
-
 });

@@ -1,4 +1,7 @@
-<script src="/admin/vendor/jquery-3.2.1.min.js"></script>
+<!-- jQuery , jquery-validation , select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+<script src="/admin/vendor/select2/select2.min.js"></script> <!-- Select2 for better dropdowns -->
 
 <!-- Bootstrap JS (Includes Popper.js for tooltips & popovers) -->
 <script src="/admin/vendor/bootstrap-4.1/popper.min.js"></script>
@@ -13,20 +16,9 @@
 <script src="/admin/vendor/circle-progress/circle-progress.min.js"></script> <!-- Circle Progress -->
 <script src="/admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script> <!-- Scrollbar Styling -->
 <script src="/admin/vendor/chartjs/Chart.bundle.min.js"></script> <!-- Chart.js for charts -->
-<script src="/admin/vendor/select2/select2.min.js"></script> <!-- Select2 for better dropdowns -->
-
+<script src="/admin/assets/js/notify.js"></script>
 <!-- Main JavaScript -->
 <script src="/admin/assets/js/main.js"></script>
-
-<!-- Latest jQuery with jquery-validation (Ensures compatibility with newer plugins) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
-
-
-<!-- Bootstrap 5 Bundle (Includes Popper.js) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
 
 <!-- SweetAlert2 (For better alerts & confirmations) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
