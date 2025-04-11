@@ -3,7 +3,7 @@ require_once 'classes/Authentication.php';
 
 use Classes\Authentication;
 
-Authentication::requireLogin();
+Authentication::requireUser();
 ?>
 <!DOCTYPE html>
 <html lang="en">

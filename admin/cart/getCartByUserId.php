@@ -12,7 +12,6 @@ use Classes\Cart;
 use Classes\Authentication;
 
 Authentication::requirePostMethod();
-session_start();
 
 $cart = new Cart();
 $userId = $_SESSION['user_id'];

@@ -8,7 +8,6 @@ use Classes\Cart;
 use Classes\Authentication;
 
 Authentication::requirePostMethod();
-session_start();
 
 $cart = new Cart();
 $response = [];
@@ -16,6 +15,7 @@ if (!isset($_POST['id'])) {
     echo json_encode(["error" => "Id is required"]);
     exit;
 }
+
 try {
     $response = [
         'result' => $cart->deleteItem($cart->getTableName(), "id", $_POST['id']),

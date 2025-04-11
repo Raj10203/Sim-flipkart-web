@@ -1,11 +1,13 @@
 <?php
-
-use Classes\Product;
-
-require_once('../../authentication/backend_authenticate.php');
+require '../../classes/Authentication.php';
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
+
+use Classes\Product;
+use Classes\Authentication;
+
+Authentication::requirePostMethod();
 
 $prod = new Product();
 $conn = $prod->getConnection();
