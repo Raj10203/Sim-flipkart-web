@@ -71,7 +71,7 @@ $dotenv->load();
                         </div>
                         <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" dataz -toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-toggle="dropdown" aria-expanded="false">
                                     Select Categories
                                 </button>
                                 <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList">
