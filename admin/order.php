@@ -1,5 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 include('../authentication/authenticate_user.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,8 +83,8 @@ include('../authentication/authenticate_user.php');
                     <div class="container-fluid">
                         <div class="notifications">
                         </div>
-                        <div id="select-container" class=" d-flex" style="gap:10px">
-                            <div id="categoryDropdown" class="dropdown">
+                        <div id="select-container" class="d-flex">
+                            <div id="categoryDropdown" class="dropdown me-2">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Select Categories
                                 </button>

@@ -65,7 +65,7 @@ include('../authentication/authenticate_user.php');
                     <div class="container-fluid">
                         <div class="notifications">
                         </div>
-                        <div id="select-container" class=" d-flex" style="gap:10px">
+                        <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" dataz   -toggle="dropdown" aria-expanded="false">
                                     Select Categories

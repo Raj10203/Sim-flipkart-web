@@ -5,7 +5,6 @@ $(document).ready(function () {
         const button = $(this);
         const orderId = button.data('order-id');
         const container = button.closest('.order-summary').find('.order-items-container');
-        console.log(container);
         
         if (container.is(':visible')) {
             container.slideUp();
@@ -17,7 +16,6 @@ $(document).ready(function () {
             data: { orderID: orderId },
             success: function (response) {
                 let items = JSON.parse(response);
-                console.log(items);
                 if (items.length === 0) {
                     container.html('<div class="text-muted">No items found.</div>');
                     return;
@@ -61,7 +59,6 @@ function showCartItems() {
             container.innerHTML = '';
             count = response.length;
             if (count == 0) {
-                console.log(count);
                 $('#empty-cart-message').removeClass('d-none');
                 return;
             }

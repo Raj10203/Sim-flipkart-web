@@ -3,7 +3,6 @@
 namespace Classes;
 use Classes\Traits\ItemOperations;
 
-require_once '../../classes/traits/ItemOperations.php';
 
 class User extends Database
 {

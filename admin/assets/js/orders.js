@@ -110,9 +110,7 @@ $(document).ready(function () {
                         status: status
                     },
                     success: function (response) {
-                        
                         response = JSON.parse(response);
-                        console.log(response);
                         notify(response['message'], response['class'])
                     },
                     error: function () {
@@ -151,21 +149,4 @@ $(document).ready(function () {
         }
     });
     $('#myTable_processing').removeClass('card');
-    setInterval(function () {
-        table.ajax.reload(null, false);
-    }, 30000);
 });
-
-function notify(message, type) {
-    let notification = $(`<div></div>`).html(message + `
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
-    $('.notifications').append(notification);
-    setTimeout(() => {
-        notification.fadeOut(500, function () {
-            $(this).remove();
-        });
-    }, 5000);
-}

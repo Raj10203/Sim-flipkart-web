@@ -6,8 +6,6 @@ $('.asideMember').each(function (index, element) {
     }
 });
 $(document).ready(function () {
-
-
     $(".imageInput").each(function (index, element) {
         element.addEventListener("change", function (e) {
             let file = e.target.files[0];
@@ -275,9 +273,6 @@ $(document).ready(function () {
         }
     });
     $('#myTable_processing').removeClass('card');
-    setInterval(function () {
-        table.ajax.reload(null, false);
-    }, 30000);
 
     $('#addProductForm').validate({
         rules: {
@@ -315,12 +310,10 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    console.log(response);
                     let error = response['errors'];
                     if (error) {
                         for (let key in error) {
                             response['message'] += "<br>" + error[key];
-                            console.log(key + error[key]);
                         }
                     }
                     notify(response['message'], response['class']);
@@ -335,6 +328,7 @@ $(document).ready(function () {
             $('#showImg').hide();
         }
     });
+
     $('#addProductForm').submit(function (e) {
         e.preventDefault();
     });
@@ -372,13 +366,10 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    console.log(response);
                     let error = response['errors'];
                     if (error) {
                         for (let key in error) {
                             response['message'] += "<br>" + error[key];
-                            console.log(key + error[key]);
-
                         }
                     }
                     notify(response['message'], response['class']);
@@ -397,27 +388,4 @@ $(document).ready(function () {
     $('#editProductForm').submit(function (e) {
         e.preventDefault();
     });
-
-    function notify(message, type) {
-        let notification = $(`<div></div>`).html(message + `
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show m-0');
-        $('.notifications').append(notification);
-        setTimeout(() => {
-            notification.fadeOut(500, function () {
-                $(this).remove();
-            });
-        }, 5000);
-    }
-
-    function removeEventListenersByClassName(className) {
-        const elements = document.querySelectorAll(`.${className}`);
-        elements.forEach(element => {
-            const newElement = element.cloneNode(true);
-            element.parentNode.replaceChild(newElement, element);
-        });
-    }
-
 });

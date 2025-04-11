@@ -46,7 +46,7 @@ if (!empty($image['name'])) {
         $errors['image'] = 'Only JPG, JPEG, PNG, GIF, or WEBP files are allowed.';
     }
 
-    if ($image['size'] > 500 * 1024) { // 2MB limit
+    if ($image['size'] > 500 * 1024) { // 500 KB limit
         $errors['image'] = 'Image size should not exceed 500KB.';
     }
 }
