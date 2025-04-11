@@ -97,7 +97,7 @@ $(document).ready(function () {
                                         body: function (data, row, column, node) {
                                             if (column === 2) {
                                                 let imagePath = $(node).find('img').attr('src');
-                                                return imagePath ? '=HYPERLINK("https://' + window.location.origin + imagePath + '", "Image")' : '';
+                                                return window.location.origin + imagePath;
                                             }
                                             return data;
                                         }
