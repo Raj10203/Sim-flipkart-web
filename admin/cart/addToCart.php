@@ -1,11 +1,14 @@
 <?php
-
-use Classes\Cart;
-
-require_once('../../authentication/backend_authenticate.php');
 require_once('../../classes/traits/ItemOperations.php');
+require_once('../../classes/Authentication.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Cart.php');
+
+
+use Classes\Cart;
+use Classes\Authentication;
+
+Authentication::requirePostMethod();
 session_start();
 
 if (!isset($_SESSION['user_id'])) {

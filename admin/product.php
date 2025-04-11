@@ -1,7 +1,10 @@
 <?php
-require_once '../authentication/authenticate_user.php';
+require_once '../classes/Authentication.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
+use Classes\Authentication;
+
+Authentication::requireAdmin();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 ?>

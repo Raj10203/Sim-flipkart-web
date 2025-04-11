@@ -1,4 +1,10 @@
-<?php include '../authentication/authenticate_user.php'; ?>
+<?php
+require_once '../classes/Authentication.php';
+
+use Classes\Authentication;
+
+Authentication::requireAdmin();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,8 +57,8 @@
         }
 
         .select2-container--default .select2-results__option--highlighted {
-            background-color:rgb(66, 114, 215) !important;
-            color:rgb(255, 255, 255) !important;
+            background-color: rgb(66, 114, 215) !important;
+            color: rgb(255, 255, 255) !important;
             border: 1px solidrgb(2, 2, 2);
             border-radius: 0.25rem;
         }
@@ -64,6 +70,7 @@
             font-size: 16px;
             justify-content: center;
         }
+
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 100%;
             display: flex;
