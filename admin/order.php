@@ -3,7 +3,7 @@ require_once '../classes/Authentication.php';
 
 use Classes\Authentication;
 
-Authentication::requireAdmin();
+$currenrRole = Authentication::requireAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,10 +96,13 @@ Authentication::requireAdmin();
                         </div>
                         <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-light dropdown-toggle" type="button"
+                                    id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
                                     Select Categories
                                 </button>
-                                <ul class="dropdown-menu light-dropdown" aria-labelledby="statusListDropdownButton" id="statusList">
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="statusListDropdownButton"
+                                    id="statusList">
                                 </ul>
                             </div>
                         </div>

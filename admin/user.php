@@ -3,7 +3,7 @@ require_once '../classes/Authentication.php';
 
 use Classes\Authentication;
 
-Authentication::requireSuperAdmin();
+$currenrRole = Authentication::requireSuperAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">

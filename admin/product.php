@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 use Classes\Authentication;
 
-Authentication::requireAdmin();
+$currenrRole = Authentication::requireAdmin();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 ?>
@@ -74,10 +74,12 @@ $dotenv->load();
                         </div>
                         <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton" data-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton"
+                                    data-toggle="dropdown" aria-expanded="false">
                                     Select Categories
                                 </button>
-                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton" id="categoryList">
+                                <ul class="dropdown-menu light-dropdown" aria-labelledby="categoryDropdownButton"
+                                    id="categoryList">
                                 </ul>
                             </div>
                         </div>
@@ -131,8 +133,8 @@ $dotenv->load();
                         </select>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price"
-                                step=".01" name="price" max="1000000000000" />
+                            <input type="number" class="form-control" id="addPrice" placeholder="Price" step=".01"
+                                name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
                             <label for="addDiscount" class="form-label">Discount</label>
@@ -182,8 +184,8 @@ $dotenv->load();
                         </div>
                         <div class="mb-3">
                             <label for="editPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="editPrice" placeholder="Price"
-                                step=".01" name="price" max="1000000000000" />
+                            <input type="number" class="form-control" id="editPrice" placeholder="Price" step=".01"
+                                name="price" max="1000000000000" />
                         </div>
                         <div class="mb-3">
                             <label for="editDiscount" class="form-label">Discount</label>
