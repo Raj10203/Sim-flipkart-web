@@ -177,7 +177,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "./products/fetchProducts.php",
+            url: "./products/dt-fetch-products",
             type: "POST",
         },
         columns: [
@@ -196,7 +196,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "./products/getProduct.php",
+                        url: "./products/get-product",
                         data: {
                             id: this.dataset.id
                         },
@@ -219,7 +219,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "./products/deleteProduct.php",
+                        url: "./products/delete-product",
                         data: {
                             id: this.dataset.id
                         },
@@ -241,7 +241,7 @@ $(document).ready(function () {
             let categoryList = $('#categoryList');
             $.ajax({
                 type: "post",
-                url: "/admin/categories/getAllCategories",
+                url: "/admin/categories/get-all-categories",
                 dataType: "json",
                 success: function (response) {
                     response.forEach(function (category) {
@@ -304,7 +304,7 @@ $(document).ready(function () {
             formData.append('image', files[0]);
             $.ajax({
                 type: "post",
-                url: "./products/addEditProduct.php",
+                url: "./products/add-edit-product",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -360,7 +360,7 @@ $(document).ready(function () {
             formData.append('image', files[0]);
             $.ajax({
                 type: "post",
-                url: "./products/addEditProduct.php",
+                url: "./products/add-edit-product",
                 data: formData,
                 processData: false,
                 contentType: false,

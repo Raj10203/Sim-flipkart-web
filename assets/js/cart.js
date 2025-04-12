@@ -9,7 +9,7 @@ $(document).ready(function () {
 function removeItem(id) {
     $.ajax({
         type: "post",
-        url: "admin/cart/deleteCart.php",
+        url: "admin/cart/delete-cart",
         data: {
             id: id
         },
@@ -23,7 +23,7 @@ function updateQuantity(id, change) {
     let newQuantity;
     $.ajax({
         type: "post",
-        url: "admin/cart/updateQuantityOfCart.php",
+        url: "admin/cart/update-quantity-of-cart",
         data: {
             id: id,
             change: change
@@ -72,7 +72,7 @@ function showCartItems() {
 
     $.ajax({
         type: "post",
-        url: "admin/cart/getCartByUserId.php",
+        url: "admin/cart/get-cart-by-user-id",
         success: function (response) {
             response = JSON.parse(response);
             cartsByUserId = response;

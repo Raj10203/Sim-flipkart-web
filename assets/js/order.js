@@ -11,7 +11,7 @@ $(document).ready(function () {
             return;
         }
         $.ajax({
-            url: '/admin/ordet-item/get-order-items.php', // Your endpoint to fetch order items
+            url: '/admin/ordet-item/get-order-items', // Your endpoint to fetch order items
             method: 'POST',
             data: { orderID: orderId },
             success: function (response) {
@@ -51,7 +51,7 @@ $(document).ready(function () {
 function showCartItems() {
     $.ajax({
         type: "post",
-        url: "admin/orders/getOrdersByUserId.php",
+        url: "admin/orders/get-orders-by-user-id",
         success: function (response) {
             response = JSON.parse(response);
             $('#cart-count').text(response.length);

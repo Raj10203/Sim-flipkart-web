@@ -69,7 +69,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "./orders/fetchOrders.php",
+            url: "./orders/dt-fetch-orders",
             type: "POST",
         },
         columns: [
@@ -103,7 +103,7 @@ $(document).ready(function () {
                 const orderid = $(this).data('order-id'); // or data-id, based on your setup
                 const status = $(this).val();
                 $.ajax({
-                    url: '/admin/orders/updateStatusByOrderId',
+                    url: '/admin/orders/update-status-by-order-id',
                     method: 'POST',
                     data: {
                         orderid: orderid,

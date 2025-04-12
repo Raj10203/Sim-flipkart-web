@@ -81,7 +81,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "./users/fetchUser.php",
+            url: "./users/dt-fetch-user",
             type: "POST",
             data: function (d) {
                 d.customParam = "value";
