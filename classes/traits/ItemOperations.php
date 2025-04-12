@@ -4,7 +4,7 @@ namespace Classes\Traits;
 
 trait ItemOperations
 {
-    public function deleteItem($tableName, $colunName, $value)
+    public function deleteItem(string $tableName, string $colunName, string $value)
     {
         $query = "DELETE FROM " . $tableName . " WHERE $colunName = ?";
         $stmt = $this->conn->prepare($query);
@@ -13,7 +13,7 @@ trait ItemOperations
         return $result;
     }
 
-    public function getItemById($tableName, $id)
+    public function getItemById(string $tableName, int $id)
     {
         $query = "SELECT * FROM " . $tableName . " WHERE id = ?";
         $stmt = $this->conn->prepare($query);
@@ -23,9 +23,9 @@ trait ItemOperations
         $items = $result->fetch_assoc();
         return $items;
     }
-    public function getAllItems($table)
+    public function getAllItems(string $tableName)
     {
-        $query = "SELECT * FROM " . $table;
+        $query = "SELECT * FROM " . $tableName;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();

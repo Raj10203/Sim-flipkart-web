@@ -50,11 +50,11 @@ class Authentication
         return self::requireAccess('admin');
     }
 
-    public static function requirePostMethod()
+    public static function requirePostMethod(bool $signInRequired = true)
     {
         self::startSession();
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_SESSION["user_id"])) {
-            header('location: /');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || (empty($_SESSION["user_id"]) && $signInRequired)) {
+            header('location: /login');
             exit;
         }
     }
