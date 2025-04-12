@@ -191,6 +191,10 @@ $(document).ready(function () {
             { data: "id" },
         ],
         drawCallback: function () {
+            $('.select').select2({
+                minimumResultsForSearch: Infinity,
+                width: 'resolve'
+            });
             removeEventListenersByClassName('event');
             $(".edit").each(function () {
                 $(this)[0].addEventListener("click", function () {

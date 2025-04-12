@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    $('#loginForm').validate({ 
+    $('#loginForm').validate({
         rules: {
             email: {
                 required: true,
                 email: true
             },
-            password:{
+            password: {
                 required: true,
                 minlength: 8
             }
@@ -15,7 +15,7 @@ $(document).ready(function () {
                 required: "Email is required",
                 email: " Please enter valid email"
             },
-            
+
         }
     });
 });

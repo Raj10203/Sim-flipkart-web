@@ -34,7 +34,7 @@ trait ItemOperations
     }
 
     public static function getTableName()
-    {   
+    {
         return static::$table;
     }
 }

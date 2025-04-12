@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 use Classes\Authentication;
 
-$currenrRole = Authentication::requireAdmin();
+Authentication::requireAdmin();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 ?>
@@ -127,10 +127,12 @@ $dotenv->load();
                                 name="image" placeholder="Image" />
                             <p id="messageImageSize"></p>
                         </div>
-                        <select class="form-control select" aria-label="Default select example" id="addCategory"
-                            name="category">
-
-                        </select>
+                        <div class="mb-3 form-group">
+                            <label for="addCategory">Select Category</label>
+                            <select class="form-control select" aria-label="Default select example" id="addCategory"
+                                name="category">
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="addPrice" class="form-label">Price</label>
                             <input type="number" class="form-control" id="addPrice" placeholder="Price" step=".01"
@@ -178,6 +180,7 @@ $dotenv->load();
                             <p id="messageImageSize"></p>
                         </div>
                         <div class="mb-3 form-group">
+                            <label for="editCategory">Select Category</label>
                             <select class="form-control select" aria-label="Default select example" id="editCategory"
                                 name="category">
                             </select>

@@ -5,7 +5,7 @@ $(document).ready(function () {
         const button = $(this);
         const orderId = button.data('order-id');
         const container = button.closest('.order-summary').find('.order-items-container');
-        
+
         if (container.is(':visible')) {
             container.slideUp();
             return;
