@@ -69,7 +69,7 @@ Authentication::requireAdmin();
                         <div class="notifications">
                         </div>
                         <div id="select-container" class="d-flex">
-                            <div id="categoryDropdown" class="dropdown">
+                            <div id="role-dropdown" class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button"
                                     id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">

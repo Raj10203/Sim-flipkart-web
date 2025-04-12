@@ -18,7 +18,7 @@ $start = $_POST['start'] ?? 0;
 $length = $_POST['length'] ?? 10;
 $orderColumn = $_POST['order'][0]['column'] ?? 0;
 $orderDir = $_POST['order'][0]['dir'] ?? 'asc';
-$orderColumnName = $columns[$orderColumn] ?? 'o.id';
+$orderColumnName = $columns[$orderColumn];
 
 $totalRecords = $conn->query("SELECT COUNT(o.id) FROM orders o")->fetch_row()[0];
 $baseSql = " FROM orders o

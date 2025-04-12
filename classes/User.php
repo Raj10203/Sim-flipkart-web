@@ -45,4 +45,12 @@ class User extends Database
         $stmt->close();
         return false;
     }
+
+    public function updateRole(int $userId, string $role)
+    {
+        $query = "UPDATE " . self::$table . " SET role = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("si", $role, $userId);
+        return  $stmt->execute();;
+    }
 }

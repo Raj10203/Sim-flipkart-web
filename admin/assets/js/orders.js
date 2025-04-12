@@ -99,7 +99,7 @@ $(document).ready(function () {
                 width: 'resolve'
             });
             $(document).off('change', '.order-status-select').on('change', '.order-status-select', function () {
-                const orderid = $(this).data('order-id'); // or data-id, based on your setup
+                const orderid = $(this).data('order-id');
                 const status = $(this).val();
                 $.ajax({
                     url: '/admin/orders/update-status-by-order-id',

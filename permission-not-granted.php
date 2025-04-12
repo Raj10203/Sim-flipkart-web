@@ -21,6 +21,7 @@
                 <h3 class="card-title text-primary">Permission Not Granted</h3>
                 <p class="card-text">You don't have the required permission to access this page.</p>
                 <button class="btn btn-outline-primary" onclick="history.back()">Go Back</button>
+                <a class="btn btn-outline-primary" href="/login">Login</a>
             </div>
         </div>
     </div>
