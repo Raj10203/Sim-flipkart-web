@@ -7,7 +7,7 @@ $('.asideMember').each(function (index, element) {
 
 });
 $(document).ready(function () {
-    const roles = ['admin', 'user', 'super_admin'];
+    const roles = ['user', 'admin', 'super_admin'];
     $("#myTable").DataTable({
         scrollX: true,
         columnDefs: [
@@ -139,7 +139,7 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        notify(response['message'], response['class'])
+                        notify(response['message'], response['class']);
                     },
                     error: function () {
                         alert('Failed to update role');
@@ -159,7 +159,7 @@ $(document).ready(function () {
                         <input type="checkbox" class="form-check-input role-checkbox" id="status-${status}" value="${status}">
                         <label class="form-check-label w-100" for="status-${status}">${status}</label>
                     </div>
-                `);;
+                `);
                 roleList.append(listItem);
             });
             $(document).on('change', '.role-checkbox-li', function () {

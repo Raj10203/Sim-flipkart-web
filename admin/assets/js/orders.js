@@ -110,7 +110,7 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        notify(response['message'], response['class'])
+                        notify(response['message'], response['class']);
                     },
                     error: function () {
                         alert('Failed to update status');
@@ -130,7 +130,7 @@ $(document).ready(function () {
                         <input type="checkbox" class="form-check-input status-checkbox" id="status-${status}" value="${status}">
                         <label class="form-check-label w-100" for="status-${status}">${status}</label>
                     </div>
-                `);;
+                `);
                 statusList.append(listItem);
             });
             $(document).on('change', '.status-checkbox-li', function () {
