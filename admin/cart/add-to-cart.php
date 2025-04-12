@@ -13,8 +13,8 @@ $cart = new Cart();
 $userId = $_SESSION['user_id'];
 $productId = (int) $_POST['productId'] ?? null;
 
-if (!empty($productId)) {
-    echo json_encode(["status" => false, "message" => "product id required"]);
+if (empty($productId)) {
+    echo json_encode(["class" => 'error', "message" => "product id required"]);
     exit;
 }
 
