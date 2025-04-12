@@ -1,11 +1,13 @@
 <?php
-
-use Classes\Order;
-
-require_once('../../authentication/backend_authenticate.php');
+require_once('../../classes/Authentication.php');
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Order.php');
+
+use Classes\Order;
+use Classes\Authentication;
+
+Authentication::requirePostMethod();
 
 $ord = new Order();
 $orderId = $_POST['orderid'] ?? null;

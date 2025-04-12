@@ -28,13 +28,16 @@
                     <a href="category">
                         <i class="fas fa-table"></i>Categories</a>
                 </li>
-                <li class="asideMember" data-li="users">
+                <?php
+                use Classes\Authentication;
+                echo $currenrRole >= Authentication::$roleLevels['super_admin'] ? '<li class="asideMember" data-li="users">
                     <a href="user">
                         <i class="fas fa-user"></i>Users</a>
-                </li>
+                    </li>' : '';
+                ?>
                 <li class="asideMember" data-li="orders">
                     <a href="order">
-                    <i class="fa-solid fa-box-open icons"></i></i>Orders</a>
+                        <i class="fa-solid fa-box-open icons"></i></i>Orders</a>
                 </li>
             </ul>
         </div>
@@ -62,13 +65,15 @@
                     <a href="category">
                         <i class="fas fa-table"></i>Categories</a>
                 </li>
-                <li class="asideMember" data-li="users">
+                <?php
+                echo $currenrRole >= Authentication::$roleLevels['super_admin'] ? '<li class="asideMember" data-li="users">
                     <a href="user">
                         <i class="fas fa-user"></i>Users</a>
-                </li>
+                    </li>' : '';
+                ?>
                 <li class="asideMember" data-li="orders">
                     <a href="order">
-                    <i class="fa-solid fa-box-open icons"></i>Orders</a>
+                        <i class="fa-solid fa-box-open icons"></i>Orders</a>
                 </li>
             </ul>
         </nav>

@@ -1,11 +1,13 @@
 <?php
-
-use Classes\Category;
-
-require_once('../../authentication/backend_authenticate.php');
+require_once('../../classes/Authentication.php');
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
+
+use Classes\Category;
+use Classes\Authentication;
+
+Authentication::requirePostMethod();
 
 $category = new Category();
 $conn = $category->getConnection();

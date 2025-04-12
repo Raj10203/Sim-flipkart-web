@@ -1,11 +1,13 @@
 <?php
-
-use Classes\User;
-
-require_once('../../authentication/backend_authenticate.php');
+require '../../classes/Authentication.php';
 require_once('../../classes/traits/ItemOperations.php');
 require_once('../../classes/Database.php');
 require_once('../../classes/User.php');
+
+use Classes\User;
+use Classes\Authentication;
+
+Authentication::requirePostMethod();
 
 $usr = new User();
 $conn = $usr->getConnection();

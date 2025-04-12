@@ -1,13 +1,11 @@
 <?php
-
-use Classes\User;
-
-require_once('../authentication/backend_authenticate.php');
 require_once('../classes/traits/ItemOperations.php');
 require_once('../classes/Database.php');
 require_once('../classes/User.php');
-session_start();
 
+use Classes\User;
+
+session_start();
 $user = new User();
 $email =  trim($_POST['email'] ?? null);
 $password = trim($_POST['password'] ?? null);
