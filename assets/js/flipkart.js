@@ -1,12 +1,12 @@
 $(document).ready(function () {
     const footer = $('#footer');
     $.ajax({
-        url: 'admin/categories/getAllCategories.php',
+        url: 'admin/categories/get-all-categories',
         method: 'GET',
         dataType: 'json',
         success: function (categories) {
             $.ajax({
-                url: 'admin/products/getAllProducts.php',
+                url: 'admin/products/get-all-products',
                 method: 'GET',
                 dataType: 'json',
                 success: function (products) {
@@ -77,14 +77,14 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "admin/cart/addToCart.php",
+            url: "admin/cart/add-to-cart",
             data: {
                 'productId': productId
             },
             dataType: 'JSON',
             success: function (response) {
                 if (response.message === "not_logged_in") {
-                    window.location.href = "/login.php"; // Redirect to login page
+                    window.location.href = "/login"; // Redirect to login page
                 } else {
                     Swal.fire({
                         title: response['class'],

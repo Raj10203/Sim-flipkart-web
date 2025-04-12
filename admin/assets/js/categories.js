@@ -91,7 +91,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "./categories/fetchCategory.php",
+            url: "./categories/dt-fetch-category",
             type: "POST",
             data: function (d) {
                 d.customParam = "value";
@@ -109,7 +109,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "./categories/getCategory.php",
+                        url: "./categories/get-category",
                         data: {
                             id: this.dataset.id
                         },
@@ -129,7 +129,7 @@ $(document).ready(function () {
                 $(this)[0].addEventListener("click", function () {
                     $.ajax({
                         type: "post",
-                        url: "./categories/deleteCategory.php",
+                        url: "./categories/delete-category",
                         data: {
                             id: this.dataset.id
                         },
@@ -165,7 +165,7 @@ $(document).ready(function () {
             let formData = new FormData(form);
             $.ajax({
                 type: "post",
-                url: "./categories/addEditCategory.php",
+                url: "./categories/add-edit-category",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -203,7 +203,7 @@ $(document).ready(function () {
             let formData = new FormData(form);
             $.ajax({
                 type: "post",
-                url: "./categories/addEditCategory.php",
+                url: "./categories/add-edit-category",
                 data: formData,
                 processData: false,
                 contentType: false,
