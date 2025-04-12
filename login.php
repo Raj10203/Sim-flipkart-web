@@ -2,6 +2,7 @@
 session_start();
 if (isset($_SESSION['user_id'])) {
     header('location: /');
+    exit;
 }
 $error = $_SESSION['invalid_input'] ?? [];
 session_destroy();

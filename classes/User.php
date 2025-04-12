@@ -1,8 +1,8 @@
 <?php
 
 namespace Classes;
-use Classes\Traits\ItemOperations;
 
+use Classes\Traits\ItemOperations;
 
 class User extends Database
 {

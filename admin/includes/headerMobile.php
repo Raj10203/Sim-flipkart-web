@@ -1,3 +1,8 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Authentication.php';
+
+use Classes\Authentication;
+?>
 <header class="header-mobile d-block d-lg-none">
     <div class="header-mobile__bar">
         <div class="container-fluid">
@@ -28,13 +33,13 @@
                     <a href="category">
                         <i class="fas fa-table"></i>Categories</a>
                 </li>
-                <?php
-                use Classes\Authentication;
-                echo $currenrRole >= Authentication::$roleLevels['super_admin'] ? '<li class="asideMember" data-li="users">
-                    <a href="user">
-                        <i class="fas fa-user"></i>Users</a>
-                    </li>' : '';
-                ?>
+                <?php if (Authentication::roleHasAccess('super_admin')): ?>
+                    <li class="asideMember" data-li="users">
+                        <a href="user">
+                            <i class="fas fa-user"></i> Users
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="asideMember" data-li="orders">
                     <a href="order">
                         <i class="fa-solid fa-box-open icons"></i></i>Orders</a>
@@ -65,12 +70,13 @@
                     <a href="category">
                         <i class="fas fa-table"></i>Categories</a>
                 </li>
-                <?php
-                echo $currenrRole >= Authentication::$roleLevels['super_admin'] ? '<li class="asideMember" data-li="users">
-                    <a href="user">
-                        <i class="fas fa-user"></i>Users</a>
-                    </li>' : '';
-                ?>
+                <?php if (Authentication::roleHasAccess('super_admin')): ?>
+                    <li class="asideMember" data-li="users">
+                        <a href="user">
+                            <i class="fas fa-user"></i> Users
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="asideMember" data-li="orders">
                     <a href="order">
                         <i class="fa-solid fa-box-open icons"></i>Orders</a>

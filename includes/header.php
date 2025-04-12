@@ -1,4 +1,8 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Authentication.php';
+
+use Classes\Authentication;
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -35,7 +39,8 @@ $userName = $_SESSION['user_name'] ?? 'Login';
                     <div class="header-li-custom">
                         <li class="nav-item login-li">
                             <div class="dropdown d-flex align-items-center pe-2">
-                                <a data-bs-toggle="dropdown" aria-expanded="false" class="nav-link d-flex align-items-center m-0" href="#">
+                                <a data-bs-toggle="dropdown" aria-expanded="false"
+                                    class="nav-link d-flex align-items-center m-0" href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-person-circle icons" viewBox="0 0 16 16" width="24" height="24">
                                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
@@ -55,6 +60,11 @@ $userName = $_SESSION['user_name'] ?? 'Login';
                                     <li>
                                         <a class="dropdown-item" href="/orders"><i class="fa-solid fa-heart icons"></i>Wishlist</a>
                                     </li>
+                                    <?php if (Authentication::roleHasAccess('admin')): ?>
+                                        <li>
+                                            <a class="dropdown-item" href="admin"><i class="fa-solid fa-user-secret icons"></i>Admin</a>
+                                        </li>
+                                    <?php endif; ?>
                                     <li>
                                         <a class="dropdown-item" href="logout"><i class="fa-solid fa-right-from-bracket icons"></i>Logout</a>
                                     </li>

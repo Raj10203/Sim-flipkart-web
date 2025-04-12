@@ -4,7 +4,7 @@ namespace Classes;
 
 class Authentication
 {
-    public static $roleLevels = [
+    private static $roleLevels = [
         'super_admin' => 3,
         'admin' => 2,
         'user' => 1,
@@ -18,11 +18,10 @@ class Authentication
         }
     }
 
-    public static function roleHasAccess($requiredRole)
+    public static function roleHasAccess(string $requiredRole)
     {
         $currentRole = $_SESSION['role'] ?? null;
-        $bool = ((self::$roleLevels[$currentRole] ?? 0) >= (self::$roleLevels[$requiredRole] ?? 1));
-        return $bool;
+        return ((self::$roleLevels[$currentRole] ?? 0) >= (self::$roleLevels[$requiredRole] ?? 1));
     }
 
     public static function requireAccess(string $requiredRole)

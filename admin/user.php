@@ -3,7 +3,7 @@ require_once '../classes/Authentication.php';
 
 use Classes\Authentication;
 
-$currenrRole = Authentication::requireSuperAdmin();
+Authentication::requireSuperAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +46,6 @@ $currenrRole = Authentication::requireSuperAdmin();
     <!-- Main CSS-->
 
     <link href="/admin/assets/css/theme.css" rel="stylesheet" media="all">
-
 </head>
 
 <body>

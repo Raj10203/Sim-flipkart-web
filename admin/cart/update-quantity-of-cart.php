@@ -16,9 +16,9 @@ $change = $_POST["change"] ?? null;
 $errors = [];
 if (empty($cartId)) {
     $errors['cartId'] = 'cartId is required.';
-} 
+}
 
 if (empty($change)) {
     $errors['change'] = 'update quantity is required.';
-} 
+}
 echo json_encode($cart->changeQuanityById($cartId, $change));

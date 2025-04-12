@@ -1,6 +1,7 @@
 <?php
 
 namespace Classes;
+
 use Classes\Traits\ItemOperations;
 
 class Category extends Database

@@ -3,7 +3,7 @@ require_once '../classes/Authentication.php';
 
 use Classes\Authentication;
 
-$currenrRole = Authentication::requireAdmin();
+Authentication::requireAdmin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,32 +51,6 @@ $currenrRole = Authentication::requireAdmin();
 
     <!-- Main Theme CSS -->
     <link href="/admin/assets/css/theme.css" rel="stylesheet" media="all">
-    <style>
-        .select2-container--default {
-            text-align: center;
-        }
-
-        .select2-container--default .select2-results__option--highlighted {
-            background-color: rgb(66, 114, 215) !important;
-            color: rgb(255, 255, 255) !important;
-            border: 1px solidrgb(2, 2, 2);
-            border-radius: 0.25rem;
-        }
-
-        .select2-container--default .select2-selection--single {
-            height: 45px;
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            justify-content: center;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
-    </style>
 </head>
 
 <body>

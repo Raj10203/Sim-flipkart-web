@@ -82,7 +82,6 @@ $(document).ready(function () {
                         let selected = status === data ? 'selected' : '';
                         return `<option value="${status}" ${selected}>${status}</option>`;
                     }).join('');
-
                     return `
                         <select class="order-status-select form-control" data-order-id="${row.id}">
                             ${options}

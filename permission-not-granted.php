@@ -1,10 +1,3 @@
-<?php
-require_once 'classes/Authentication.php';
-
-use Classes\Authentication;
-
-Authentication::requireUser();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,11 +16,11 @@ Authentication::requireUser();
 <body>
     <?php require_once 'includes/header.php'; ?>
     <div class=" d-flex align-items-center justify-content-center vh-100 w-100">
-        <div class="card text-center border-warning" style="height: max-content;">
+        <div class="card text-center border-primary" style="height: max-content;">
             <div class=" card-body">
-                <h3 class="card-title text-warning">Permission Not Granted</h3>
+                <h3 class="card-title text-primary">Permission Not Granted</h3>
                 <p class="card-text">You don't have the required permission to access this page.</p>
-                <button class="btn btn-outline-warning" onclick="history.back()">Go Back</button>
+                <button class="btn btn-outline-primary" onclick="history.back()">Go Back</button>
             </div>
         </div>
     </div>
@@ -35,7 +28,7 @@ Authentication::requireUser();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
+    </script>
 </body>
 
 </html>

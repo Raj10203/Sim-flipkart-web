@@ -280,9 +280,8 @@ section {
     color: red;
 }
 
-li:has( .form-check-label) {
+li:has(.form-check-label) {
     padding: 0 15px;
-   
 }
 
 .light-dropdown {
@@ -292,6 +291,27 @@ li:has( .form-check-label) {
     width: 300px;
     min-width: 300px;
     background-color: #f8f9fa;
+}
+
+.select2-container--default .select2-results__option--highlighted {
+    background-color: rgb(66, 114, 215) !important;
+    color: rgb(255, 255, 255) !important;
+    border: 1px solidrgb(2, 2, 2);
+    border-radius: 0.25rem;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    /* justify-content: center; */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width: 600px) {
