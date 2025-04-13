@@ -1,13 +1,9 @@
 <?php
-require '../../classes/Authentication.php';
 require_once('../classes/traits/ItemOperations.php');
 require_once('../classes/Database.php');
 require_once('../classes/User.php');
 
 use Classes\User;
-use Classes\Authentication;
-
-Authentication::requirePostMethod();
 
 $user = new User();
 $firstName = trim($_POST['firstName']);
