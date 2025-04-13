@@ -12,21 +12,36 @@ function notify(message, type) {
     }, 4000);
 }
 
-function handleApiResponse(response) {
-    response = JSON.parse(response);
-    console.log(response);
+function handleApiResponse(response) {    
     if (!response.success) {
         if (response.error === 'session_expired' || response.error === 'permission_denied') {
             window.location.href = response.redirect ?? '/login';
-        }
-        else if (response.error === 'validation_error') {
-            notify(response.message + "</br>" + Object.values(response.data).join('</br>') || "Validation error", 'warning');
-        }
-        else {
-            notify(response.message ?? "An error occurred", 'error');
+        } else if (response.error === 'validation_error') {
+            let errorMessages = Object.values(response.data).join('<br>') || "Validation error";
+            Swal.fire({
+                icon: 'warning',
+                title: 'Validation Error',
+                html: errorMessages,
+                confirmButtonColor: '#d33'
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.message ?? "An error occurred",
+                confirmButtonColor: '#d33'
+            });
         }
     } else {
-        notify(response.message ?? "Success", 'success');
+        if (response.message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: response.message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
         return true;
     }
     return false;

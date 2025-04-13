@@ -14,6 +14,7 @@ function removeItem(id) {
             id: id
         },
         success: function (response) {
+            if(handleApiResponse(response))
             showCartItems();
         }
     });
@@ -29,17 +30,15 @@ function updateQuantity(id, change) {
             change: change
         },
         success: function (response) {
-            response = JSON.parse(response);
+            response = JSON.parse(response).data;
             newQuantity = response.quantity;
             if (newQuantity > 0) {
                 showCartItems();
             } else if (newQuantity === 0) {
                 removeItem(id);
-
             }
         }
     });
-
 }
 
 function updateCartCount() {

@@ -20,36 +20,29 @@ class Cart
 
     public function addToCart(int $userId, int $productId)
     {
-        $query = "SELECT id FROM " . self::$table . " WHERE user_id = ? AND product_id = ?";
+        $query = "SELECT id, quantity FROM " . self::$table . " WHERE user_id = ? AND product_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ii", $userId, $productId);
         $stmt->execute();
-        $stmt->store_result();
+        $result = $stmt->get_result();
 
-        if ($stmt->num_rows > 0) {
+        if ($old = $result->fetch_assoc()) {
+            $newQty = $old['quantity'] + 1;
+            $updateQuery = "UPDATE " . self::$table . " SET quantity = ? WHERE id = ?";
+            $updateStmt = $this->conn->prepare($updateQuery);
+            $updateStmt->bind_param("ii", $newQty, $old['id']);
             return [
-                "status" => false,
-                "message" => "Product is already in the cart.",
-                "class" => "error"
+                "success" => $updateStmt->execute(),
+                "updated" => true,
             ];
         } else {
-            $query = "INSERT INTO " . self::$table . " (user_id, product_id) VALUES (?, ?)";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("ii", $userId, $productId);
-
-            if ($stmt->execute()) {
-                return [
-                    "status" => true,
-                    "message" => "Product added to cart.",
-                    "class" => "success"
-                ];
-            } else {
-                return [
-                    "status" => false,
-                    "message" => "Error adding product to cart.",
-                    "class" => "error"
-                ];
-            }
+            $insertQuery = "INSERT INTO " . self::$table . " (user_id, product_id, quantity) VALUES (?, ?, 1)";
+            $insertStmt = $this->conn->prepare($insertQuery);
+            $insertStmt->bind_param("ii", $userId, $productId);
+            return [
+                "success" => $insertStmt->execute(),
+                "updated" => false,
+            ];
         }
     }
 

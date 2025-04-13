@@ -19,4 +19,34 @@ if (empty($cartId)) {
 if (empty($change)) {
     $errors['change'] = 'update quantity is required.';
 }
-echo json_encode($cart->changeQuanityById($cartId, $change));
+
+if(!empty($errors)) {
+    echo json_encode(
+        [
+            'success' => false,
+            'message' => "Error Occured!",
+            'error' => 'validation_error',
+            'data' => $errors
+        ]
+    );
+}
+
+try {
+    $data = $cart->changeQuanityById($cartId, $change);
+    echo json_encode(
+        [
+            'success' => true,
+            'message' => null,
+            'data' => $data,
+        ]
+    );
+} catch (Exception $e) {
+    echo json_encode(
+        [
+            'success' => false,
+            'message' => "Error Occured!",
+            'error' => 'server_error',
+            'data' => ['details' => $e->getMessage()]
+        ]
+    );
+}

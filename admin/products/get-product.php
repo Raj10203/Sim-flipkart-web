@@ -1,9 +1,12 @@
 <?php
 
-use Classes\Product;
-
 require_once('../../classes/Product.php');
+require_once('../../classes/Authentication.php');
 
+use Classes\Product;
+use Classes\Authentication;
+
+Authentication::requirePostMethod();
 $product = new Product();
 $id = $_POST['id'] ?? null;
 
@@ -27,10 +30,12 @@ try {
         ]
     );
 } catch (Exception $e) {
-    $response = [
-        'success' => false,
-        'message' => "Error Occured!",
-        'error' => 'server_error',
-        'data' => ['details' => $e->getMessage()]
-    ];
+    echo json_encode(
+        [
+            'success' => false,
+            'message' => "Error Occured!",
+            'error' => 'server_error',
+            'data' => ['details' => $e->getMessage()]
+        ]
+    );
 }

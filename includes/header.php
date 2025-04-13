@@ -86,3 +86,5 @@ $userName = $_SESSION['user_name'] ?? 'Login';
         </div>
     </div>
 </nav>
+<div class="notifications">
+</div>

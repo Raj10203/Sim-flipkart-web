@@ -76,7 +76,7 @@ class Authentication
         return false;
     }
 
-    public static function requirePostMethod(bool $signInRequired = true)
+    public static function requirePostMethod()
     {
         self::startSession();
         if (!self::validateSession()) {
@@ -90,7 +90,7 @@ class Authentication
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $signInRequired) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('location: /login');
             exit;
         }

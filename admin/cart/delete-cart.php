@@ -7,24 +7,35 @@ use Classes\Authentication;
 
 Authentication::requirePostMethod();
 
+header('Content-Type: application/json');
+ob_clean();
+
 $cart = new Cart();
-$response = [];
-if (!isset($_POST['id'])) {
-    echo json_encode(["error" => "Id is required"]);
+
+// Validate input
+if (!isset($_POST['id']) || empty($_POST['id'])) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'Validation failed.',
+        'data' => ['id' => 'Cart ID is required.']
+    ]);
     exit;
 }
 
 try {
-    $response = [
-        'result' => $cart->deleteItem($cart->getTableName(), "id", $_POST['id']),
-        'message' => "Successfully deleted category",
-        'class' => 'success'
-    ];
+    $cartId = $_POST['id'];
+    $cart->deleteItem($cart->getTableName(), "id", $cartId);
+
+    echo json_encode([
+        'success' => true,
+        'message' => "Cart item deleted successfully."
+    ]);
 } catch (Exception $e) {
-    $response = [
-        'error' => $e->getMessage(),
-        'message' => " Error occured while deleting",
-        'class' => 'danger'
-    ];
+    echo json_encode([
+        'success' => false,
+        'error' => 'server_error',
+        'message' => 'An error occurred while deleting the cart item.',
+        'data' => ['details' => $e->getMessage()]
+    ]);
 }
-echo json_encode($response);

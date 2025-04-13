@@ -205,8 +205,9 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
+                            response = JSON.parse(response);
                             if (handleApiResponse(response)) {
-                                response = JSON.parse(response).data;
+                                response = response.data;
                                 $('#editProductId').val(response.id);
                                 $('#editProductName').val(response.name);
                                 $('#previewImage').attr('src', response.image_path);
@@ -230,6 +231,7 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
+                            response = JSON.parse(response);
                             if (handleApiResponse(response)) {
                                 table.ajax.reload(null, false);
                             }
@@ -315,6 +317,7 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    response = JSON.parse(response);
                     if (handleApiResponse(response)) {
                         table.ajax.reload(null, false);
                     }
@@ -365,6 +368,7 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    response = JSON.parse(response);
                     if (handleApiResponse(response)) {
                         table.ajax.reload(null, false);
                     }

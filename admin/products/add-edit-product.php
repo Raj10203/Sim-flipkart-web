@@ -82,6 +82,7 @@ if (!empty($image['name'])) {
 }
 
 try {
+    $response['success'] = true;
     if (!empty($_POST['productId'])) {
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['productId']);
         $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $description, $discount);
@@ -91,10 +92,7 @@ try {
         $response['message'] = "Successfully edited product $name";
     } else {
         $prod->addProduct($name, $imagePath, $category, $price, $description, $discount);
-        $response = [
-            'success' => true,
-            'message' => "Product '$name' added successfully.",
-        ];
+        $response['message'] = "Product '$name' added successfully.";
     }
 } catch (Exception $e) {
     $response = [
