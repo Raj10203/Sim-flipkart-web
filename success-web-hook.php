@@ -65,7 +65,7 @@ if ($event->type == 'checkout.session.completed') {
         $data['session'] = $session;
         $data['lineItems'] = $lineTesms;
         if (count($cartDetails) > 0) {
-            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_subtotal);
+            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
 
             foreach ($cartDetails as $index => $item) {
