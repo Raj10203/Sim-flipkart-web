@@ -69,9 +69,6 @@ Authentication::requireAdmin();
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="notifications">
-                        </div>
-                        <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>

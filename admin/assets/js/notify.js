@@ -1,17 +1,3 @@
-function notify(message, type) {
-    let notification = $(`<div></div>`).html(message + `
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        `).addClass('sufee-alert alert with-close alert-' + type + ' alert-dismissible fade show mb-1');
-    $('.notifications').append(notification);
-    setTimeout(() => {
-        notification.fadeOut(500, function () {
-            $(this).remove();
-        });
-    }, 4000);
-}
-
 function handleApiResponse(response) {    
     if (!response.success) {
         if (response.error === 'session_expired' || response.error === 'permission_denied') {

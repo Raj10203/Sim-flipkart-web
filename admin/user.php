@@ -66,8 +66,6 @@ Authentication::requireSuperAdmin();
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="notifications">
-                        </div>
                         <div id="select-container" class="d-flex">
                             <div id="roleDropdown" class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button"
