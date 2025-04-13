@@ -3,9 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/classes/Authentication.php';
 
 use Classes\Authentication;
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+Authentication::startSession();
 $userName = $_SESSION['user_name'] ?? 'Login';
 ?>
 <nav class="navbar navbar-expand-lg">

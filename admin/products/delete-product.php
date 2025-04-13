@@ -12,25 +12,27 @@ $response = [];
 
 if (!isset($_POST['id'])) {
     echo json_encode([
-        "message" => "Id is required",
-        'class' => 'danger'
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'Product Id is required.',
     ]);
     die;
 }
 
 try {
     $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['id']);
+    $prod->deleteItem($prod->getTableName(), "id", $_POST['id']);
     $response = [
-        'result' => $prod->deleteItem($prod->getTableName(), "id", $_POST['id']),
-        'message' => "Successfully deleted category",
-        'class' => 'success'
+        'success' => true,
+        'message' => "Successfully deleted product",
     ];
     unlink($_SERVER['DOCUMENT_ROOT'] . $oldProduct['image_path']);
 } catch (Exception $e) {
     $response = [
-        'result' => $e->getMessage(),
+        'success' => false,
         'message' => "Error occured while deleting",
-        'class' => 'danger'
+        'error' => 'server_error',
+        'data' => ['details' => $e->getMessage()]
     ];
 }
 echo json_encode($response);

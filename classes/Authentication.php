@@ -28,7 +28,12 @@ class Authentication
 
     public static function requireAccess(string $requiredRole)
     {
-        self::validateSession();
+        if (!self::validateSession()) {
+            session_unset();
+            session_destroy();
+            header("location:/login");
+            exit;
+        }
         if (!self::roleHasAccess($requiredRole)) {
             header("location:/permission-not-granted");
             exit;
@@ -65,19 +70,27 @@ class Authentication
             $stmt->fetch();
             $stmt->close();
             if (($_SESSION['session_version'] ?? -1) === $dbSessionVersion) {
-                return;
+                return true;
             }
         }
-        session_unset();
-        session_destroy();
-        header("location:/login");
-        exit;
+        return false;
     }
 
     public static function requirePostMethod(bool $signInRequired = true)
     {
         self::startSession();
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || (empty($_SESSION["user_id"]) && $signInRequired)) {
+        if (!self::validateSession()) {
+            session_unset();
+            session_destroy();
+            echo json_encode([
+                'success' => false,
+                'error' => 'session_expired',
+                'redirect' => '/login',
+            ]);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $signInRequired) {
             header('location: /login');
             exit;
         }

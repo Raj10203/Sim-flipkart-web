@@ -54,10 +54,10 @@ if (!empty($image['name'])) {
 
 if (!empty($errors)) {
     echo json_encode([
-        'result' => false,
-        'errors' => $errors,
-        'class' => 'danger',
-        'message' => 'Validation failed. Please check your input.'
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'Validation failed.',
+        'data' => $errors
     ]);
     exit;
 }
@@ -90,18 +90,18 @@ try {
         }
         $response['message'] = "Successfully edited product $name";
     } else {
+        $prod->addProduct($name, $imagePath, $category, $price, $description, $discount);
         $response = [
-            'result' => $prod->addProduct($name, $imagePath, $category, $price, $description, $discount),
-            'message' => "Successfully added product $name"
+            'success' => true,
+            'message' => "Product '$name' added successfully.",
         ];
     }
-    $response['class'] = 'success';
 } catch (Exception $e) {
     $response = [
-        'result' => false,
-        'error' => $e->getMessage(),
+        'success' => false,
         'message' => $name . " has not been " . (isset($_POST['id']) ? " edited" : " added"),
-        'class' => 'danger'
+        'error' => 'server_error',
+        'data' => ['details' => $e->getMessage()]
     ];
 }
 

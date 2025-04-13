@@ -205,15 +205,17 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
-                            response = JSON.parse(response);
-                            $('#editProductId').val(response.id);
-                            $('#editProductName').val(response.name);
-                            $('#previewImage').attr('src', response.image_path);
-                            $('#editCategory').val(response.category_id);
-                            $('#editPrice').val(response.price);
-                            $('#editDiscount').val(response.discount);
-                            $('#editDescription').val(response.description);
-                            $('#editModal').modal('show');
+                            if (handleApiResponse(response)) {
+                                response = JSON.parse(response).data;
+                                $('#editProductId').val(response.id);
+                                $('#editProductName').val(response.name);
+                                $('#previewImage').attr('src', response.image_path);
+                                $('#editCategory').val(response.category_id);
+                                $('#editPrice').val(response.price);
+                                $('#editDiscount').val(response.discount);
+                                $('#editDescription').val(response.description);
+                                $('#editModal').modal('show');
+                            }
                         }
                     });
                 });
@@ -228,9 +230,9 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
-                            table.ajax.reload(null, false);
-                            response = JSON.parse(response);
-                            notify(response['message'], response['class']);
+                            if (handleApiResponse(response)) {
+                                table.ajax.reload(null, false);
+                            }
                         },
                         error: function (jqXHR) {
                             alert("Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"));
@@ -244,7 +246,7 @@ $(document).ready(function () {
             let column = api.column(6);
             let categoryList = $('#categoryList');
             $.ajax({
-                type: "post",
+                type: "GET",
                 url: "/admin/categories/get-all-categories",
                 dataType: "json",
                 success: function (response) {
@@ -313,19 +315,13 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    response = JSON.parse(response);
-                    let error = response['errors'];
-                    if (error) {
-                        for (let key in error) {
-                            response['message'] += "<br>" + error[key];
-                        }
+                    if (handleApiResponse(response)) {
+                        table.ajax.reload(null, false);
                     }
-                    notify(response['message'], response['class']);
-                    table.ajax.reload(null, false);
                     $('#addModal').modal('hide');
                 },
                 error: function (jqXHR) {
-                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
+                    alert("Failed to add product: " + "Server error");
                 }
             });
             form.reset();
@@ -369,15 +365,9 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    response = JSON.parse(response);
-                    let error = response['errors'];
-                    if (error) {
-                        for (let key in error) {
-                            response['message'] += "<br>" + error[key];
-                        }
+                    if (handleApiResponse(response)) {
+                        table.ajax.reload(null, false);
                     }
-                    notify(response['message'], response['class']);
-                    table.ajax.reload(null, false);
                     $('#editModal').modal('hide');
                 },
                 error: function (jqXHR) {

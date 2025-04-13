@@ -13,8 +13,7 @@ trait ItemOperations
         $query = "DELETE FROM $tableName WHERE $colunName = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $value);
-        $result =  $stmt->execute();
-        return $result;
+        return $stmt->execute();
     }
 
     public function getItemById(string $tableName, int $id)
@@ -24,8 +23,7 @@ trait ItemOperations
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $items = $result->fetch_assoc();
-        return $items;
+        return $result->fetch_assoc();
     }
     public function getAllItems(string $tableName)
     {
@@ -33,15 +31,14 @@ trait ItemOperations
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
-        $items = $result->fetch_all(MYSQLI_ASSOC);
-        return $items;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public static function getTableName()
     {
         return static::$table;
     }
-    
+
     public function getConnection()
     {
         if (isset($this->conn)) {
