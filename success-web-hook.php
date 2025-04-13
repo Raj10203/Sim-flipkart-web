@@ -54,7 +54,6 @@ if ($event->type == 'checkout.session.completed') {
         $userId = $eventData->metadata->user_id;
         $cartDetails = $cart->gettAllCartByUserId($userId);
 
-        $emailItems = '';
         $data['cartDetails'] = $cartDetails;
         $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->retrieve($sessionId);
@@ -63,35 +62,18 @@ if ($event->type == 'checkout.session.completed') {
             ['expand' => ['data.price.product']]
         );
         $data['session'] = $session;
-        $data['lineItems'] = $lineTesms;
+        $data['lineItems'] = $lineTesms['data'];
         if (count($cartDetails) > 0) {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
-
             foreach ($cartDetails as $item) {
-                // Default value if not found in line items
                 $actualAmount = 0;
 
                 foreach ($lineItems['data'] as $lineItem) {
-                    if ($lineItem['description'] === $item['name']) {
-                        // Stripe amount_total is in paisa (INR) or cents (USD), so convert to proper value
-                        $actualAmount = $lineItem['amount_total'] / 100;
-                        break;
-                    }
+                    $data['line'][] = $lineItem;
                 }
-
-                // Insert order item using the amount from Stripe
                 $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $actualAmount);
                 $data['actualAmount'] = $actualAmount;
-                // Build the email content
-                $emailItems .= '<div class="item">
-                     <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
-                     <div class="item-details">
-                         <h4>' . htmlspecialchars($item['name']) . '</h4>
-                         <p>Quantity: ' . $item['quantity'] . '</p>
-                         <p>Total: ₹' . number_format($actualAmount, 2) . '</p>
-                     </div>
-                 </div>';
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
