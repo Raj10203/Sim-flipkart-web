@@ -23,9 +23,7 @@ class OrderItems
         $query = "INSERT INTO " . self::$table . " (order_id, product_id, quantity, final_price) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("iiid", $orderId, $productId, $quantity, $finalPrice);
-        $stmt->execute();
-        $orderId = $stmt->insert_id;
-        return $orderId;
+        return $stmt->execute();;
     }
 
     public function getItemsByOrderId(int $orderID)

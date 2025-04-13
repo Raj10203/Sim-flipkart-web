@@ -7,8 +7,11 @@ use Classes\Cart;
 use function PHPSTORM_META\type;
 
 require_once('vendor/autoload.php');
+require_once('classes/traits/ItemOperations.php');
+require_once('classes/Database.php');
 require_once('classes/Order.php');
 require_once('classes/Product.php');
+require_once('classes/Cart.php');
 require_once('classes/OrderItems.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -45,6 +48,7 @@ if ($event->type == 'checkout.session.completed') {
 
         $ord = new Order();
         $oi = new OrderItems();
+        $cart = new Cart();
 
         $eventData = $data['event_data'];
         $sessionId = $eventData->id;
