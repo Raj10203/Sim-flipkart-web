@@ -60,7 +60,7 @@ if ($event->type == 'checkout.session.completed') {
         $session = $stripe->checkout->sessions->retrieve($sessionId);
         $lineTesms = $stripe->checkout->sessions->allLineItems(
             $sessionId,
-            []
+            ['expand' => ['data.price.product']]
         );
         $data['session'] = $session;
         $data['lineItems'] = $lineTesms;
