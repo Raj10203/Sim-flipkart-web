@@ -9,6 +9,7 @@ $(document).ready(function () {
     const roles = ['user', 'admin', 'super_admin'];
     $("#myTable").DataTable({
         scrollX: true,
+        lengthMenu: [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 10000]],
         columnDefs: [
             {
                 className: "dt-center",
@@ -102,7 +103,7 @@ $(document).ready(function () {
             {
                 data: "created_at",
             },
-            
+
         ],
         drawCallback: function () {
             $('.user-role-select').select2({
@@ -121,7 +122,7 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        handleApiResponse(response);    
+                        handleApiResponse(response);
                     },
                     error: function () {
                         Swal.fire({

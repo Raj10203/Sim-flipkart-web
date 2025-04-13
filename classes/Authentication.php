@@ -31,6 +31,8 @@ class Authentication
         if (!self::validateSession()) {
             session_unset();
             session_destroy();
+            session_start();
+            $_SESSION['login-message'] = "Your session has expired. Please log in again.";
             header("location:/login");
             exit;
         }
@@ -61,6 +63,7 @@ class Authentication
     {
         self::startSession();
         if (!empty($_SESSION['user_id'])) {
+            $dbSessionVersion = "";
             $conn = Database::getInstance()->getConnection();
             $query = "SELECT session_version FROM users WHERE id = ?";
             $stmt = $conn->prepare($query);
@@ -82,6 +85,8 @@ class Authentication
         if (!self::validateSession()) {
             session_unset();
             session_destroy();
+            session_start();
+            $_SESSION['login-message'] = "Your session has expired. Please log in again.";
             echo json_encode([
                 'success' => false,
                 'error' => 'session_expired',
