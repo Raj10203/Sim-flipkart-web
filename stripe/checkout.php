@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 require_once('../vendor/autoload.php');
 session_start();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
@@ -21,7 +25,7 @@ foreach ($cartDetails as $item) {
                     'discounted_price' => round($salePrice, 2)
                 ],
             ],
-            'unit_amount' => round($salePrice * 100), 
+            'unit_amount' => round($salePrice * 100),
         ],
         'quantity' => $item['quantity'],
         'tax_rates' => [$_ENV["TAX_RATE_ID"]]
@@ -30,7 +34,7 @@ foreach ($cartDetails as $item) {
 $checkoutSession = $stripe->checkout->sessions->create([
     'line_items' => $lineItems,
     'mode' => 'payment',
-    'success_url' => 'http://flipkart-web.com/payment-success',
+    'success_url' => $_ENV['LIVEADDRESS'] . "payment-success",
     'metadata' => [
         'user_id' => $_SESSION['user_id'],
         'total_products' => count($cartDetails),
