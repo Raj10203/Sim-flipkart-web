@@ -2,13 +2,21 @@
 
 namespace Classes;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/traits/ItemOperations.php";
+
 use Classes\Traits\ItemOperations;
 
-class Category extends Database
+class Category 
 {
     use ItemOperations;
-
     protected static $table = 'categories';
+    protected $conn;
+
+    public function __construct()
+    {
+        $this->conn = Database::getInstance()->getConnection();
+    }
 
     public function editCategory(int $id, string $name, string $description)
     {

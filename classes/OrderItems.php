@@ -2,13 +2,21 @@
 
 namespace Classes;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/traits/ItemOperations.php";
+
 use Classes\Traits\ItemOperations;
 
-class OrderItems extends Database
+class OrderItems
 {
     use ItemOperations;
-
     protected static $table = 'order_items';
+    protected $conn;
+
+    public function __construct()
+    {
+        $this->conn = Database::getInstance()->getConnection();
+    }
 
     public function insertOrderItem(int $orderId, int $productId, int $quantity, float $finalPrice)
     {

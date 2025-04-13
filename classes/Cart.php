@@ -2,12 +2,21 @@
 
 namespace Classes;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/traits/ItemOperations.php";
+
 use Classes\Traits\ItemOperations;
 
-class Cart extends Database
+class Cart
 {
     use ItemOperations;
     protected static $table = 'cart';
+    protected $conn;
+
+    public function __construct()
+    {
+        $this->conn = Database::getInstance()->getConnection();
+    }
 
     public function addToCart(int $userId, int $productId)
     {

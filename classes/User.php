@@ -2,13 +2,21 @@
 
 namespace Classes;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/traits/ItemOperations.php";
+
 use Classes\Traits\ItemOperations;
 
-class User extends Database
+class User
 {
     use ItemOperations;
-
     protected static $table = 'users';
+    protected $conn;
+
+    public function __construct()
+    {
+        $this->conn = Database::getInstance()->getConnection();
+    }
 
     public function login(string $email, string $password)
     {
@@ -23,6 +31,7 @@ class User extends Database
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['first_name'];
             $_SESSION["role"] = $user['role'];
+            $_SESSION["session_version"] = $user['session_version'];
             return true;
         }
         return false;
@@ -48,9 +57,9 @@ class User extends Database
 
     public function updateRole(int $userId, string $role)
     {
-        $query = "UPDATE " . self::$table . " SET role = ? WHERE id = ?";
+        $query = "UPDATE " . self::$table . " SET role = ?, session_version = session_version + 1 WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("si", $role, $userId);
-        return  $stmt->execute();;
+        return  $stmt->execute();
     }
 }

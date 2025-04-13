@@ -2,6 +2,8 @@
 
 namespace Classes;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Database.php";
+
 class Authentication
 {
     private static $roleLevels = [
@@ -21,13 +23,13 @@ class Authentication
     public static function roleHasAccess(string $requiredRole)
     {
         $currentRole = $_SESSION['role'] ?? null;
-        return ((self::$roleLevels[$currentRole] ?? 0) >= (self::$roleLevels[$requiredRole] ?? 1));
+        return (self::$roleLevels[$currentRole] ?? 0) >= (self::$roleLevels[$requiredRole] ?? 1);
     }
 
     public static function requireAccess(string $requiredRole)
     {
-        self::startSession();
-        if (empty($_SESSION["user_id"]) || !self::roleHasAccess($requiredRole)) {
+        self::validateSession();
+        if (!self::roleHasAccess($requiredRole)) {
             header("location:/permission-not-granted");
             exit;
         }
@@ -48,6 +50,28 @@ class Authentication
     public static function requireAdmin()
     {
         return self::requireAccess('admin');
+    }
+
+    private static function validateSession()
+    {
+        self::startSession();
+        if (!empty($_SESSION['user_id'])) {
+            $conn = Database::getInstance()->getConnection();
+            $query = "SELECT session_version FROM users WHERE id = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $_SESSION['user_id']);
+            $stmt->execute();
+            $stmt->bind_result($dbSessionVersion);
+            $stmt->fetch();
+            $stmt->close();
+            if (($_SESSION['session_version'] ?? -1) === $dbSessionVersion) {
+                return;
+            }
+        }
+        session_unset();
+        session_destroy();
+        header("location:/login");
+        exit;
     }
 
     public static function requirePostMethod(bool $signInRequired = true)
