@@ -58,7 +58,7 @@ if ($event->type == 'checkout.session.completed') {
         $data['session'] = $session;
         $data['lineItems'] = $lineItems['data'];
         file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
-        if (count($cartDetails) > 0) {
+        if (count($lineItems['data']) > 0) {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
 
