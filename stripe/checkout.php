@@ -15,7 +15,7 @@ foreach ($cartDetails as $item) {
             'product_data' => [
                 'name' => $item['name'],
                 'metadata' => [
-                    'product_id' => $item['id'],
+                    'product_id' => $item['productId'],
                     'original_price' => $item['price'],
                     'discount' => $item['discount'],
                     'discounted_price' => round($salePrice, 2)
