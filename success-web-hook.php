@@ -5,11 +5,8 @@ use Classes\OrderItems;
 use Classes\Cart;
 
 require_once('vendor/autoload.php');
-require_once('classes/traits/ItemOperations.php');
-require_once('classes/Database.php');
 require_once('classes/Order.php');
 require_once('classes/Product.php');
-require_once('classes/Cart.php');
 require_once('classes/OrderItems.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -46,16 +43,12 @@ if ($event->type == 'checkout.session.completed') {
 
         $ord = new Order();
         $oi = new OrderItems();
-        $cart = new Cart();
 
         $eventData = $data['event_data'];
         $sessionId = $eventData->id;
         $paymentid = $eventData->payment_intent;
         $userId = $eventData->metadata->user_id;
-        $cartDetails = $cart->gettAllCartByUserId($userId);
 
-        $emailItems = '';
-        $data['cartDetails'] = $cartDetails;
         $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->retrieve($sessionId);
         $lineTesms = $stripe->checkout->sessions->allLineItems(
@@ -63,7 +56,8 @@ if ($event->type == 'checkout.session.completed') {
             ['expand' => ['data.price.product']]
         );
         $data['session'] = $session;
-        $data['lineItems'] = $lineTesms;
+        $data['lineItems'] = $lineItems['data'];
+        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
         if (count($cartDetails) > 0) {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
@@ -88,7 +82,6 @@ if ($event->type == 'checkout.session.completed') {
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
-        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
     } catch (Exception $e) {
         $errorData = [
             'timestamp' => date('Y-m-d H:i:s'),
@@ -98,7 +91,7 @@ if ($event->type == 'checkout.session.completed') {
         $errorFile = 'webhook_errors.log';
         file_put_contents($errorFile, json_encode($errorData, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
     }
-    http_response_code(200); // Must respond to Stripe with 200
+    http_response_code(200); 
 } else {
     http_response_code(400);
     exit();
