@@ -68,30 +68,23 @@ if ($event->type == 'checkout.session.completed') {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
 
-            foreach ($cartDetails as $item) {
-                // Default value if not found in line items
-                $actualAmount = 0;
-
-                foreach ($lineItems['data'] as $lineItem) {
-                    if ($lineItem['description'] === $item['name']) {
-                        // Stripe amount_total is in paisa (INR) or cents (USD), so convert to proper value
-                        $actualAmount = $lineItem['amount_total'] / 100;
-                        break;
-                    }
-                }
-
-                // Insert order item using the amount from Stripe
-                $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $actualAmount);
-                $data['actualAmount'] = $actualAmount;
-                // Build the email content
-                $emailItems .= '<div class="item">
-                     <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
-                     <div class="item-details">
-                         <h4>' . htmlspecialchars($item['name']) . '</h4>
-                         <p>Quantity: ' . $item['quantity'] . '</p>
-                         <p>Total: ₹' . number_format($actualAmount, 2) . '</p>
-                     </div>
-                 </div>';
+            foreach ($lineItems['data'] as $lineItem) {
+                $productMeta = $lineItem['price']['product']['metadata'] ?? [];
+            
+                $productId = $productMeta['product_id'] ?? null;
+                // $productName = $lineItem['description'];
+                // $originalPrice = $productMeta['original_price'] ?? null;
+                // $discountPercent = $productMeta['discount'] ?? null;
+                // $discountedUnitPrice = $productMeta['discounted_price'] ?? null;
+            
+                $quantity = $lineItem['quantity'];
+                $totalAmount = $lineItem['amount_total'] / 100; // convert from paisa
+                // $taxAmount = $lineItem['amount_tax'] / 100;
+            
+                // Store in database
+                $oi->insertOrderItem($orderId, $productId, $quantity, $totalAmount);
+            
+                
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
