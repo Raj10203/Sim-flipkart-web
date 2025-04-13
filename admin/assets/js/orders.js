@@ -110,10 +110,15 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        notify(response['message'], response['class']);
+                        handleApiResponse(response);
                     },
                     error: function () {
-                        alert('Failed to update status');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text:  "An error occurred",
+                            confirmButtonColor: '#d33'
+                        });
                     }
                 });
             });

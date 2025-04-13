@@ -11,33 +11,45 @@ $ord = new Order();
 $orderId = $_POST['orderid'] ?? null;
 $status = $_POST['status'] ?? null;
 
-$error = [];
+$errors = [];
+
 if (empty($orderId)) {
-    $error['orderId'] = "Order id is required.";
+    $errors['orderId'] = "Order ID is required.";
 }
 
 if (empty($status)) {
-    $error['status'] = "Status is required.";
+    $errors['status'] = "Status is required.";
 }
 
-if ($error) {
-    $_SESSION['invalid_input'] = $error;
-    header('Location: /admin/order');
+if (!empty($errors)) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'Validation failed. Please correct the highlighted errors.',
+        'data' => $errors
+    ]);
     exit;
 }
 
-$response = [];
-if ($ord->updateStatus($orderId, $status)) {
-    $response = [
-        'result' => true,
-        'message' => "Successfully updated status $status of order id $orderId",
-        'class' => 'success'
-    ];
-} else {
-    $response = [
-        'result' => false,
-        'message' => $status . " has not been updated",
-        'class' => 'danger'
-    ];
+try {
+    $updated = $ord->updateStatus($orderId, $status);
+
+    if ($updated) {
+        echo json_encode([
+            'success' => true,
+            'message' => "Successfully updated status to '$status' for order ID $orderId"
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'error' => 'update_failed',
+            'message' => "Order status '$status' was not updated."
+        ]);
+    }
+} catch (Exception $e) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'server_error',
+        'message' => 'An unexpected error occurred while updating the order status.'
+    ]);
 }
-echo json_encode($response);

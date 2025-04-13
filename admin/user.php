@@ -89,7 +89,6 @@ Authentication::requireSuperAdmin();
                                     <th>Role</th>
                                     <th>Email</th>
                                     <th>Created at</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -98,58 +97,6 @@ Authentication::requireSuperAdmin();
             </div>
         </div>
     </div>
-
-    <!-- Models -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="./product.html" id="productForm" data-type="add">
-                        <input type="hidden" id="productId" value="" data-val="" name="hiddenProductId">
-                        <div class="mb-3">
-                            <label for="addProductName" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="addProductName" placeholder="Product Name"
-                                name="addProductName" required maxlength="30" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="addImage" class="form-label">Image</label>
-                            <img src="" class="tableImage d-none" alt="your image" id="showImg">
-                            <input type="file" accept="image/png" class="form-control" id="addImage" required
-                                name="addImage" placeholder="Image" />
-                            <p id="messageImageSize"></p>
-                        </div>
-                        <select class="form-select select" aria-label="Default select example"
-                            id="addItemcategoryOptions" data-type="categoryOptions">
-                        </select>
-                        <div class="mb-3">
-                            <label for="addPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="addPrice" placeholder="Price" required
-                                name="addPrice" max="1000000000000" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="addDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="addDescription" rows="3" placeholder="Description ..."
-                                maxlength="100" required></textarea>
-                        </div>
-                        <input type="submit" class="btn btn-primary event" id="formSubmit" data-type="add-submit"
-                            name="formSubmit" />
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Confirm</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <?php require_once('./includes/scripts.php') ?>
 

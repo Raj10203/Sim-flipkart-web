@@ -4,7 +4,6 @@ $('.asideMember').each(function (index, element) {
     } else {
         $(element).removeClass('active');
     }
-
 });
 $(document).ready(function () {
     const roles = ['user', 'admin', 'super_admin'];
@@ -19,22 +18,6 @@ $(document).ready(function () {
                 targets: 1,
                 className: "noVis",
             },
-            {
-                targets: 6,
-                data: 'id',
-                sorting: false,
-                render: function (data) {
-                    return `
-                    <div class="btn-group">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#editModal" data-id="+`+ data + `+">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                         <button class="btn btn-danger" data-id="'+data+'">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>`;
-                }
-            }
         ],
         search: {
             return: true,
@@ -43,39 +26,40 @@ $(document).ready(function () {
             topStart: {
                 buttons: [
                     {
+                        extend: 'pageLength',
+                        className: 'btn btn-light btn-datatable',
+                    },
+                    {
                         extend: "colvis",
                         columns: ":not(.noVis)",
                         popoverTitle: "Column visibility selector",
                         className: 'btn btn-light btn-datatable',
                     },
                     {
-                        extend: 'print',
+                        extend: 'collection',
+                        text: 'Export',
                         className: 'btn btn-light btn-datatable',
+                        buttons: ['csv', 'excel', 'pdf']
                     },
-                    {
-                        extend: 'excelHtml5',
-                        className: 'btn btn-light btn-datatable',
-                    },
-                    {
-                        extend: 'pageLength',
-                        className: 'btn btn-light btn-datatable',
-                    },
-                    {
-                        text: 'Add User',
-                        className: 'btn btn-light btn-datatable',
-                        render: function (params) {
-                        }
-                    }
                 ]
             },
             topEnd: {
+                buttons: [
+                    {
+                        text: "<span>Refresh </span>",
+                        className: 'btn btn-light btn-datatable',
+                        action: function (e, dt, node, config) {
+                            dt.ajax.reload(null, false);
+                        }
+                    }
+                ],
                 search: {
                     placeholder: 'Search'
                 },
             },
             bottomEnd: {
                 paging: {
-                    buttons: 4,
+                    buttons: 5,
                 },
             },
         },
@@ -118,9 +102,7 @@ $(document).ready(function () {
             {
                 data: "created_at",
             },
-            {
-                data: "id",
-            },
+            
         ],
         drawCallback: function () {
             $('.user-role-select').select2({
@@ -139,10 +121,15 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        notify(response['message'], response['class']);
+                        handleApiResponse(response);    
                     },
                     error: function () {
-                        alert('Failed to update role');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: "Failed to update user role: " + (jqXHR.responseJSON?.error || "Server error"),
+                            confirmButtonColor: '#d33'
+                        });
                     }
                 });
             });
@@ -176,6 +163,5 @@ $(document).ready(function () {
             });
         }
     });
+    $('#myTable_processing').removeClass('card');
 });
-$('#dt-processing').css('display', 'block');
-$('#dt-processing').css('visibility', 'visible');

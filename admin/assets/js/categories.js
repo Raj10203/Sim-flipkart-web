@@ -114,12 +114,14 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
-                            table.ajax.reload(null, false);
                             response = JSON.parse(response);
-                            $('#categoryId').val(response.id);
-                            $('#editCategoryName').val(response.name);
-                            $('#editCategoryDescription').val(response.description);
-                            $('#editModal').modal('show');
+                            if(handleApiResponse(response)){
+                                response = response.data;
+                                $('#categoryId').val(response.id);
+                                $('#editCategoryName').val(response.name);
+                                $('#editCategoryDescription').val(response.description);
+                                $('#editModal').modal('show');
+                            }
                         }
                     });
                 });
@@ -134,12 +136,18 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
-                            table.ajax.reload(null, false);
                             response = JSON.parse(response);
-                            notify(response['message'], response['class']);
+                            if (handleApiResponse(response)) {
+                                table.ajax.reload(null, false);
+                            }
                         },
                         error: function (jqXHR) {
-                            alert("Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"));
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text:  "Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"),
+                                confirmButtonColor: '#d33'
+                            });
                         }
                     });
                 });
@@ -171,14 +179,9 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    let error = response['errors'];
-                    if (error) {
-                        for (let key in error) {
-                            response['message'] += "<br>" + error[key];
-                        }
+                    if (handleApiResponse(response)) {
+                        table.ajax.reload(null, false);
                     }
-                    notify(response['message'], response['class']);
-                    table.ajax.reload(null, false);
                 }
             });
             $('#addModal').modal('hide');
@@ -209,14 +212,9 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    let error = response['errors'];
-                    if (error) {
-                        for (let key in error) {
-                            response['message'] += "<br>" + error[key];
-                        }
+                    if (handleApiResponse(response)) {
+                        table.ajax.reload(null, false);
                     }
-                    notify(response['message'], response['class']);
-                    table.ajax.reload(null, false);
                 }
             });
             $('#editModal').modal('hide');

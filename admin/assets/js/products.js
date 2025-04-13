@@ -237,7 +237,12 @@ $(document).ready(function () {
                             }
                         },
                         error: function (jqXHR) {
-                            alert("Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"));
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: "Failed to delete product: " + (jqXHR.responseJSON?.error || "Server error"),
+                                confirmButtonColor: '#d33'
+                            });
                         }
                     });
                 });
@@ -324,7 +329,12 @@ $(document).ready(function () {
                     $('#addModal').modal('hide');
                 },
                 error: function (jqXHR) {
-                    alert("Failed to add product: " + "Server error");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: "Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"),
+                        confirmButtonColor: '#d33'
+                    });
                 }
             });
             form.reset();
@@ -375,7 +385,12 @@ $(document).ready(function () {
                     $('#editModal').modal('hide');
                 },
                 error: function (jqXHR) {
-                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: "Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"),
+                        confirmButtonColor: '#d33'
+                    });
                 }
             });
             form.reset();
