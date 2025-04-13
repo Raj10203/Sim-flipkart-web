@@ -5,8 +5,11 @@ use Classes\OrderItems;
 use Classes\Cart;
 
 require_once('vendor/autoload.php');
+require_once('classes/traits/ItemOperations.php');
+require_once('classes/Database.php');
 require_once('classes/Order.php');
 require_once('classes/Product.php');
+require_once('classes/Cart.php');
 require_once('classes/OrderItems.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -43,12 +46,16 @@ if ($event->type == 'checkout.session.completed') {
 
         $ord = new Order();
         $oi = new OrderItems();
+        $cart = new Cart();
 
         $eventData = $data['event_data'];
         $sessionId = $eventData->id;
         $paymentid = $eventData->payment_intent;
         $userId = $eventData->metadata->user_id;
+        $cartDetails = $cart->gettAllCartByUserId($userId);
 
+        $emailItems = '';
+        $data['cartDetails'] = $cartDetails;
         $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->retrieve($sessionId);
         $lineTesms = $stripe->checkout->sessions->allLineItems(
@@ -56,32 +63,39 @@ if ($event->type == 'checkout.session.completed') {
             ['expand' => ['data.price.product']]
         );
         $data['session'] = $session;
-        $data['lineItems'] = $lineItems;
-        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
-        if (count($lineItems['data']) > 0) {
+        $data['lineItems'] = $lineTesms;
+        if (count($cartDetails) > 0) {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
 
-            foreach ($lineItems['data'] as $lineItem) {
-                $productMeta = $lineItem['price']['product']['metadata'] ?? [];
-            
-                $productId = $productMeta['product_id'] ?? null;
-                // $productName = $lineItem['description'];
-                // $originalPrice = $productMeta['original_price'] ?? null;
-                // $discountPercent = $productMeta['discount'] ?? null;
-                // $discountedUnitPrice = $productMeta['discounted_price'] ?? null;
-            
-                $quantity = $lineItem['quantity'];
-                $totalAmount = $lineItem['amount_total'] / 100; // convert from paisa
-                // $taxAmount = $lineItem['amount_tax'] / 100;
-            
-                // Store in database
-                $oi->insertOrderItem($orderId ?? 1, $productId ?? 54, $quantity ?? 1, $totalAmount ?? 100);
-            
-                
+            foreach ($cartDetails as $item) {
+                // Default value if not found in line items
+                $actualAmount = 0;
+
+                foreach ($lineItems['data'] as $lineItem) {
+                    if ($lineItem['description'] === $item['name']) {
+                        // Stripe amount_total is in paisa (INR) or cents (USD), so convert to proper value
+                        $actualAmount = $lineItem['amount_total'] / 100;
+                        break;
+                    }
+                }
+
+                // Insert order item using the amount from Stripe
+                $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $actualAmount);
+                $data['actualAmount'] = $actualAmount;
+                // Build the email content
+                $emailItems .= '<div class="item">
+                     <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
+                     <div class="item-details">
+                         <h4>' . htmlspecialchars($item['name']) . '</h4>
+                         <p>Quantity: ' . $item['quantity'] . '</p>
+                         <p>Total: ₹' . number_format($actualAmount, 2) . '</p>
+                     </div>
+                 </div>';
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
+        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
     } catch (Exception $e) {
         $errorData = [
             'timestamp' => date('Y-m-d H:i:s'),
@@ -91,7 +105,7 @@ if ($event->type == 'checkout.session.completed') {
         $errorFile = 'webhook_errors.log';
         file_put_contents($errorFile, json_encode($errorData, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
     }
-    http_response_code(200); 
+    http_response_code(200); // Must respond to Stripe with 200
 } else {
     http_response_code(400);
     exit();
