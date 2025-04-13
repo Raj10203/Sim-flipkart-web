@@ -64,7 +64,7 @@ if ($event->type == 'checkout.session.completed') {
         $data['session'] = $session;
         $data['lineItems'] = $lineItems['data'];
         if (count($lineItems['data']) > 0) {
-            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
+            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total/100);
             $data['orderId'] = $orderId;
             file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
             foreach ($lineItems['data'] as $lineItem) {
