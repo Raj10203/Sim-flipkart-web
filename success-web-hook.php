@@ -82,7 +82,7 @@ if ($event->type == 'checkout.session.completed') {
 
                 // Insert order item using the amount from Stripe
                 $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $actualAmount);
-
+                $data['actualAmount'] = $actualAmount;
                 // Build the email content
                 $emailItems .= '<div class="item">
                      <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
