@@ -68,18 +68,19 @@ if ($event->type == 'checkout.session.completed') {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_subtotal);
             $data['orderId'] = $orderId;
 
-            foreach ($cartDetails as $item) {
-                $finalPrice = $item['price'] - $item['price'] * $item['discount'] / 100;
-                $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $finalPrice);
+            foreach ($cartDetails as $index => $item) {
+                $lineItem = $lineItems['data'][$index];
+                $actualAmount = $lineItem['amount_total'] / 100;
 
+                $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $actualAmount);
                 $emailItems .= '<div class="item">
-                     <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
-                     <div class="item-details">
-                         <h4>' . htmlspecialchars($item['name']) . '</h4>
-                         <p>Quantity: ' . $item['quantity'] . '</p>
-                         <p>Price: ₹' . number_format($item['price'], 2) . '</p>
-                     </div>
-                 </div>';
+                    <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
+                    <div class="item-details">
+                        <h4>' . htmlspecialchars($item['name']) . '</h4>
+                        <p>Quantity: ' . $item['quantity'] . '</p>
+                        <p>Total: ₹' . number_format($actualAmount, 2) . '</p>
+                    </div>
+                </div>';
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
