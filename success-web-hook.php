@@ -4,12 +4,11 @@ use Classes\Order;
 use Classes\OrderItems;
 use Classes\Cart;
 
+use function PHPSTORM_META\type;
+
 require_once('vendor/autoload.php');
-require_once('classes/traits/ItemOperations.php');
-require_once('classes/Database.php');
 require_once('classes/Order.php');
 require_once('classes/Product.php');
-require_once('classes/Cart.php');
 require_once('classes/OrderItems.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -46,34 +45,38 @@ if ($event->type == 'checkout.session.completed') {
 
         $ord = new Order();
         $oi = new OrderItems();
-        $cart = new Cart();
 
         $eventData = $data['event_data'];
         $sessionId = $eventData->id;
         $paymentid = $eventData->payment_intent;
         $userId = $eventData->metadata->user_id;
-        $cartDetails = $cart->gettAllCartByUserId($userId);
 
-        $data['cartDetails'] = $cartDetails;
         $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->retrieve($sessionId);
-        $lineTesms = $stripe->checkout->sessions->allLineItems(
+        $lineItems = $stripe->checkout->sessions->allLineItems(
             $sessionId,
             ['expand' => ['data.price.product']]
         );
         $data['session'] = $session;
-        $data['lineItems'] = $lineTesms['data'];
-        if (count($cartDetails) > 0) {
+        $data['lineItems'] = $lineItems['data'];
+        if (count($lineItems['data']) > 0) {
             $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total);
             $data['orderId'] = $orderId;
-            foreach ($cartDetails as $item) {
-                $actualAmount = 0;
+            foreach ($lineItems['data'] as $lineItem) {
+                $productMeta = $lineItem['price']['product']['metadata'] ?? [];
 
-                foreach ($lineItems['data'] as $lineItem) {
-                    $data['line'][] = $lineItem;
-                }
-                $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $actualAmount);
-                $data['actualAmount'] = $actualAmount;
+                $productId = $productMeta['product_id'] ?? null;
+                // $productName = $lineItem['description'];
+                // $productImage = $productMeta['image_path'] ?? null;
+                // $originalPrice = $productMeta['original_price'] ?? null;
+                // $discountPercent = $productMeta['discount'] ?? null;
+                // $discountedUnitPrice = $productMeta['discounted_price'] ?? null;
+
+                $quantity = $lineItem['quantity'];
+                $totalAmount = $lineItem['amount_total'] / 100;
+                // $taxAmount = $lineItem['amount_tax'] / 100;
+
+                $oi->insertOrderItem($orderId, $productId, $quantity, $totalAmount);
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
