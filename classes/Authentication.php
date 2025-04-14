@@ -29,10 +29,6 @@ class Authentication
     public static function requireAccess(string $requiredRole)
     {
         if (!self::validateSession()) {
-            session_unset();
-            session_destroy();
-            session_start();
-            $_SESSION['login-message'] = "Your session has expired. Please log in again.";
             header("location:/login");
             exit;
         }
@@ -75,6 +71,8 @@ class Authentication
             if (($_SESSION['session_version'] ?? -1) === $dbSessionVersion) {
                 return true;
             }
+            session_unset();
+            $_SESSION['login-message'] = "Your session has expired. Please log in again.";
         }
         return false;
     }
@@ -83,10 +81,6 @@ class Authentication
     {
         self::startSession();
         if (!self::validateSession()) {
-            session_unset();
-            session_destroy();
-            session_start();
-            $_SESSION['login-message'] = "Your session has expired. Please log in again.";
             echo json_encode([
                 'success' => false,
                 'error' => 'session_expired',

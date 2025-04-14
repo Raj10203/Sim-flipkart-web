@@ -31,10 +31,10 @@ $(document).ready(function () {
                         <div class="col-md-6">
                             <div class="fw-bold">${item.name}</div>
                             <div>Quantity: ${item.quantity}</div>
-                            <div>Price: ₹${parseFloat(item.price).toFixed(2)}</div>
+                            <div>Price: ₹${parseFloat(item.final_price).toFixed(2)}</div>
                         </div>
                         <div class="col-md-4 text-end">
-                            <div>Subtotal: ₹${(item.price * item.quantity).toFixed(2)}</div>
+                            <div>Subtotal: ₹${(item.final_price * item.quantity).toFixed(2)}</div>
                         </div>
                     </div>
                 `;

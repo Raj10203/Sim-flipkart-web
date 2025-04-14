@@ -4,6 +4,8 @@ use Classes\Order;
 use Classes\OrderItems;
 use Classes\Cart;
 
+use function PHPSTORM_META\type;
+
 require_once('vendor/autoload.php');
 require_once('classes/traits/ItemOperations.php');
 require_once('classes/Database.php');
@@ -52,38 +54,37 @@ if ($event->type == 'checkout.session.completed') {
         $sessionId = $eventData->id;
         $paymentid = $eventData->payment_intent;
         $userId = $eventData->metadata->user_id;
-        $cartDetails = $cart->gettAllCartByUserId($userId);
 
-        $emailItems = '';
-        $data['cartDetails'] = $cartDetails;
         $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
         $session = $stripe->checkout->sessions->retrieve($sessionId);
-        $lineTesms = $stripe->checkout->sessions->allLineItems(
+        $lineItems = $stripe->checkout->sessions->allLineItems(
             $sessionId,
-            []
+            ['expand' => ['data.price.product']]
         );
         $data['session'] = $session;
-        $data['lineItems'] = $lineTesms;
-        if (count($cartDetails) > 0) {
-            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_subtotal);
+        $data['lineItems'] = $lineItems['data'];
+        if (count($lineItems['data']) > 0) {
+            $orderId = $ord->addOrder($paymentid, $userId, $eventData->metadata->total_products, $eventData->amount_total/100);
             $data['orderId'] = $orderId;
+            file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
+            foreach ($lineItems['data'] as $lineItem) {
+                $productMeta = $lineItem['price']['product']['metadata'] ?? [];
 
-            foreach ($cartDetails as $item) {
-                $finalPrice = $item['price'] - $item['price'] * $item['discount'] / 100;
-                $oi->insertOrderItem($orderId, $item["productId"], $item['quantity'], $finalPrice);
+                $productId = $productMeta['product_id'] ?? null;
+                // $productName = $lineItem['description'];
+                // $productImage = $productMeta['image_path'] ?? null;
+                // $originalPrice = $productMeta['original_price'] ?? null;
+                // $discountPercent = $productMeta['discount'] ?? null;
+                // $discountedUnitPrice = $productMeta['discounted_price'] ?? null;
 
-                $emailItems .= '<div class="item">
-                     <img src="' . $item['image_path'] . '" alt="' . htmlspecialchars($item['name']) . '">
-                     <div class="item-details">
-                         <h4>' . htmlspecialchars($item['name']) . '</h4>
-                         <p>Quantity: ' . $item['quantity'] . '</p>
-                         <p>Price: ₹' . number_format($item['price'], 2) . '</p>
-                     </div>
-                 </div>';
+                $quantity = $lineItem['quantity'];
+                $totalAmount = $lineItem['amount_total'] / 100;
+                // $taxAmount = $lineItem['amount_tax'] / 100;
+
+                $oi->insertOrderItem($orderId, $productId, $quantity, $totalAmount);
             }
             $cart->deleteItem($cart->getTableName(), "user_id", $eventData->metadata->user_id);
         }
-        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
     } catch (Exception $e) {
         $errorData = [
             'timestamp' => date('Y-m-d H:i:s'),

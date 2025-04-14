@@ -30,6 +30,7 @@ class User
         if ($email && ($password === $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['first_name'];
+            $_SESSION['email'] = $user['email'];
             $_SESSION["role"] = $user['role'];
             $_SESSION["session_version"] = $user['session_version'];
             return true;
