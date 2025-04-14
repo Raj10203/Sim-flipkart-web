@@ -1,20 +1,18 @@
 <?php
 require_once('../../classes/Authentication.php');
-require_once('../../classes/traits/ItemOperations.php');
-require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
 use Classes\Category;
 use Classes\Authentication;
 
 Authentication::requirePostMethod();
-
 $category = new Category();
-$response = [];
-$categoryName = trim($_POST['categoryName'] ?? null);
-$categoryDescription = trim($_POST['categoryDescription'] ?? null);
+
+$categoryName = trim($_POST['categoryName'] ?? '');
+$categoryDescription = trim($_POST['categoryDescription'] ?? '');
 
 $errors = [];
+
 if (empty($categoryName)) {
     $errors['categoryName'] = 'Category name is required.';
 } elseif (strlen($categoryName) < 3) {
@@ -29,34 +27,32 @@ if (empty($categoryDescription)) {
 
 if (!empty($errors)) {
     echo json_encode([
-        'result' => false,
-        'errors' => $errors,
-        'class' => 'danger',
-        'message' => 'Validation failed. Please check your input.'
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'Validation failed.',
+        'data' => $errors
     ]);
     exit;
 }
 
 try {
     if (!empty($_POST['categoryId'])) {
-        $response = [
-            'result' => $category->editCategory($_POST['categoryId'], $categoryName, $categoryDescription),
-            'message' => "Successfully edited category $categoryName"
-        ];
+        $category->editCategory($_POST['categoryId'], $categoryName, $categoryDescription);
+        echo json_encode([
+            'success' => true,
+            'message' => "Category '$categoryName' updated successfully."
+        ]);
     } else {
-        $response = [
-            'result' => $category->addCategory($categoryName, $categoryDescription),
-            'message' => "Successfully added category $categoryName"
-        ];
+        $category->addCategory($categoryName, $categoryDescription);
+        echo json_encode([
+            'success' => true,
+            'message' => "Category '$categoryName' added successfully."
+        ]);
     }
-    $response['class'] = 'success';
 } catch (Exception $e) {
-    $response = [
-        'result' => false,
-        'error' => $e->getMessage(),
-        'message' => $categoryName . " has not been " . (isset($_POST['id']) ? " edited" : " added") . $e->getMessage(),
-        'class' => 'danger'
-    ];
+    echo json_encode([
+        'success' => false,
+        'error' => 'server_error',
+        'message' => "An error occurred while processing the category.",
+    ]);
 }
-
-echo json_encode($response);

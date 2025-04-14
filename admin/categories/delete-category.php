@@ -1,7 +1,5 @@
 <?php
 require_once('../../classes/Authentication.php');
-require_once('../../classes/traits/ItemOperations.php');
-require_once('../../classes/Database.php');
 require_once('../../classes/Category.php');
 
 use Classes\Category;
@@ -10,27 +8,27 @@ use Classes\Authentication;
 Authentication::requirePostMethod();
 
 $category = new Category();
-$response = [];
 
 if (!isset($_POST['id'])) {
     echo json_encode([
-        "error" => "Id is required",
-        "message" => 'id is required to delete category'
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'ID is required to delete category.',
+        'data' => ['id' => 'Category ID is missing.'],
     ]);
-    die;
+    exit;
 }
 
 try {
-    $response = [
-        'result' => $category->deleteItem($category->getTableName(), "id", $_POST['id']),
-        'message' => "Successfully deleted category",
-        'class' => 'success'
-    ];
+    $category->deleteItem($category->getTableName(), "id", $_POST['id']);
+    echo json_encode([
+        'success' => true,
+        'message' => 'Successfully deleted category.',
+    ]);
 } catch (Exception $e) {
-    $response = [
-        'error' => $e->getMessage(),
-        'message' => " Error occured while deleting",
-        'class' => 'danger'
-    ];
+    echo json_encode([
+        'success' => false,
+        'error' => 'server_error',
+        'message' => 'An error occurred while deleting the category.',
+    ]);
 }
-echo json_encode($response);

@@ -19,7 +19,7 @@ Authentication::requireAdmin();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- SweetAlert2 Dark Theme -->
-    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@4/minimal.css" rel="stylesheet">
 
     <!-- Meta Tags (Required) -->
     <!-- Add your meta tags here for responsiveness, SEO, and performance -->
@@ -69,9 +69,6 @@ Authentication::requireAdmin();
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="notifications">
-                        </div>
-                        <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>

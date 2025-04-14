@@ -18,7 +18,7 @@ Authentication::requireAdmin();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- SweetAlert2 Dark Theme -->
-    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@4/minimal.css" rel="stylesheet">
 
     <!-- Add your meta tags here for responsiveness, SEO, and performance -->
 
@@ -66,10 +66,8 @@ Authentication::requireAdmin();
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="notifications">
-                        </div>
                         <div id="select-container" class="d-flex">
-                            <div id="categoryDropdown" class="dropdown">
+                            <div id="role-dropdown" class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button"
                                     id="statusListDropdownButton" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
@@ -80,7 +78,6 @@ Authentication::requireAdmin();
                                 </ul>
                             </div>
                         </div>
-                        <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>

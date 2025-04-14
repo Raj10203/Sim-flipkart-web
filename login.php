@@ -5,7 +5,6 @@ if (isset($_SESSION['user_id'])) {
     exit;
 }
 $error = $_SESSION['invalid_input'] ?? [];
-session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +37,7 @@ session_destroy();
     <link href="/admin/vendor/slick/slick.css" rel="stylesheet" media="all">
     <link href="/admin/vendor/select2/select2.min.css" rel="stylesheet" media="all">
     <link href="/admin/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@4/minimal.css" rel="stylesheet">
 
     <!-- Main CSS-->
     <link href="/admin/assets/css/theme.css" rel="stylesheet" media="all">
@@ -116,6 +116,8 @@ session_destroy();
     <!-- Jquery JS-->
     <script src="/admin/vendor/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+
     <!-- Bootstrap JS-->
     <script src="/admin/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="/admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -138,7 +140,21 @@ session_destroy();
     <!-- Main JS-->
     <script src="/admin/assets/js/main.js"></script>
     <script src="/admin/assets/js/login.js"></script>
+    <?php
+    if (isset($_SESSION['login-message'])) {
+        echo "<script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Session Expired',
+            text: '" . $_SESSION['login-message'] . "',
+            confirmButtonText: 'Ok'
+        });
+    </script>";
 
+        unset($_SESSION['login-message']);
+    }
+    session_destroy();
+    ?>
 
 </body>
 

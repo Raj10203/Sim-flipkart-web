@@ -83,16 +83,15 @@ $(document).ready(function () {
             },
             dataType: 'JSON',
             success: function (response) {
-                if (response.message === "not_logged_in") {
-                    window.location.href = "/login"; // Redirect to login page
-                } else {
-                    Swal.fire({
-                        title: response['class'],
-                        text: response['message'],
-                        icon: response['class'],
-                        confirmButtonText: 'Ok'
-                    })
-                }
+                handleApiResponse(response);
+            },
+            error: function () {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Something went wrong while processing your request.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
             }
         });
     });

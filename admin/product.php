@@ -21,7 +21,7 @@ $dotenv->load();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- SweetAlert2 Dark Theme -->
-    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@4/minimal.css" rel="stylesheet">
 
     <!-- Add your meta tags here for responsiveness, SEO, and performance -->
 
@@ -70,8 +70,6 @@ $dotenv->load();
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="notifications">
-                        </div>
                         <div id="select-container" class="d-flex">
                             <div id="categoryDropdown" class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="categoryDropdownButton"
@@ -83,7 +81,6 @@ $dotenv->load();
                                 </ul>
                             </div>
                         </div>
-                        <!-- PAGE CONTAINER-->
                         <table id="myTable" class="table table-striped table-light nowrap" cellspacing="0" width="100%">
                             <thead>
                                 <tr>

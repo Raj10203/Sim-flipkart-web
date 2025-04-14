@@ -2,22 +2,28 @@
 
 namespace Classes;
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/traits/ItemOperations.php";
+
 use Classes\Traits\ItemOperations;
 
-class OrderItems extends Database
+class OrderItems
 {
     use ItemOperations;
-
     protected static $table = 'order_items';
+    protected $conn;
+
+    public function __construct()
+    {
+        $this->conn = Database::getInstance()->getConnection();
+    }
 
     public function insertOrderItem(int $orderId, int $productId, int $quantity, float $finalPrice)
     {
         $query = "INSERT INTO " . self::$table . " (order_id, product_id, quantity, final_price) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("iiid", $orderId, $productId, $quantity, $finalPrice);
-        $stmt->execute();
-        $orderId = $stmt->insert_id;
-        return $orderId;
+        return $stmt->execute();;
     }
 
     public function getItemsByOrderId(int $orderID)

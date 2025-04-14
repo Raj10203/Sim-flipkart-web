@@ -1,7 +1,5 @@
 <?php
 require_once('../../classes/Authentication.php');
-require_once('../../classes/traits/ItemOperations.php');
-require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 
 use Classes\Product;
@@ -56,10 +54,10 @@ if (!empty($image['name'])) {
 
 if (!empty($errors)) {
     echo json_encode([
-        'result' => false,
-        'errors' => $errors,
-        'class' => 'danger',
-        'message' => 'Validation failed. Please check your input.'
+        'success' => false,
+        'error' => 'validation_error',
+        'message' => 'Validation failed.',
+        'data' => $errors
     ]);
     exit;
 }
@@ -84,6 +82,7 @@ if (!empty($image['name'])) {
 }
 
 try {
+    $response['success'] = true;
     if (!empty($_POST['productId'])) {
         $oldProduct = $prod->getItemById($prod->getTableName(), $_POST['productId']);
         $response['result'] = $prod->editProduct($_POST['productId'], $name, $image, $category, $price, $description, $discount);
@@ -92,18 +91,15 @@ try {
         }
         $response['message'] = "Successfully edited product $name";
     } else {
-        $response = [
-            'result' => $prod->addProduct($name, $imagePath, $category, $price, $description, $discount),
-            'message' => "Successfully added product $name"
-        ];
+        $prod->addProduct($name, $imagePath, $category, $price, $description, $discount);
+        $response['message'] = "Product '$name' added successfully.";
     }
-    $response['class'] = 'success';
 } catch (Exception $e) {
     $response = [
-        'result' => false,
-        'error' => $e->getMessage(),
+        'success' => false,
         'message' => $name . " has not been " . (isset($_POST['id']) ? " edited" : " added"),
-        'class' => 'danger'
+        'error' => 'server_error',
+        'data' => ['details' => $e->getMessage()]
     ];
 }
 

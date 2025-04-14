@@ -1,7 +1,5 @@
 <?php
 require '../../classes/Authentication.php';
-require_once('../../classes/traits/ItemOperations.php');
-require_once('../../classes/Database.php');
 require_once('../../classes/Product.php');
 
 use Classes\Product;
@@ -18,7 +16,7 @@ $start = $_POST['start'] ?? 0;
 $length = $_POST['length'] ?? 10;
 $orderColumn = $_POST['order'][0]['column'] ?? 0;
 $orderDir = $_POST['order'][0]['dir'] ?? 'asc';
-$orderColumnName = $columns[$orderColumn] ?? 'p.id';
+$orderColumnName = $columns[$orderColumn];
 
 $totalRecords = $conn->query("SELECT COUNT(p.id) FROM products p")->fetch_row()[0];
 $baseSql = " FROM products p 
@@ -40,7 +38,7 @@ if (!empty($_POST['columns'])) {
     foreach ($_POST['columns'] as $index => $col) {
         if (!empty($col['search']['value'])) {
             $colValue = mysqli_real_escape_string($conn, $col['search']['value']);
-            $columnName = ($columns[$index] === "c.name") ? "c.name" : $columns[$index];
+            $columnName = $columns[$index];
             $conditions = array_map(fn($value) => "$columnName = '$value'", explode('|', $colValue));
             $columnSearchSql .= " AND (" . implode(" OR ", $conditions) . ")";
         }

@@ -206,14 +206,17 @@ $(document).ready(function () {
                         },
                         success: function (response) {
                             response = JSON.parse(response);
-                            $('#editProductId').val(response.id);
-                            $('#editProductName').val(response.name);
-                            $('#previewImage').attr('src', response.image_path);
-                            $('#editCategory').val(response.category_id);
-                            $('#editPrice').val(response.price);
-                            $('#editDiscount').val(response.discount);
-                            $('#editDescription').val(response.description);
-                            $('#editModal').modal('show');
+                            if (handleApiResponse(response)) {
+                                response = response.data;
+                                $('#editProductId').val(response.id);
+                                $('#editProductName').val(response.name);
+                                $('#previewImage').attr('src', response.image_path);
+                                $('#editCategory').val(response.category_id);
+                                $('#editPrice').val(response.price);
+                                $('#editDiscount').val(response.discount);
+                                $('#editDescription').val(response.description);
+                                $('#editModal').modal('show');
+                            }
                         }
                     });
                 });
@@ -228,12 +231,18 @@ $(document).ready(function () {
                             id: this.dataset.id
                         },
                         success: function (response) {
-                            table.ajax.reload(null, false);
                             response = JSON.parse(response);
-                            notify(response['message'], response['class']);
+                            if (handleApiResponse(response)) {
+                                table.ajax.reload(null, false);
+                            }
                         },
                         error: function (jqXHR) {
-                            alert("Failed to delete category: " + (jqXHR.responseJSON?.error || "Server error"));
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: "Failed to delete product: " + (jqXHR.responseJSON?.error || "Server error"),
+                                confirmButtonColor: '#d33'
+                            });
                         }
                     });
                 });
@@ -244,7 +253,7 @@ $(document).ready(function () {
             let column = api.column(6);
             let categoryList = $('#categoryList');
             $.ajax({
-                type: "post",
+                type: "GET",
                 url: "/admin/categories/get-all-categories",
                 dataType: "json",
                 success: function (response) {
@@ -314,18 +323,18 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    let error = response['errors'];
-                    if (error) {
-                        for (let key in error) {
-                            response['message'] += "<br>" + error[key];
-                        }
+                    if (handleApiResponse(response)) {
+                        table.ajax.reload(null, false);
                     }
-                    notify(response['message'], response['class']);
-                    table.ajax.reload(null, false);
                     $('#addModal').modal('hide');
                 },
                 error: function (jqXHR) {
-                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: "Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"),
+                        confirmButtonColor: '#d33'
+                    });
                 }
             });
             form.reset();
@@ -370,18 +379,18 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     response = JSON.parse(response);
-                    let error = response['errors'];
-                    if (error) {
-                        for (let key in error) {
-                            response['message'] += "<br>" + error[key];
-                        }
+                    if (handleApiResponse(response)) {
+                        table.ajax.reload(null, false);
                     }
-                    notify(response['message'], response['class']);
-                    table.ajax.reload(null, false);
                     $('#editModal').modal('hide');
                 },
                 error: function (jqXHR) {
-                    alert("Failed to add product: " + (jqXHR.responseJSON?.error || "Server error"));
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: "Failed to edit product: " + (jqXHR.responseJSON?.error || "Server error"),
+                        confirmButtonColor: '#d33'
+                    });
                 }
             });
             form.reset();

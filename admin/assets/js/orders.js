@@ -99,7 +99,7 @@ $(document).ready(function () {
                 width: 'resolve'
             });
             $(document).off('change', '.order-status-select').on('change', '.order-status-select', function () {
-                const orderid = $(this).data('order-id'); // or data-id, based on your setup
+                const orderid = $(this).data('order-id');
                 const status = $(this).val();
                 $.ajax({
                     url: '/admin/orders/update-status-by-order-id',
@@ -110,10 +110,15 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         response = JSON.parse(response);
-                        notify(response['message'], response['class'])
+                        handleApiResponse(response);
                     },
                     error: function () {
-                        alert('Failed to update status');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text:  "An error occurred",
+                            confirmButtonColor: '#d33'
+                        });
                     }
                 });
             });
@@ -130,7 +135,7 @@ $(document).ready(function () {
                         <input type="checkbox" class="form-check-input status-checkbox" id="status-${status}" value="${status}">
                         <label class="form-check-label w-100" for="status-${status}">${status}</label>
                     </div>
-                `);;
+                `);
                 statusList.append(listItem);
             });
             $(document).on('change', '.status-checkbox-li', function () {
