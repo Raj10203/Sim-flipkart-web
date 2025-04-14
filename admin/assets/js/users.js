@@ -9,7 +9,7 @@ $(document).ready(function () {
     const roles = ['user', 'admin', 'super_admin'];
     $("#myTable").DataTable({
         scrollX: true,
-        lengthMenu: [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 10000]],
+        lengthMenu: [[10, 25, 50, 100, 10000], [10, 25, 50, 100, 10000]],
         columnDefs: [
             {
                 className: "dt-center",
@@ -65,6 +65,7 @@ $(document).ready(function () {
             },
         },
         processing: true,
+        destroy: true,
         serverSide: true,
         ajax: {
             url: "./users/dt-fetch-user",
@@ -103,14 +104,9 @@ $(document).ready(function () {
             {
                 data: "created_at",
             },
-
         ],
         drawCallback: function () {
-            $('.user-role-select').select2({
-                minimumResultsForSearch: Infinity,
-                width: 'resolve'
-            });
-            $(document).off('change', '.user-role-select').on('change', '.user-role-select', function () {
+            $('.user-role-select').change( function () {
                 const userId = $(this).data('user-id');
                 const role = $(this).val();
                 $.ajax({
