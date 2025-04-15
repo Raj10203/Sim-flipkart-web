@@ -1,3 +1,10 @@
+<?php
+require_once 'classes/Authentication.php';
+
+use Classes\Authentication;
+
+Authentication::requireUser();
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,9 +1,12 @@
 <?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 require_once('../vendor/autoload.php');
 session_start();
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "../..");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
-echo $_ENV['STRIPE_SECRET_KEY'];
 $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
 $cartDetails = $_SESSION['cartDetails'];
 
@@ -16,24 +19,22 @@ foreach ($cartDetails as $item) {
             'product_data' => [
                 'name' => $item['name'],
                 'metadata' => [
-                    'product_id' => $item['id'],
+                    'product_id' => $item['productId'],
                     'original_price' => $item['price'],
                     'discount' => $item['discount'],
                     'discounted_price' => round($salePrice, 2)
                 ],
             ],
-            'unit_amount' => round($salePrice * 100), // Convert to cents
+            'unit_amount' => round($salePrice * 100),
         ],
         'quantity' => $item['quantity'],
         'tax_rates' => [$_ENV["TAX_RATE_ID"]]
     ];
 }
-
 $checkoutSession = $stripe->checkout->sessions->create([
     'line_items' => $lineItems,
     'mode' => 'payment',
-    'success_url' => 'http://flipkart-web.com/stripe/success?provider_session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url' => 'http://flipkart-web.com/stripe/cart?provider_session_id={CHECKOUT_SESSION_ID}',
+    'success_url' => $_ENV['LIVEADDRESS'] . "payment-success",
     'metadata' => [
         'user_id' => $_SESSION['user_id'],
         'total_products' => count($cartDetails),
