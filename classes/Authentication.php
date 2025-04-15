@@ -79,6 +79,10 @@ class Authentication
 
     public static function requirePostMethod()
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('location: /login');
+            exit;
+        }
         self::startSession();
         if (!self::validateSession()) {
             echo json_encode([
@@ -86,11 +90,6 @@ class Authentication
                 'error' => 'session_expired',
                 'redirect' => '/login',
             ]);
-            exit;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('location: /login');
             exit;
         }
     }
